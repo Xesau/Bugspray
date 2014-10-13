@@ -9,4 +9,5 @@ Features
 - Choose between languages
 - Customize the look using a theme
 - Manage the issues with ease
+
 and a lot more to come...
