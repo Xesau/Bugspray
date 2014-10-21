@@ -28,6 +28,7 @@ $l[ 'login' ] = 'Login';
 $l[ 'register' ] = 'Register';
 $l[ 'forgot_password' ] = 'Forgot password?';
 $l[ 'password' ] = 'Password';
+$l[ 'repeat_password' ] = 'Repeat password';
 $l[ 'email' ] = 'Email address';
 $l[ 'fullname' ] = 'Full name';
 $l[ 'date_of_birth' ] = 'Date of Birth';

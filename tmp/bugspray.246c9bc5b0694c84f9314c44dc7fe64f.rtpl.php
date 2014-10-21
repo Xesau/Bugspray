@@ -1,3 +1,0 @@
-<?php if(!class_exists('raintpl')){exit;}?><?php $tpl = new RainTPL;$tpl_dir_temp = self::$tpl_dir;$tpl->assign( $this->var );$tpl->draw( dirname("header.inc") . ( substr("header.inc",-1,1) != "/" ? "/" : "" ) . basename("header.inc") );?>
-<?php $tpl = new RainTPL;$tpl_dir_temp = self::$tpl_dir;$tpl->assign( $this->var );$tpl->draw( dirname("template.".$pagedata["template"]."") . ( substr("template.".$pagedata["template"]."",-1,1) != "/" ? "/" : "" ) . basename("template.".$pagedata["template"]."") );?>
-<?php $tpl = new RainTPL;$tpl_dir_temp = self::$tpl_dir;$tpl->assign( $this->var );$tpl->draw( dirname("footer.inc") . ( substr("footer.inc",-1,1) != "/" ? "/" : "" ) . basename("footer.inc") );?>
