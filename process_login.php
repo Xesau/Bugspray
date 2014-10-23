@@ -1,6 +1,7 @@
 <?php
 
 define( 'CDIR', realpath( dirname( __FILE__ ) ) );
+define( 'NO_TPL', true );
 
 require_once CDIR . '/core/global.inc.php';
 
