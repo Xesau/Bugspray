@@ -1038,18 +1038,6 @@ class RainTpl_SyntaxException extends RainTpl_Exception{
 		$this->tag = (string) $tag;
 		return $this;
 	}
-	
-	/**
-	 * Gets the assigned data from a varaible
-	 *
-	 * @return boolean | mixed FALSE when the variable does not exist, else the value
-	 * @author
-	 */
-	public function get( $key )
-	{
-		return ( isset( $this->var[ $key ] ) ? $this->var[ $key ] : false );
-	}
-	
 }
 
 // -- end

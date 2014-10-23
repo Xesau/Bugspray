@@ -33,15 +33,16 @@ DB::loaderInit($db);
 require_once CDIR . '/language/' . setting( 'language', 'english' )  . '.lang.php';
 
 if( !NO_TPL )
-{   RainTPL::$tpl_ext = 'tpl';
-    RainTPL::$tpl_dir = ( IN_ADMIN === false ? 'theme/' . setting( 'theme' ) : 'tpl' ) . '/';
-    RainTPL::$path_replace = true;
-    RainTPL::$base_url = setting( 'base_url' ) . ( IN_ADMIN === true ? '/admin' : '' ) . '/';
+{   RainTPL::configure( 'tpl_ext', 'tpl' );
+    RainTPL::configure( 'tpl_dir', ( IN_ADMIN === false ? 'theme/' . setting( 'theme' ) : 'tpl' ) . '/' );
+    RainTPL::configure( 'path_replace', true );
+    RainTPL::configure( 'base_url', setting( 'base_url' ) . ( IN_ADMIN === true ? '/admin' : '' ) . '/' );
 
     $tpl = new RainTPL();
     
     $tpl->assign( 'lang', $l );
     $tpl->assign( 'settings', $db->table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
     $tpl->assign( 'projects', $db->table( prefix( 'projects' ) )->select( '*' )->getAssoc( 'id' ) );
+    $tpl->assign( 'server', [ 'available_themes' => glob( CDIR . '/theme/*', GLOB_ONLYDIR ), 'available_languages' => glob( CDIR . '/language/*.lang.php' ) ] );
     $tpl->assign( 'loggedIn', LOGGED_IN );
 }

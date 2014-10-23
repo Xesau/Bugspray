@@ -34,6 +34,8 @@ switch( $page )
     case 'labels':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
         $tpl->assign( 'page', 'labels' );
+    
+        $tpl->assign( 'labels', DB::$i->table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'label' ) );
         break;
     
     case 'projects':

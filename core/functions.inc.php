@@ -42,4 +42,9 @@ function hasPermission( $userid, $permission )
     return in_array( $permission, $perms ) || in_array( '*', $perms );
 }
 
+function filename( $path, $cut = '' )
+{
+    return substr( basename( $path ), 0, -strlen( $cut ) );
+}
+
 ?>

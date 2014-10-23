@@ -22,7 +22,11 @@ $l[ 'version' ] = 'Project Version';
 $l[ 'description' ] = 'Description';
 $l[ 'save' ] = 'Save';
 $l[ 'label' ] = 'Issue Label';
-$l[ '' ] = '';
+$l[ 'label_name' ] = 'Label Name';
+
+$l[ 'text_color' ] = 'Text color';
+$l[ 'background_color' ] = 'Background color';
+$l[ 'new_label' ] = 'New label';
 
 $l[ 'login' ] = 'Login';
 $l[ 'register' ] = 'Register';
@@ -47,6 +51,8 @@ $l[ 'admin' ][ 'users' ] = 'Users';
 $l[ 'admin' ][ 'labels' ] = 'Isusue Labels';
 
 $l[ 'total' ] = 'Total';
+$l[ 'theme' ] = 'Theme';
+$l[ 'language' ] = 'Language';
 
 $l[ 'next_page' ] = 'Next page';
 $l[ 'previous_page' ] = 'Previous page';
@@ -56,3 +62,19 @@ $l[ 'ban' ] = 'Ban';
 $l[ 'remove' ] = 'Remove';
 $l[ 'add' ] = 'Add';
 $l[ 'create' ] = 'Create';
+
+$l[ 'site_name' ] = 'Site name';
+$l[ 'base_url' ] = 'Base URL';
+$l[ 'admin_email' ] = 'Admin email';
+$l[ 'debug_mode' ] = 'Debug mode';
+
+$l[ 'on' ] = 'On';
+$l[ 'off' ] = 'Off';
+
+$l[ 'use_labels' ] = 'Use labels';
+$l[ 'use_project_version' ] = 'Use project version field';
+$l[ 'use_priority' ] = 'Use priority field';
+$l[ 'use_security' ] = 'Use security field';
+
+$l[ 'use' ] = 'Use';
+$l[ 'dont_use' ] = 'Don\'t use';
