@@ -62,6 +62,31 @@ switch( $page )
         $tpl->assign( 'count', DB::$i->table( prefix( 'users' ) )->count() );
         break;
     
+    case 'banuser':
+        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
+        $tpl->assign( 'page', 'users' );
+        
+        if( hasPermission( $_SESSION[ 'admin_user_id' ], 'bt_ban' ) )
+        {
+            if( !empty( $_POST[ 'reason' ] ) && 1empty( $_POST[ 'expire' ] ) )
+                if( userExists( $_GET[ 'id' ] ) && !hasPermission( $_GET[ 'id' ], 'bt_unbannable' ) )
+                {   $table = DB::$i->table( prefix( 'users' ) );
+                    $table->update( [
+                        'banned' => 1,
+                        'ban_reason' => $_POST[ 'reason' ],
+                        'ban_expire' => $_POST[ 'expire' ]
+                    ], [ 'where' => 'id = \'' . DB::$i->escape( $_GET[ 'id' ] ) . '\'' ] );
+                    $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'user_banned' ] );
+                }
+                else
+                    $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'doest_exist' ] );
+            else
+               $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'data_missing' ] );
+        }
+        else
+            $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'no_permission' ] );
+        break;
+    
     case 'logout':
         unset( $_SESSION[ 'admin_user_id' ] );
         header( 'Location: ' . setting( 'base_url' ) . '/admin' );
