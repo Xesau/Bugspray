@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * MiqroDB -- The simple MySQLi interface
+ *
+ * @version     1.3
+ * @author      Xesau
+ * @url         http://code.xesau.eu/
+ */
 class MiqroDB
 {
 	
@@ -198,7 +205,31 @@ class MiqroTable
 		if( !empty( $this->miqro->mysqli->error ) )
 			MiqroDB::$lastError = $this->miqro->mysqli->error;
 	}
-	
+    
+    /**
+     * Count the amount of entries in the table
+     *
+     * @since 1.3
+     */
+    public function count( $options = [] )
+    {
+        $builder = new MiqroBuilder( $this->miqro, 'SELECT COUNT(*) FROM `$table`' );
+        $builder->set( 'table', $this->tablename );
+        
+        if( !empty( $options[ 'where' ] ) )
+        {
+            if( !is_array( $options[ 'where' ] ) )
+               $builder->set( 'whereData', $options[ 'where' ] );
+            else
+               $builder->set( 'whereData', implode( ' AND ', $options[ 'where' ] ) );
+            
+            $builder->add( ' WHERE $whereData' );
+        }
+        
+        $query = $this->miqro->mysqli->query( $builder );
+        $array = $query->fetch_array();
+        return $array[0];
+    }
 	
 	public function getKey( $key = 'PRIMARY' )
 	{
@@ -376,7 +407,8 @@ class MiqroBuilder
 
 	private $miqro;
 	private $query;
-	
+	private $set = [];
+    
 	public function __construct( $miqro, $query )
 	{
 		$this->miqro = $miqro;
@@ -385,13 +417,22 @@ class MiqroBuilder
 	
 	public function set( $key, $value, $escape = false )
 	{
-		$this->query = str_replace( '$' . $key, ( $escape ? $this->miqro->escape( $value ) : $value ), $this->query );
+        $this->set[ $key ] = [ $value, $escape ];
 		return $this;
 	}
-	
+    
+    public function add( $sql )
+    {
+        $this->query .= $sql;
+    }
+    
 	public function __toString()
 	{
-		return $this->query;
+        $tmp = $this->query;
+        foreach( $this->set as $key => $value ) 
+        {   $tmp = str_replace( '$' . $key, $value[1] ? $this->miqro->escape( $value[0] ) : $value[0], $tmp );
+        }
+		return $tmp;
 	}
 
 }
