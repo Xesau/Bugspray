@@ -13,8 +13,11 @@
                 <ul>
                     {if="$loggedIn"}<li{if="$page=='home'"} class="selected"{/if}><a href="./">{$lang.admin.home} <i class="right fa fa-arrow-right"></i></a></li>
                     <li{if="$page=='settings'"} class="selected"{/if}><a href="settings">{$lang.admin.settings} <i class="right fa fa-arrow-right"></i></a></li>
+                    <li{if="$page=='labels'"} class="selected"{/if}><a href="labels">{$lang.admin.labels} <i class="right fa fa-arrow-right"></i></a></li>
                     <li{if="$page=='projects'"} class="selected"{/if}><a href="projects">{$lang.admin.projects} <i class="right fa fa-arrow-right"></i></a></li>
                     <li{if="$page=='users'"} class="selected"{/if}><a href="users"> {$lang.admin.users}<i class="right fa fa-arrow-right"></i></a></li>
+                    <li></li>
+                    <li><a href="logout">{$lang.logout}<i class="right fa fa-lock"></i></a></li>
                     {else}<li class="selected"><a href="login">{$lang.login} <i class="right fa fa-arrow-right"></i></a></li>{/if}
                 </ul>
             </nav>

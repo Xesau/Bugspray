@@ -33,6 +33,7 @@ $l[ 'email' ] = 'Email address';
 $l[ 'fullname' ] = 'Full name';
 $l[ 'date_of_birth' ] = 'Date of Birth';
 $l[ 'logout' ] = 'Logout';
+$l[ 'registration_date' ] = 'Registration date';
 
 $l[ 'error' ] = 'Error';
 $l[ 'something_went_wrong' ] = 'Something went wrong...';
@@ -43,3 +44,15 @@ $l[ 'admin' ][ 'home' ] = 'Home';
 $l[ 'admin' ][ 'settings' ] = 'Settings';
 $l[ 'admin' ][ 'projects' ] = 'Projects';
 $l[ 'admin' ][ 'users' ] = 'Users';
+$l[ 'admin' ][ 'labels' ] = 'Isusue Labels';
+
+$l[ 'total' ] = 'Total';
+
+$l[ 'next_page' ] = 'Next page';
+$l[ 'previous_page' ] = 'Previous page';
+
+$l[ 'edit' ] = 'Edit';
+$l[ 'ban' ] = 'Ban';
+$l[ 'remove' ] = 'Remove';
+$l[ 'add' ] = 'Add';
+$l[ 'create' ] = 'Create';

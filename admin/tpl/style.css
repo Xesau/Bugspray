@@ -28,10 +28,6 @@ a { color: #2980b9; }
 
 }
 
-/**
- * Alignment and positioning
- */
-
 .hidden
 {
 	font-size: 0;
@@ -170,4 +166,23 @@ button:active, input[type="reset"]:active, input[type="submit"]:active, .button:
 	background: -ms-linear-gradient(top,  rgba(0,177,216,1) 0%,rgba(0,193,247,1) 100%);
 	background: linear-gradient(to bottom,  rgba(0,177,216,1) 0%,rgba(0,193,247,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b1d8', endColorstr='#00c1f7',GradientType=0 );
+}
+
+/**
+ * Elements
+ */
+.entry
+{
+    padding: 10px;
+    float: left;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    margin: 10px;
+    min-width: 420px;
+}
+
+.entry img
+{
+    width: 100px;
+    margin-right: 10px;  
 }
