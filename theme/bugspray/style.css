@@ -121,7 +121,7 @@ section.content
 	background: #ffffff;
 }
 
-section.content p.project, section.content p.issue
+section.content .project, section.content .issue
 {
 	padding: 10px;
 	border: 1px solid #cccccc;
