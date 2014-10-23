@@ -1,6 +1,5 @@
 <?php
 
-
 function prefix( $s ) { global $db_prefix; return $db_prefix . $s; }
 
 function setting( $setting, $def = null )
@@ -30,6 +29,17 @@ function rpath ( $path )
 {
 	$m = [ 'home', 'projects', 'issues', 'project', 'issue', 'newissue', 'login', 'logout', 'register' ];
 	return ( in_array( $path, $m ) ? $path : null );
+}
+
+function userPermissions( $userid )
+{
+    return explode( PHP_EOL, DB::$i->table( prefix( 'user_permissions' ) )->select( '*', [ 'where' => 'id = \'' . DB::$i->escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( 'permissions' ) );
+}
+
+function hasPermission( $userid, $permission )
+{
+    $perms = userPermissions( $userid );
+    return in_array( $permission, $perms ) || in_array( '*', $perms );
 }
 
 ?>

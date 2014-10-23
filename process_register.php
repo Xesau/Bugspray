@@ -4,7 +4,7 @@ define( 'CDIR', realpath( dirname( __FILE__ ) ) );
 
 require_once CDIR . '/core/global.inc.php';
 
-if( isset( $_POST[ 'email' ] ) && isset( $_GET[ 'password' ] ) && isset( $_GET[ 'password' ] ) && isset( $_GET[ 'password' ] ) )
+if( !empty( $_POST[ 'email' ] ) && !empty( $_GET[ 'password' ] ) && !empty( $_GET[ 'password' ] ) && !empty( $_GET[ 'password' ] ) )
 {   
     
 }

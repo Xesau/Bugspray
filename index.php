@@ -4,7 +4,7 @@ define( 'CDIR', realpath( dirname( __FILE__ ) ) );
 
 require_once CDIR . '/core/global.inc.php';
 
-$path = ( isset( $_GET[ 'page' ] ) ? rpath( $_GET[ 'page' ] ) : 'home' );
+$path = ( isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 'home' );
 
 switch ($path)
 {
@@ -34,24 +34,25 @@ switch ($path)
 		
 	case 'issue':
 		if( !empty( $_GET[ 'id' ] ) && 
-			$db->table( prefix( 'issues' ) )->select( 'id', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
+                $db->table( prefix( 'issues' ) )->select( 'id', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
 		{
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'issue' ] )->setTemplate( 'issue' )->toArray() );
 			$tpl->assign( 'issue', $db->table( prefix( 'issues' ) )->
-						select( '*', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->
-						getEntry( 0 )->getFields() );
+					select( '*', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->
+					getEntry( 0 )->getFields() );
 		}
 		else
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
 		break;
 		
 	case 'login':
-		if( isset( $_SESSION[ 'user_id' ] ) )
+		if( LOGGED_IN )
 			header( 'Location: ./' );
 		
 		if( isset( $_SESSION[ 'login_error' ] ) )
-			unset( $_SESSION[ 'login_error' ] );
-			
+        {	unset( $_SESSION[ 'login_error' ] );
+            $tpl->assign( 'login_error', $_SESSION[ 'login_error' ] );
+        }
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'login' ] )->setTemplate( 'login' )->toArray() );
 		break;
 	

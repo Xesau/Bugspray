@@ -1,0 +1,1 @@
+            <h2>{$lang.admin.home}</h2>

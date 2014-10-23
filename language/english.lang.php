@@ -38,3 +38,8 @@ $l[ 'error' ] = 'Error';
 $l[ 'something_went_wrong' ] = 'Something went wrong...';
 $l[ 'page_not_found' ] = 'The requested page could not be found. Are you sure you entered the right URL? If you have followed a hyperlink on this website, please contact the administrator';
 $l[ 'go_back_home' ] = 'Click to go back to the homepage';
+
+$l[ 'admin' ][ 'home' ] = 'Home';
+$l[ 'admin' ][ 'settings' ] = 'Settings';
+$l[ 'admin' ][ 'projects' ] = 'Projects';
+$l[ 'admin' ][ 'users' ] = 'Users';

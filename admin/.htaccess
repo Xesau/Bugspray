@@ -1,0 +1,14 @@
+RewriteEngine on
+
+RewriteRule ^send/login$ process_login.php
+RewriteRule ^send/register$ process_register.php
+RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/?$ index.php?page=$1&id=$2
+RewriteRule ^([a-zA-Z0-9]+)/?$ index.php?page=$1
+
+ErrorDocument 404 /index.php?page=error
+
+Options -Indexes
+
+<Files ~ "\.(tpl)$">
+   deny from all
+</Files>
