@@ -68,7 +68,7 @@ switch( $page )
         
         if( hasPermission( $_SESSION[ 'admin_user_id' ], 'bt_ban' ) )
         {
-            if( !empty( $_POST[ 'reason' ] ) && 1empty( $_POST[ 'expire' ] ) )
+            if( !empty( $_POST[ 'reason' ] ) && !empty( $_POST[ 'expire' ] ) )
                 if( userExists( $_GET[ 'id' ] ) && !hasPermission( $_GET[ 'id' ], 'bt_unbannable' ) )
                 {   $table = DB::$i->table( prefix( 'users' ) );
                     $table->update( [

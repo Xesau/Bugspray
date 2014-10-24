@@ -2,14 +2,17 @@
     <p class="right">
         <a href="{if="$loggedIn"}../newissue/{$project.id}{else}../login{/if}" class="button right">{$lang.new_issue}</a>
         <h2>{$lang.project}: {$project.name}</h2>
-        {$project.description}
-        <div class="clear">{$lang.lead}: {$value.project_lead|userData:name}</div>
+        {$project.description}<br /><br />
+        {$lang.lead}: {$project.project_lead|userData:'displayname'}
+        <div class="clear"></div>
     </p>
     <div class="clear"></div>
 </div>
+<hr />
 <h3>{$lang.issues}</h3>
 {loop="latest_issues"}
 	<p class="issue">
-		<a href="issue/{$key}">{$value.name}</a> <small>({$value.description|substr:0,30}...)</small>
+        {$value.project|projectData:'short'}#{$key} <a href="issue/{$key}">{$value.name}</a> <small>({$value.description|substr:0,30}...)</small>
 	</p>
 {/loop}
+{if="count($latest_issues) == 0"}{$lang.no_issues}{/if}

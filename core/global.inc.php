@@ -26,6 +26,8 @@ require_once CDIR . '/core/db.loader.php';
 if( !NO_TPL ) require_once CDIR . '/core/pagedata.class.php';
 if( !NO_TPL ) require_once CDIR . '/core/rain.tpl.class.php';
 
+MiqroDB::$debug = setting( 'debug_mode' );
+
 $db = new MiqroDB ( new MySQLi( $db_host, $db_user, $db_password, $db_database ) );
 
 DB::loaderInit($db);

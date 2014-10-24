@@ -211,6 +211,13 @@ div.information
 	border-bottom: 1px solid #cccccc;
 }
 
+hr
+{
+    border: none;
+    border-top: 1px solid #555555;
+    margin-bottom: 1px;
+}
+
 fieldset
 {
 	border-radius: 10px;

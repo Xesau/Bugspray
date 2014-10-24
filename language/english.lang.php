@@ -22,7 +22,9 @@ $l[ 'version' ] = 'Project Version';
 $l[ 'description' ] = 'Description';
 $l[ 'save' ] = 'Save';
 $l[ 'label' ] = 'Issue Label';
+$l[ 'lead' ] = 'Project Lead';
 $l[ 'label_name' ] = 'Label Name';
+$l[ 'no_issues' ] = 'There are no issues';
 
 $l[ 'text_color' ] = 'Text color';
 $l[ 'background_color' ] = 'Background color';

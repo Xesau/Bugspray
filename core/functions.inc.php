@@ -47,4 +47,19 @@ function filename( $path, $cut = '' )
     return substr( basename( $path ), 0, -strlen( $cut ) );
 }
 
+function userData( $userid, $field )
+{
+    return DB::$i->table( prefix( 'users' ) )->select( $field, [ 'where' => 'id = \'' . DB::$i->escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
+}
+
+function projectData( $userid, $field )
+{
+    return DB::$i->table( prefix( 'projects' ) )->select( $field, [ 'where' => 'id = \'' . DB::$i->escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
+}
+
+function issueData( $userid, $field )
+{
+    return DB::$i->table( prefix( 'issue' ) )->select( $field, [ 'where' => 'id = \'' . DB::$i->escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
+}
+
 ?>
