@@ -29,6 +29,7 @@ switch( $page )
     case 'settings':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'settings' )->setTitle( $l[ 'admin' ][ 'settings' ] )->toArray() );
         $tpl->assign( 'page', 'settings' );
+        if( !hasPermission( USERID, 'bt_update_settings' ) ) $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
         break;
     
     case 'labels':
@@ -82,6 +83,49 @@ switch( $page )
                     $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'doest_exist' ] );
             else
                $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'data_missing' ] );
+        }
+        else
+            $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'no_permission' ] );
+        break;
+    
+    case 'save_settings':
+        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'settings' )->setTitle( $l[ 'admin' ][ 'settings' ] )->toArray() );
+        $tpl->assign( 'page', 'settings' );    
+    
+        if( hasPermission( $_SESSION[ 'admin_user_id' ], 'bt_update_settings' ) )
+        {
+            if( !empty( $_POST[ 'site_name' ] ) && !empty( $_POST[ 'base_url' ] ) && !empty( $_POST[ 'debug_mode' ] )
+                    && !empty( $_POST[ 'issue_labels' ] ) && !empty( $_POST[ 'admin_email' ] ) && !empty( $_POST[ 'version' ] )
+                    && !empty( $_POST[ 'theme' ] ) && !empty( $_POST[ 'language' ] ) )
+            {   DB::$i->table( prefix( 'settings' ) )->updateWhere(
+                    [   'site_name' => $_POST[ 'site_name' ],
+                        'base_url' => $_POST[ 'base_url'],
+                        'debug_mode' => $_POST[ 'debug_mode'],
+                        'issue_labels' => $_POST[ 'issue_labels'],
+                        'admin_email' => $_POST[ 'admin_email'],
+                        'issue_project_version' => $_POST[ 'version'],
+                        'theme' => $_POST[ 'theme'],
+                        'language' => $_POST[ 'language']
+                    ], 'value', 'setting'
+                );
+                $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'saved' ] );
+            }
+            else
+                $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'data_missing' ] );
+        }
+        else
+            $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'no_permission' ] );
+        break;
+    
+    case 'newlabel':
+        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
+        $tpl->assign( 'page', 'labels' );
+    
+        $tpl->assign( 'labels', DB::$i->table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'label' ) );
+        
+        if( hasPermission( $_SESSION[ 'admin_user_id' ], 'bt_labels_create' ) )
+        {
+            
         }
         else
             $tpl->assign( 'status', [ 'type' => 'error', 'language_key' => 'no_permission' ] );

@@ -80,3 +80,8 @@ $l[ 'use_security' ] = 'Use security field';
 
 $l[ 'use' ] = 'Use';
 $l[ 'dont_use' ] = 'Don\'t use';
+
+$l[ 'error_message' ][ 'no_permission' ] = 'You don\'t have the required permission.';
+$l[ 'error_message' ][ 'data_missing'] = 'Not all fields were filled.';
+$l[ 'error_message' ][ 'saved'] = 'The data was saved.';
+$l[ 'error_message' ][ 'no_edit_permission'] = 'You don\'t have the required permission to edit this.';

@@ -16,6 +16,11 @@ session_start();
 define( 'LOGGED_IN', ( IN_ADMIN === true
                         ? !empty( $_SESSION[ 'admin_user_id' ] )
                         : !empty( $_SESSION[ 'user_id'       ] ) ) );
+define( 'USERID', LOGGED_IN
+                        ? ( IN_ADMIN === true
+                             ? $_SESSION[ 'admin_user_id' ]
+                             : $_SESSION[ 'user_id' ] )
+                        : -1 );
 
 require_once CDIR . '/core/config.inc.php';
 require_once CDIR . '/core/functions.inc.php';

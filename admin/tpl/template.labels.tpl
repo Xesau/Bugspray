@@ -1,6 +1,6 @@
             <h2>{$lang.admin.labels}</h2>
             <hr> 
-            <form method="post" action="newlabel">
+            {if="hasPermission( USERID, 'bt_labels_create' )"}<form method="post" action="newlabel">
                 <fieldset>
                     <legend>{$lang.new_label}</legend>
                     <table>
@@ -24,8 +24,8 @@
                 </fieldset>
             </form>
 
-            <hr>
+            <hr>{/if}
             {loop="labels"}
-            <span class="label" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$key}</span> <small><a href="deletelabel/{$key}">{$lang.remove}</a></small>&nbsp;&nbsp;
+            <span class="label" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$key}</span>{if="hasPermission( USERID, 'bt_labels_remove' )"}<small><a href="deletelabel/{$key}">{$lang.remove}</a></small>{/if}&nbsp;&nbsp;
             {/loop}
             <script type="text/javascript" src="jscolor/jscolor.js"></script>

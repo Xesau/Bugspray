@@ -75,14 +75,14 @@ class MiqroTable
 	 * 'field' => 'value'
 	 * 
 	 */
-	public function update( $update, $options = array() )
+	public function update( $update, $options = [] )
 	{
 		if( !is_array( $options ) )
 			throw new MiqroException( 'Options parameters not an array', 3 ); 
 			
 		$sql = 'UPDATE `$table` SET $data ';
 		
-		$sqldata = array();
+		$sqldata = [];
 		
 		foreach( $update as $key => $value )
 		{
@@ -114,6 +114,21 @@ class MiqroTable
 		if( !empty( $this->miqro->mysqli->error ) )
 			MiqroDB::$lastError = $this->miqro->mysqli->error;
 	}
+    
+    public function updateWhere( $fields, $update, $where )
+    {
+        if( !is_array( $fields ) )
+            throw new MiqroException( 'Parameter $fields not an array', 3 );
+        
+        foreach( $fields as $key => $value )
+        {
+            $builder = new MiqroBuilder( $this->miqro, 'UPDATE `$table` SET `$update` = \'$value\' WHERE $where = \'$key\'' );
+            $builder->set( 'table', $this->tablename )->set( 'where', $where )->set( 'update', $update );
+            $builder->set( 'key', $key )->set( 'value', $value );
+
+            $builder->execute();
+        }
+    }
 	
 	/**
 	 * Select a table from the database
@@ -122,7 +137,8 @@ class MiqroTable
 	 * @param $options array The options for the select query.
 	 * Available options:
 	 * - where
-	 * - 
+	 * - order
+     * - limit
 	 */
 	public function select( $fields, $options = array() )
 	{
@@ -208,7 +224,8 @@ class MiqroTable
     
     /**
      * Count the amount of entries in the table
-     *
+     * 
+     * @param options array Options (where) 
      * @since 1.3
      */
     public function count( $options = [] )
@@ -434,5 +451,10 @@ class MiqroBuilder
         }
 		return $tmp;
 	}
+    
+    public function execute()
+    {
+        $this->miqro->mysqli->query( $this->__toString() );   
+    }
 
 }
