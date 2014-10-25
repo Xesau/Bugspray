@@ -29,6 +29,7 @@ $l[ 'no_issues' ] = 'There are no issues';
 $l[ 'text_color' ] = 'Text color';
 $l[ 'background_color' ] = 'Background color';
 $l[ 'new_label' ] = 'New label';
+$l[ 'modify_label' ] = 'Modify label';
 
 $l[ 'login' ] = 'Login';
 $l[ 'register' ] = 'Register';
@@ -51,6 +52,7 @@ $l[ 'admin' ][ 'settings' ] = 'Settings';
 $l[ 'admin' ][ 'projects' ] = 'Projects';
 $l[ 'admin' ][ 'users' ] = 'Users';
 $l[ 'admin' ][ 'labels' ] = 'Isusue Labels';
+$l[ 'admin_panel' ] = 'Administration Panel';
 
 $l[ 'total' ] = 'Total';
 $l[ 'theme' ] = 'Theme';
@@ -81,7 +83,11 @@ $l[ 'use_security' ] = 'Use security field';
 $l[ 'use' ] = 'Use';
 $l[ 'dont_use' ] = 'Don\'t use';
 
-$l[ 'error_message' ][ 'no_permission' ] = 'You don\'t have the required permission.';
-$l[ 'error_message' ][ 'data_missing'] = 'Not all fields were filled.';
-$l[ 'error_message' ][ 'saved'] = 'The data was saved.';
-$l[ 'error_message' ][ 'no_edit_permission'] = 'You don\'t have the required permission to edit this.';
+$l[ 'status' ][ 'no_permission' ] = 'You don\'t have the required permission.';
+$l[ 'status' ][ 'data_missing'] = 'Not all fields were filled.';
+$l[ 'status' ][ 'saved'] = 'The data was saved.';
+$l[ 'status' ][ 'changed'] = 'The data was changed.';
+$l[ 'status' ][ 'updated'] = 'The data was updated.';
+$l[ 'status' ][ 'created'] = 'The new entry was created.';
+$l[ 'status' ][ 'removed'] = 'The selected entry was removed.';
+$l[ 'status' ][ 'no_edit_permission'] = 'You don\'t have the required permission to edit this.';

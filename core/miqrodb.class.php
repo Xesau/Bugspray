@@ -68,6 +68,32 @@ class MiqroTable
 		$this->tablename = $tablename;
 	}
 	
+    /**
+     * Remove data
+     */
+    public function delete( $options = [] )
+    {
+        if( !is_array( $options ) )
+            throw new MiqroExceptions( 'Parameter $options isn\'t an array', 3 );
+        
+        $builder = new MiqroBuilder( $this->miqro, 'DELETE FROM `$table` ' );
+        $builder->set( 'table', $this->tablename );
+        
+        if( !empty( $options[ 'where' ] ) )
+        {
+            $builder->add( 'WHERE $whereData ' );
+            $builder->set( 'whereData', ( is_array( $options[ 'where' ] ) ? implode( ' AND ', $options[ 'where' ] ) : $options[ 'where' ] ) );
+        }
+                          
+        if( !empty( $options[ 'limit' ] ) )
+        {
+            $builder->add( 'LIMIT $limit' );
+            $builder->set( 'limit', $options[ 'limit' ] );
+        }
+                          
+        $builder->execute();
+    }
+    
 	/**
 	 * Update rows in the table
 	 * 
@@ -109,7 +135,7 @@ class MiqroTable
 		$builder = new MiqroBuilder( $this->miqro, $sql );
 		$builder->set( 'table', $this->tablename )->set( 'data', implode( ', ', $sqldata ) );
 		
-		$this->miqro->mysqli->query( $builder );
+		$builder->execute();
 		
 		if( !empty( $this->miqro->mysqli->error ) )
 			MiqroDB::$lastError = $this->miqro->mysqli->error;
@@ -128,6 +154,46 @@ class MiqroTable
 
             $builder->execute();
         }
+    }
+    
+    /**
+     * Update a row in the table and set field data to $field
+     * 
+     * @param fields array The fields, with this structure:
+     *    'field' => 'new value',
+     *    'field2' => 'new value2',
+     *    etc
+     * @param options array The options parameter, for the WHERE clause
+     */
+    public function updateFields( $fields = [], $options = [] )
+    {
+        if( !is_array( $options ) )
+			throw new MiqroException( 'Parameter $options not an array', 3 ); 
+		
+        if( !is_array( $options ) )
+			throw new MiqroException( 'Parameter $fields not an array', 3 ); 
+        
+        $builder = new MiqroBuilder( $this->miqro, 'UPDATE `$table` SET $updateData ' );
+        
+        $update = '';
+        foreach( $fields as $key => $value )
+        {
+            if( !$update == '' ) $update .= ', ';
+            $update .= '`' . $key . '` = \'' . $value . '\'';
+        }
+        
+        $builder->set( 'table', $this->tablename )->set( 'updateData', $update );
+        
+        if( !empty ( $options[ 'where' ] ) )
+		{
+			$builder->add( 'WHERE $whereData' );
+			if( !is_array( $options[ 'where' ] ) )
+				$builder->set( 'whereData', $options[ 'where' ] );				
+			else
+				$builder->set( 'whereData', implode( ' AND ', $where ) );
+		}
+        
+        $builder->execute();
     }
 	
 	/**

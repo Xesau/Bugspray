@@ -1,9 +1,46 @@
-{include="header.inc"}
-{if="isset($status)"}
-<div class="status {$status.type}">
-    {$lang.error_message[$status.language_key]}
-</div>
-{/if}
-{include="template.$pagedata.template"}
+<!DOCTYPE html>
 
-{include="footer.inc"}
+<html>
+    <head>
+        <title>{$settings.site_name|strip_tags} &bull; {$pagedata.title}</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/style.css?a" />
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+    </head>
+    
+    <body>
+        <section class="sidebar">
+            <nav>
+                <ul class="no-spacing">
+                    <li><a href="./"{if="$page == 'home'"} class="current"{/if}><i class="glyphicon glyphicon-home glfw"></i>{$lang.admin.home}</a></li>
+                    <li><a href="settings"{if="$page == 'settings'"} class="current"{/if}><i class="glyphicon glyphicon-cog glfw"></i>{$lang.admin.settings}</a></li>
+                    <li><a href="labels"{if="$page == 'labels'"} class="current"{/if}><i class="glyphicon glyphicon-tags glfw"></i>{$lang.admin.labels}</a></li>
+                    <li><a href="users"{if="$page == 'users'"} class="current"{/if}><i class="glyphicon glyphicon-user glfw"></i>{$lang.admin.users}</a></li>
+                    <li><a href="projects"{if="$page == 'projects'"} class="current"{/if}><i class="glyphicon glyphicon-folder-open glfw"></i>{$lang.admin.projects}</a></li>
+                    <li><hr /></li>
+                    {loop="plugin_pages"}
+                    <li><a href="plugin/{$key}"{if="$page == '$key'"} class="current"{/if}><i class="glfw{if="!empty($value.glyph)"}glyphicon glyphicon-{$value.glyph}{/if}"></i>{$value}</a></li>
+                    {/loop}
+                    {if="count($plugin_pages)>0"}
+                    <li><hr /></li>
+                    {/if}
+                    <li><a href="logout"><i class="glyphicon glyphicon-lock glfw"></i>{$lang.logout}</a></li>
+                </ul>
+            </nav>
+        </section>
+        
+        <header>
+            <h3>{$settings.site_name} <span class=" glyphicon glyphicon-wrench"></span> {$lang.admin_panel}</h3>
+        </header>
+        
+        <section class="full-width content">
+            {if="isset($status)"}
+            <div class="alert alert-{$status.type}">
+                {$lang['status'][$status[language_key]]}
+            </div>
+            {/if}
+            {if="$pagedata.plugin !== ''"}{include="../../plugins/$pagedata.plugin/page.$pagedata.template"}{else}{include="page.$pagedata.template"}{/if}
+        </section>
+    </body>
+</html>

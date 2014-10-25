@@ -8,37 +8,17 @@ class DB
     {
         if( self::$i == null ) self::$i = $inst;
     }
-}
-
-class SingletonWrapper
-{
     
-    public static $__inst = null;
-    
-    public static function loaderInit( $inst )
+    public static function table( $tableName )
     {
-        if( self::$__inst == null ) self::$__inst = $inst;
+        debug_backtrace();
+        return self::$i->table( $tableName );
     }
     
-    public function __call( $name, $args )
+    public static function escape( $data )
     {
-        eval( 'return self::$__inst->' . $name . '(\'' . implode( '\', \'', $args ) . '\');' );
-    }
-    
-    public static function __callStatic( $name, $args )
-    {
-        echo 'return self::$__inst->' . $name . '(\'' . implode( '\', \'', $args ) . '\');';
-        eval( 'return self::$__inst->' . $name . '(\'' . implode( '\', \'', $args ) . '\');' );
-    }
-    
-    public function __get( $var )
-    {
-        return self::$__inst->$var;
-    }
-    
-    public function __set( $var, $value )
-    {
-        self::$__inst->$var = $value;
+        debug_backtrace();
+        return self::$i->escape( $data );
     }
     
 }
