@@ -64,3 +64,13 @@ $l[ 'lead' ] = 'Projectleider';
 
 # ISSUES
 $l[ 'new_issue' ] = 'Nieuw ticket';
+$l[ 'title' ] = 'Titel';
+$l[ 'security_level' ] = 'Veiligheidsniveau';
+$l[ 'priority' ] = 'Prioriteit';
+$l[ 'version' ] = 'Projectversie';
+$l[ 'description' ] = 'Omschrijving';
+$l[ 'public'] = 'Publiek zichtbaar';
+$l[ 'private'] = 'Priv&eacute; (alleen voor medewerkers zichtbaar)';
+$l[ 'high'] = 'Hoog';
+$l[ 'medium'] = 'Middelmatig';
+$l[ 'low'] = 'Laag';
