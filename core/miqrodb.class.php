@@ -56,7 +56,7 @@ class MiqroDB
             'engine' => 'InnoDB',
             'ifNotExists' => 'false',
             'like' => null,
-        ]
+        ];
         
         $options = array_merge( $optionsDefault, $options );
             
