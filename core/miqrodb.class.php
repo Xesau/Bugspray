@@ -26,18 +26,13 @@ class MiqroDB
 			$this->mysqli = $con;
 	}
     
-    /*
-    CREATE TABLE ($ifNotExits) $name ($like) (
-        $fieldName $fieldType($fieldLength) $null ($default) ($autoIncrement) ($keys) ($comment),
-    ) ENGINE = $engine
-     */
-    public function createTable( $name, $fields, $options )
+    public function createTable( $name, $fields, $options = [] )
     {
         if( !is_array( $options ) )
-            throw new MiqroExceptions( 'Parameter $options isn\'t an array', 3 );
+            throw new MiqroException( 'Parameter $options isn\'t an array', 3 );
         
-        $builder = new MiqroBuilder( 'CREATE TABLE $ifNotExists $name $like' );
-        $builder->set( 'name', $name );
+        if( !is_array( $fields ) )
+            throw new MiqroException( 'Parameter $fields isn\'t an array', 3 );
         
         $fieldDefault = [ 
             'type' => 'int',  
@@ -45,21 +40,81 @@ class MiqroDB
             'data' => null,  
             'null' => false,  
             'primary' => false,  
-            'unique' => false,  
-            'fulltext' => false,
+            'unique' => false,
             'default' => null,
             'comment' => null,
-            'auto_increment' => false
+            'autoIncrement' => false,
+            'fulltext' => false
         ];
         
         $optionsDefault = [
             'engine' => 'InnoDB',
-            'ifNotExists' => 'false',
+            'ifNotExists' => false,
             'like' => null,
+            'dropIfExists' => false
         ];
         
         $options = array_merge( $optionsDefault, $options );
+        
+        if( $options[ 'dropIfExists' ] == true ) ( new MiqroBuilder( $this, 'DROP TABLE IF EXISTS $table' ) )->set( 'table', $name )->execute();
+        
+        $builder = new MiqroBuilder( $this, 'CREATE TABLE $ifNotExists $name $like ( $fields $keys ) ENGINE = $engine' );
+        $builder->set( 'name', $name );
+        
+        $builder->set( 'ifNotExists', $options[ 'ifNotExists' ] == true ? 'IF NOT EXISTS' : '' );
+        $builder->set( 'like', ( $options[ 'like' ] != null ? $options[ 'like' ] : '' ) );
+        $builder->set( 'engine', $options[ 'engine' ] );
+        
+        $fieldSQLs = [];
+        $primaries = [];
+        $uniques = [];
+        $fulltexts = [];
+        
+        foreach( $fields as $key => $value )
+        {
+            $value = array_merge( $fieldDefault, $value );
             
+            $fieldBuilder = new MiqroBuilder( $this, '$name $type($data) $null $default $autoIncrement $comment' );
+            
+            $fieldBuilder->set( 'name', $key );
+            $fieldBuilder->set( 'type', strtoupper( $value[ 'type' ] ) );
+            $fieldBuilder->set( 'data', $value[ 'data' ] == null ? $value[ 'length' ] : $value[ 'data' ] );
+            $fieldBuilder->set( 'null', $value[ 'null' ] == true ? 'NULL' : 'NOT NULL' );
+            $fieldBuilder->set( 'default', $value[ 'default' ] != null ? 'DEFAULT \'' . $this->escape( $value[ 'default' ] ) . '\'' : '' );
+            $fieldBuilder->set( 'autoIncrement', $value[ 'autoIncrement' ] == true ? 'AUTO_INCREMENT' : '' );
+            $fieldBuilder->set( 'comment', $value[ 'comment' ] );
+            
+            if( $value[ 'primary' ] == true ) $primaries[] = $key;
+            if( $value[ 'unique'] == true ) $uniques[] = $key;
+            if( $value[ 'fulltext'] == true ) $fulltexts[] = $key;
+            
+            $fieldSQLs[] = $fieldBuilder->__toString();
+        }
+        
+        $builder->set( 'fields', implode( ', ', $fieldSQLs ) );
+        
+        $primkeysqls = [];
+        $uniqkeysqls = [];
+        $fultkeysqls = [];
+        
+        foreach( $primaries as $prim )
+            $primkeysqls[] = 'PRIMARY KEY (' . $prim . ')';
+        
+        foreach( $uniques as $uniq )
+            $uniqkeysqls[] = 'UNIQUE KEY ' . $uniq . ' (' . $uniq . ')';
+        
+        foreach( $fulltexts as $fult )
+            $fultkeysqls[] = 'FULLTEXT KEY ' . $fult . ' (' . $fult . ')';
+        
+        $builder->set( 'keys',
+            ( !empty( $primkeysqls )
+                ? ', ' . implode( ', ', $primkeysqls ) : '' ) . 
+            ( !empty( $uniqkeysqls )
+                ? ( !empty( $primkeysql ) ? ', ' : '' ) . implode( ', ', $uniqkeysqls ) : '' ) . 
+            ( !empty( $fultkeysqls )
+                ? ( !empty( $primkeysql ) || !empty( $uniqkeysql ) ? ', ' : '' ) . implode( ', ', $fultkeysqls ) : '' ) );
+        
+        $builder->execute();
     }
 	
 	public function table( $tablename )
@@ -110,7 +165,7 @@ class MiqroTable
     public function delete( $options = [] )
     {
         if( !is_array( $options ) )
-            throw new MiqroExceptions( 'Parameter $options isn\'t an array', 3 );
+            throw new MiqroException( 'Parameter $options isn\'t an array', 3 );
         
         $builder = new MiqroBuilder( $this->miqro, 'DELETE FROM `$table` ' );
         $builder->set( 'table', $this->tablename );
