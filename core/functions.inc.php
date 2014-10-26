@@ -39,11 +39,6 @@ function hasPermission( $userid, $permission )
     return in_array( $permission, $perms ) || in_array( '*', $perms );
 }
 
-function filename( $path, $cut = '' )
-{
-    return substr( basename( $path ), 0, -strlen( $cut ) );
-}
-
 function userData( $userid, $field )
 {
     return DB::table( prefix( 'users' ) )->select( $field, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
@@ -57,6 +52,21 @@ function projectData( $userid, $field )
 function issueData( $userid, $field )
 {
     return DB::table( prefix( 'issue' ) )->select( $field, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
+}
+
+function pluginData( Plugin $plugin, $field )
+{
+    switch( $field )
+    {
+        case 'name':
+            return $plugin->getName();
+        case 'website':
+            return $plugin->getWebsite();
+        case 'author':
+            return $plugin->getAuthor();
+        case 'version':
+            return $plugin->getVersion();
+    }
 }
 
 ?>

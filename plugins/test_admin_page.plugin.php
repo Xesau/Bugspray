@@ -1,6 +1,5 @@
 <?php
 
-
 class TestPlugin extends Plugin
 {
 
@@ -26,12 +25,15 @@ class TestPlugin extends Plugin
     
     public function __construct()
     {
-        PluginManager::registerAdminPage( 'test', $this );   
+        global $l;
+        PluginManager::registerAdminPage( 'test', ( new PageData )->setTitle( 'Test Page' )->setTemplate( 'test' )->setGlyph( 'file' ), $this );   
     }
     
     public function getLanguageAddons()
     {
-        return [ 'test_addon' => 'Test Addon' ];
+        if( setting( 'language' ) == 'dutch' )
+            return [ 'test_addon'  => 'Testtoevoeging', 'test_page' => 'Testpagina' ];
+        return [ 'test_addon' => 'Test Addon', 'test_page' => 'Test Page' ];
     }
 
 }

@@ -7,6 +7,7 @@ $l[ 'admin' ][ 'settings' ] = 'Instellingen';
 $l[ 'admin' ][ 'labels' ] = 'Labels';
 $l[ 'admin' ][ 'users' ] = 'Gebruikers';
 $l[ 'admin' ][ 'projects' ] = 'Projecten';
+$l[ 'admin' ][ 'plugins' ] = 'Plugins';
 
 # SITE SETTINGS
 $l[ 'site_name' ] = 'Sitenaam';
@@ -20,6 +21,10 @@ $l[ 'use_security' ] = 'Veiligheidsveld gebruiken';
 $l[ 'theme' ] = 'Thema';
 $l[ 'language' ] = 'Taal (language)';
 
+# ADMIN PANEL
+$l[ 'new_label' ] = 'Nieuw label';
+$l[ 'modify_label' ] = 'Bewerk label';
+
 # GENERAL OPTIONS
 $l[ 'use' ] = 'Gebruiken';
 $l[ 'dont_use' ] = 'Niet gebruiken';
@@ -28,6 +33,11 @@ $l[ 'off' ] = 'Uit';
 
 # GENERAL ACTIONS
 $l[ 'save' ] = 'Opslaan';
+$l[ 'new' ] = 'Nieuw...';
+$l[ 'add' ] = 'Toevoegen';
+$l[ 'delete' ] = 'Verwijder';
+$l[ 'preview' ] = 'Voorbeeld';
+$l[ 'live_preview' ] = 'Live-voorbeeld';
 
 # USER SERVICE
 $l[ 'logout' ] = 'Uitloggen';
@@ -52,6 +62,17 @@ $l[ 'status' ][ 'saved' ] = 'De gegevens zijn opgeslagen!';
 $l[ 'status' ][ 'data_missing' ] = 'Niet alle velden waren ingevuld. Probeer het opnieuw.';
 $l[ 'status' ][ 'no_permission' ] = 'Je hebt niet voldoende rechten.';
 $l[ 'status' ][ 'no_edit_permission' ] = 'Je hebt niet voldoende rechten om bewerkingen te maken.';
+$l[ 'status' ][ 'updated' ] = 'De gegevens zijn bijgewerkt!';
+$l[ 'status' ][ 'removed' ] = 'Het geselecteerde element is verwijderd.';
+$l[ 'status' ][ 'created' ] = 'Het nieuwe element is aangemaakt.';
+$l[ 'status' ][ 'added' ] = 'Het element is toegevoegd.';
+$l[ 'status' ][ 'exists_already' ] = 'Dit element bestaat al en kan niet opnieuw worden toegevoegd.';
+
+# STATUS MESSAGE TYPES
+$l[ 'status' ][ 'type' ][ 'success' ] = 'Succes';
+$l[ 'status' ][ 'type' ][ 'info' ] = 'Informatie';
+$l[ 'status' ][ 'type' ][ 'danger' ] = 'Foutmelding';
+$l[ 'status' ][ 'type' ][ 'warning' ] = 'Waarschuwing';
 
 # PAGE NAMES
 $l[ 'home' ] = 'Home';
@@ -74,3 +95,19 @@ $l[ 'private'] = 'Priv&eacute; (alleen voor medewerkers zichtbaar)';
 $l[ 'high'] = 'Hoog';
 $l[ 'medium'] = 'Middelmatig';
 $l[ 'low'] = 'Laag';
+
+# ERRORS
+$l[ 'error' ] = 'Foutmelding';
+$l[ 'page_not_found' ] = 'De opgevraagde pagina kon niet worden gevonden. Als u denkt dat dit een fout is, meld dat dan aan de administrator.';
+
+# PLUGIS
+$l[ 'installed_plugins' ] = 'Geinstaleerde plugins';
+$l[ 'no_plugins' ] = 'Er zijn geen plugins geinstalleerd';
+$l[ 'find_new_plugins' ] = 'Vind meer plugins';
+$l[ 'disable_plugin' ] = 'Plugin de&auml;ctiveren';
+$l[ 'how_to_install_plugins' ] = 'Hoe instaleer je plugins?';
+$l[ 'plugin_install_desc' ] = '<ol>
+<li>Open de map waar bugspray geinstalleerd is</li>
+<li>Open de map "plugins"</li>
+<li>Sleep het gedownload mapje en .plugin.php-bestand in de de pluginmap</li>
+</ol>';

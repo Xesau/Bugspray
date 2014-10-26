@@ -25,6 +25,42 @@ class MiqroDB
 		else
 			$this->mysqli = $con;
 	}
+    
+    /*
+    CREATE TABLE ($ifNotExits) $name ($like) (
+        $fieldName $fieldType($fieldLength) $null ($default) ($autoIncrement) ($keys) ($comment),
+    ) ENGINE = $engine
+     */
+    public function createTable( $name, $fields, $options )
+    {
+        if( !is_array( $options ) )
+            throw new MiqroExceptions( 'Parameter $options isn\'t an array', 3 );
+        
+        $builder = new MiqroBuilder( 'CREATE TABLE $ifNotExists $name $like' );
+        $builder->set( 'name', $name );
+        
+        $fieldDefault = [ 
+            'type' => 'int',  
+            'length' => '11',  
+            'data' => null,  
+            'null' => false,  
+            'primary' => false,  
+            'unique' => false,  
+            'fulltext' => false,
+            'default' => null,
+            'comment' => null,
+            'auto_increment' => false
+        ];
+        
+        $optionsDefault = [
+            'engine' => 'InnoDB',
+            'ifNotExists' => 'false',
+            'like' => null,
+        ]
+        
+        $options = array_merge( $optionsDefault, $options );
+            
+    }
 	
 	public function table( $tablename )
 	{

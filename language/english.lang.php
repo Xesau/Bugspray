@@ -52,6 +52,7 @@ $l[ 'admin' ][ 'settings' ] = 'Settings';
 $l[ 'admin' ][ 'projects' ] = 'Projects';
 $l[ 'admin' ][ 'users' ] = 'Users';
 $l[ 'admin' ][ 'labels' ] = 'Isusue Labels';
+$l[ 'admin' ][ 'plugins' ] = 'Plugins';
 $l[ 'admin_panel' ] = 'Administration Panel';
 
 $l[ 'total' ] = 'Total';
@@ -75,6 +76,9 @@ $l[ 'debug_mode' ] = 'Debug mode';
 $l[ 'on' ] = 'On';
 $l[ 'off' ] = 'Off';
 
+$l[ 'preview' ] = 'Preview';
+$l[ 'live_preview' ] = 'Live preview';
+
 $l[ 'use_labels' ] = 'Use labels';
 $l[ 'use_project_version' ] = 'Use project version field';
 $l[ 'use_priority' ] = 'Use priority field';
@@ -91,3 +95,7 @@ $l[ 'status' ][ 'updated'] = 'The data was updated.';
 $l[ 'status' ][ 'created'] = 'The new entry was created.';
 $l[ 'status' ][ 'removed'] = 'The selected entry was removed.';
 $l[ 'status' ][ 'no_edit_permission'] = 'You don\'t have the required permission to edit this.';
+
+$l[ 'installed_plugins' ] = 'Installed plugins';
+$l[ 'find_new_plugins' ] = 'Find new plugins';
+$l[ 'how_to_install_plugins' ] = 'How to install plugins?';

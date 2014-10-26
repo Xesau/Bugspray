@@ -14,7 +14,7 @@ if( !empty( $_GET[ 'id' ] ) )
 else
     $tpl->assign( 'id', NULL );
 
-$tpl->assign( 'plugin_pages', PluginManager::getAdminPages() );
+$tpl->assign( 'plugin_pages', PluginManager::getAdminPages( true ) );
 
 $tpl->assign( 'current_path', [ 'home' => $l[ 'admin' ][ 'home' ] ] );
 
@@ -67,6 +67,13 @@ switch( $page )
         $tpl->assign( 'count', DB::$i->table( prefix( 'users' ) )->count() );
         break;
     
+    case 'plugins':
+        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'plugins' )->setTitle( $l[ 'admin' ][ 'plugins' ] )->toArray() );
+        $tpl->assign( 'page', 'plugins' );
+        
+        $tpl->assign( 'plugins', PluginManager::getPlugins() );
+        break;
+    
     case 'banuser':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
         $tpl->assign( 'page', 'users' );
@@ -101,7 +108,7 @@ switch( $page )
             if( !empty( $_POST[ 'site_name' ] ) && !empty( $_POST[ 'base_url' ] ) && !empty( $_POST[ 'debug_mode' ] )
                     && !empty( $_POST[ 'issue_labels' ] ) && !empty( $_POST[ 'admin_email' ] ) && !empty( $_POST[ 'version' ] )
                     && !empty( $_POST[ 'theme' ] ) && !empty( $_POST[ 'language' ] ) )
-            {   $langexists = file_exists( CDIR . '/langugage/' . $_POST[ 'language' ] . '.lang.php'  );
+            {   $langexists = file_exists( CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php'  );
                 DB::$i->table( prefix( 'settings' ) )->updateWhere(
                     [   'site_name' => $_POST[ 'site_name' ],
                         'base_url' => $_POST[ 'base_url'],
@@ -116,7 +123,7 @@ switch( $page )
              
                 $tpl->assign( 'settings', $db->table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
                 $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'saved' ] );
-                
+                $tpl->var['lang'] = $l;
             }
             else
                 $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
@@ -151,12 +158,17 @@ switch( $page )
         {
             if( !empty( $_POST[ 'label_name']  ) && !empty( $_POST[ 'text_color']  ) && !empty( $_POST[ 'background_color']  ) )
             {
-                DB::$i->table( prefix( 'labels' ) )->insert( [
-                        'label' => $_POST[ 'label_name' ],
-                        'txtcolor' => $_POST[ 'text_color' ],
-                        'bgcolor' => $_POST[ 'background_color' ]
-                ]);
-                $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'created' ] );
+                if( DB::table( prefix( 'labels' ) )->select( 'id', [ 'where' => 'label = \'' . DB::escape( $_POST[ 'label_name' ] ) . '\'' ] )->size() == 0 )
+                {
+                    DB::table( prefix( 'labels' ) )->insert( [
+                            'label' => $_POST[ 'label_name' ],
+                            'txtcolor' => $_POST[ 'text_color' ],
+                            'bgcolor' => $_POST[ 'background_color' ]
+                    ]);
+                    $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'created' ] );
+                }
+                else
+                    $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'exists_already' ] );
             }
             else
                 $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
@@ -196,17 +208,29 @@ switch( $page )
         header( 'Location: ' . setting( 'base_url' ) . '/admin' );
         break;
     
+    case 'plugin':
+        $tpl->assign( 'page', '' );
+        try
+        {
+            if( PluginManager::hasAdminPage( $_GET[ 'id' ] ) )
+            {
+                $page = PluginManager::getAdminPage( $_GET[ 'id' ] );
+                $tpl->assign( 'pagedata', $page->toArray() );
+                $tpl->assign( 'page', $_GET[ 'id' ] );   
+            }
+            else
+                $tpl->assign( 'pagedata', ( new PageData )->setTemplate( 'error' )->setTitle( $l[ 'error' ] )->toArray() );
+        }
+        catch ( Exception $e )
+        {
+            echo '<b>TPL File not found exception.';
+            $tpl->assign( 'pagedata', ( new PageData )->setTemplate( 'error' )->setTitle( $l[ 'error' ] )->toArray() );
+        }
+        break;
+    
     default:
-        if( PluginManager::hasAdminPage( $_GET[ 'page' ] ) )
-        {
-            // TODO: handle plugin admin page
-            $tpl->assign( 'page', $_GET[ 'page' ] );
-        }
-        else
-        {
-            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'error' )->setTitle( $l[ 'error' ] )->toArray() );
-            $tpl->assign( 'page', '' );
-        }
+        $tpl->assign( 'pagedata', ( new PageData )->setTemplate( 'error' )->setTitle( $l[ 'error' ] )->toArray() );
+        $tpl->assign( 'page', '' );
         break;
 }
 

@@ -37,24 +37,26 @@ class PluginManager
      * Register a new admin page
      * 
      * @param name string The name of the page
+     * @param pagedata PageData the page data object
      * @param plugin Plugin The plugin that owns the page
      */
-    public static function registerAdminPage( $name, Plugin $plugin )
+    public static function registerAdminPage( $name, $pagedata, Plugin $plugin )
     {
-        if( array_key_exists( $name, self::$adminpages ) )
-            self::$adminpages[ $name ] = $plugin;
+        if( !array_key_exists( $name, self::$adminpages ) )
+            self::$adminpages[ $name ] = $pagedata->setPlugin( $plugin );
     }
     
     /**
      * Register a new page
      * 
      * @param name string The name of the page
+     * @param pagedata PageData the page data object
      * @param plugin Plugin The plugin that owns the page
      */
-    public function reigsterPage( $name, Plugin $plugin )
+    public function reigsterPage( $name, $pagedata, Plugin $plugin )
     {
-        if( self::$pages[ $name ] == null )
-            self::$pages[ $name ] = $plugin;
+        if( !self::$pages[ $name ] == null )
+            self::$pages[ $name ] = $pagedata->setPlugin( $plugin );
     }
     
     /**
@@ -62,9 +64,12 @@ class PluginManager
      * 
      * @return array The pages
      */
-    public static function getAdminPages()
+    public static function getAdminPages( $asArray = false )
     {
-        return self::$adminpages;
+        if( !$asArray ) return self::$adminpages;
+        
+        foreach( self::$adminpages as $page => $data ) $pages[ $page ] = $data->toArray();
+        return $pages != null ? $pages : [];
     }
     
     /**
@@ -79,12 +84,22 @@ class PluginManager
     
     public static function hasAdminPage( $page )
     {
-        return in_array( $page, self::$adminpages );
+        return array_key_exists( $page, self::$adminpages );
     }
     
     public static function hasPage( $page )
     {
-        return in_array( $page, self::$pages );
+        return array_key_exists( $page, self::$pages );
+    }
+    
+    public static function getPage( $page )
+    {
+        return ( self::hasPage( $page ) ? self::$pages[ $page ] : null );
+    }
+    
+    public static function getAdminPage( $page )
+    {
+        return ( self::hasAdminPage( $page ) ?  self::$adminpages[ $page ] : null );
     }
     
 }
@@ -101,6 +116,16 @@ abstract class Plugin
     public function getLanguageAddons()
     {
         return [];
+    }
+    
+    final public function toArray()
+    {
+        return [
+            'name' => $this->getName(),
+            'version' => $this->getVersion(),
+            'author' => $this->getAuthor(),
+            'website' => $this->getWebsite(),
+        ];
     }
 
 }

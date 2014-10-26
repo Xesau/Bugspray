@@ -5,7 +5,7 @@ class PageData
 
 	private $template = '';
 	private $title = '';
-    private $plugin = '';
+    private $plugin = null;
 	private $glyph = '';
     private $css = [];
     private $js = [];
@@ -30,7 +30,14 @@ class PageData
     
     public function setGlyph( $glyph )
     {
-        $this->glyph = $gylph;
+        $this->glyph = $glyph;
+        return $this;
+    }
+    
+    public function setPlugin( Plugin $plugin )
+    {
+        $this->plugin = $plugin;
+        return $this;
     }
 	
 	public function toArray()
@@ -38,7 +45,7 @@ class PageData
 		return array(
 			'template' => $this->template,
 			'title' => $this->title,
-            'plugin' => $this->plugin,
+            'plugin' => ( $this->plugin !== null ? $this->plugin->toArray() : '' ),
             'glyph' => $this->glyph,
             'js' => $this->js,
             'css' => $this->css
@@ -49,12 +56,14 @@ class PageData
     {
         if( !in_array( $js, $this->js ) )
             $this->js[] = $js;
+        return $this;
     }
     
     public function addCSS( $css )
     {
         if( !in_array( $css, $this->css ) )
             $this->css[] = $css;
+        return $this;
     }
 
 }

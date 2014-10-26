@@ -21,6 +21,21 @@
     width: 100%;
 }
 
+.half-width
+{
+    width: 50%;
+}
+
+.half-width.nofix
+{
+    width: 750px;
+}
+
+.inline
+{
+    display: inline;
+}
+
 .hidden
 {
     display: none;
@@ -28,6 +43,7 @@
 
 .glfw
 {
+    min-width: 26px;
     width: 26px;
 }
 
