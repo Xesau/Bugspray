@@ -2,6 +2,7 @@
 
 define( 'CDIR', realpath( dirname( __FILE__ ) ) );
 define( 'NO_TPL', true );
+define( 'NO_PLUGINS', true );
 
 require_once CDIR . '/core/global.inc.php';
 

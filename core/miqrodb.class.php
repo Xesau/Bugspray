@@ -74,11 +74,11 @@ class MiqroDB
         {
             $value = array_merge( $fieldDefault, $value );
             
-            $fieldBuilder = new MiqroBuilder( $this, '$name $type($data) $null $default $autoIncrement $comment' );
+            $fieldBuilder = new MiqroBuilder( $this, '$name $type$data $null $default $autoIncrement $comment' );
             
             $fieldBuilder->set( 'name', $key );
             $fieldBuilder->set( 'type', strtoupper( $value[ 'type' ] ) );
-            $fieldBuilder->set( 'data', $value[ 'data' ] == null ? $value[ 'length' ] : $value[ 'data' ] );
+            $fieldBuilder->set( 'data', $value[ 'length' ] !== null ? ( '(' . ( $value[ 'data' ] == null ? $value[ 'length' ] : $value[ 'data' ] ) . ')' ) : '' );
             $fieldBuilder->set( 'null', $value[ 'null' ] == true ? 'NULL' : 'NOT NULL' );
             $fieldBuilder->set( 'default', $value[ 'default' ] != null ? 'DEFAULT \'' . $this->escape( $value[ 'default' ] ) . '\'' : '' );
             $fieldBuilder->set( 'autoIncrement', $value[ 'autoIncrement' ] == true ? 'AUTO_INCREMENT' : '' );
@@ -100,9 +100,6 @@ class MiqroDB
         foreach( $primaries as $prim )
             $primkeysqls[] = 'PRIMARY KEY (' . $prim . ')';
         
-        foreach( $uniques as $uniq )
-            $uniqkeysqls[] = 'UNIQUE KEY ' . $uniq . ' (' . $uniq . ')';
-        
         foreach( $fulltexts as $fult )
             $fultkeysqls[] = 'FULLTEXT KEY ' . $fult . ' (' . $fult . ')';
         
@@ -110,9 +107,9 @@ class MiqroDB
             ( !empty( $primkeysqls )
                 ? ', ' . implode( ', ', $primkeysqls ) : '' ) . 
             ( !empty( $uniqkeysqls )
-                ? ( !empty( $primkeysql ) ? ', ' : '' ) . implode( ', ', $uniqkeysqls ) : '' ) . 
+                ? ( !empty( $primkeysql ) ? ', ' : '' ) . 'UNIQUE KEY(' . implode( ', ', $uniques ) : '' ) . 
             ( !empty( $fultkeysqls )
-                ? ( !empty( $primkeysql ) || !empty( $uniqkeysql ) ? ', ' : '' ) . implode( ', ', $fultkeysqls ) : '' ) );
+                ? ( !empty( $primkeysql ) || !empty( $uniques ) ? ', ' : '' ) . implode( ', ', $fultkeysqls ) : '' ) );
         
         $builder->execute();
     }
