@@ -213,6 +213,10 @@ $db->createTable( prefix( 'issues' ), [
 ], [ 'ifNotExists' => true ]);
 
 $db->createTable( prefix( 'labels' ), [
+    'id' => [
+        'autoIncrement' => true,
+        'primary' => true
+    ],
     'label' => [
         'type' => 'varchar',
         'length' => 255,
