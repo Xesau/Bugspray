@@ -255,6 +255,13 @@ $db->createTable( prefix( 'comments' ), [
     ],
 ], [ 'ifNotExists' => true ] );
 
+$db->createTable( prefix( 'plugins_disabled' ), [
+    'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'unique' => true
+], [ 'ifNotExists' => true ] );
+
 $template = 'installed';
 
 # DRAW TEMPLATE
