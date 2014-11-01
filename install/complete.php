@@ -228,7 +228,7 @@ $db->createTable( prefix( 'labels' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
-$db->table( prefix( 'labels' ), [
+$db->table( prefix( 'labels' ) ->insert( [
     [ 'label' => 'Bug', 'txtcolor' => 'FFFFFF', 'bgcolor' => '610B0B' ],
     [ 'label' => 'Bug + Fix', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'A5DF00' ],
     [ 'label' => 'Feature request', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'F4FA58' ],
