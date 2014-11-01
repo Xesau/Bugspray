@@ -260,6 +260,7 @@ switch( $page )
                 $page = PluginManager::getAdminPage( $_GET[ 'id' ] );
                 $tpl->assign( 'pagedata', $page->toArray() );
                 $tpl->assign( 'page', $_GET[ 'id' ] );
+                $tpl->assign( $plugin->getTemplateVariables( $_GET[ 'id' ] ) );
             }
         }
         catch ( Exception $e ) {}

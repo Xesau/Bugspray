@@ -172,7 +172,7 @@ abstract class Plugin
         return [];
     }
     
-    public function getLanguageAddons()
+    public function getLanguageAddons( $page )
     {
         return [];
     }

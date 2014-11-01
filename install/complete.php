@@ -228,6 +228,33 @@ $db->createTable( prefix( 'labels' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
+$db->table( prefix( 'labels' ), [
+    [ 'label' => 'Bug', 'txtcolor' => 'FFFFFF', 'bgcolor' => '610B0B' ],
+    [ 'label' => 'Bug + Fix', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'A5DF00' ],
+    [ 'label' => 'Feature request', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'F4FA58' ],
+], [ 'ifNotExists' => true ] );
+
+$db->createTable( prefix( 'comments' ), [
+    'id' => [
+        'autoIncrement' => true,
+        'primary' => true
+    ],
+    'author' => [],
+    'issue' => [],
+    'date_created' => [],
+    'date_edited' => [
+        'null' => true
+    ],
+    'editor' => [
+        'null' => true
+    ],
+    'removed' => [
+        'type' => 'enum',
+        'data' => "'0','1'",
+        'default' => '0'
+    ],
+], [ 'ifNotExists' => true ] );
+
 $template = 'installed';
 
 # DRAW TEMPLATE

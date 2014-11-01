@@ -13,7 +13,13 @@ class MiqroDB
 	public $mysqli;
 	public static $debug = false;
 	public static $lastError = '';
-	
+    private static $lastQueries = [];
+	private $lastOwnQueries = [];
+    
+    public static function geQueries( $global = true ) {
+        return ( $global == true ? self::$lastQueries : $this->lastOwnQueries );
+    }
+    
 	public function __construct( $con )
 	{
 		if( $con == null )

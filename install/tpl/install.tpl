@@ -165,6 +165,9 @@
                 if( $( 'select[name=language]' ).val() == '' )
                 {   redenize( $( 'select[name=language]' ) ); return false; }
                 
+                if( $( 'select[name=theme]' ).val() == '' )
+                {   redenize( $( 'select[name=theme]' ) ); return false; }
+                
                 $( '#page_2' ).slideDown();
                 $( '#page_1' ).slideUp();
                 
