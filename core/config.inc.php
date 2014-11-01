@@ -2,7 +2,7 @@
 
 if( !defined( 'CDIR' ) ) exit( 'Direct access not allowed' );
 
-# Generated on 01-11-14 07:26:01
+# Generated on 01-11-14 07:36:03
 
 $db_host = 'localhost';
 $db_user = 'bugtracker';

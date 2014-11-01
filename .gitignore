@@ -60,3 +60,4 @@ $RECYCLE.BIN/
 /tmp/
 admin/tmp/
 install/tmp/
+core/config.inc.php
