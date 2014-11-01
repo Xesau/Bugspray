@@ -228,11 +228,11 @@ $db->createTable( prefix( 'labels' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
-$db->table( prefix( 'labels' ) )->insert( [
+$db->table( prefix( 'labels' ) )->insertMany( [
     [ 'label' => 'Bug', 'txtcolor' => 'FFFFFF', 'bgcolor' => '610B0B' ],
     [ 'label' => 'Bug + Fix', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'A5DF00' ],
     [ 'label' => 'Feature request', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'F4FA58' ],
-], [ 'ifNotExists' => true ] );
+], [ 'existsKey' => 'label' ] );
 
 $db->createTable( prefix( 'comments' ), [
     'id' => [
