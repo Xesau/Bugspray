@@ -50,10 +50,10 @@ switch ($path)
 			header( 'Location: ./' );
 		
 		if( isset( $_SESSION[ 'login_error' ] ) )
-        {	unset( $_SESSION[ 'login_error' ] );
-            $tpl->assign( 'login_error', $_SESSION[ 'login_error' ] );
-        }
-			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'login' ] )->setTemplate( 'login' )->toArray() );
+        	$tpl->assign( 'error', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'login_error' ] ] );
+        
+        unset( $_SESSION[ 'login_error' ] );
+		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'login' ] )->setTemplate( 'login' )->toArray() );
 		break;
 	
 	case 'logout':

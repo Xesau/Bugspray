@@ -94,7 +94,6 @@ class MiqroDB
         $builder->set( 'fields', implode( ', ', $fieldSQLs ) );
         
         $primkeysqls = [];
-        $uniqkeysqls = [];
         $fultkeysqls = [];
         
         foreach( $primaries as $prim )
@@ -106,10 +105,11 @@ class MiqroDB
         $builder->set( 'keys',
             ( !empty( $primkeysqls )
                 ? ', ' . implode( ', ', $primkeysqls ) : '' ) . 
-            ( !empty( $uniqkeysqls )
-                ? ( !empty( $primkeysql ) ? ', ' : '' ) . 'UNIQUE KEY(' . implode( ', ', $uniques ) : '' ) . 
+            ( !empty( $uniques )
+                ? ', ' . 'UNIQUE KEY(' . implode( ', ', $uniques ) . ')' : '' ) . 
             ( !empty( $fultkeysqls )
-                ? ( !empty( $primkeysql ) || !empty( $uniques ) ? ', ' : '' ) . implode( ', ', $fultkeysqls ) : '' ) );
+                ? ', ' . implode( ', ', $fultkeysqls ) : '' ) );
+        
         
         $builder->execute();
     }
@@ -333,8 +333,8 @@ class MiqroTable
 		$builder = new MiqroBuilder( $this->miqro, $sql );
 		$builder->set( 'fields', ( is_array( $fields ) ? implode( ',', $fields ) : $fields ) );
 		$builder->set( 'table', $this->tablename );
-		
-		$query = $this->miqro->mysqli->query( $builder );
+
+		$query = $builder->execute();
 		
 		if( !empty( $this->miqro->mysqli->error ) )
 			MiqroDB::$lastError = $this->miqro->mysqli->error;
@@ -377,6 +377,33 @@ class MiqroTable
 	}
     
     /**
+	 * Insert a new row in the table
+	 * 
+	 * @param param assoc: The field>value data. Structure:
+	 *   'field' => 'row'
+	 */
+	public function insertMany( $entries, $options = [ 'existsKey' => null ] )
+	{
+		if( !is_array( $entries ) )
+			throw new MiqroException( 'Insert parameters not an array', 3 );
+		
+		if( !is_array( $options ) )
+			throw new MiqroException( 'Options parameter not an array', 3 );
+
+		## ESCAPE ALL FIELD VALUES
+		foreach( $entries as $entry ) foreach( $entry as $key => $value) $entry[ $key ] = $this->miqro->escape( $value );
+		
+		## EVERY ENTRY
+        foreach( $entries as $entry)
+		{
+          	if( $options[ 'existsKey' ] == null ||
+			   (	$options[ 'existsKey' ] !== null &&
+					$this->select( $options[ 'existsKey' ], [ 'where' => $options[ 'existsKey' ] . ' = \'' . $entry[ $options[ 'existsKey' ] ] . '\'' ] )->size() == 0 ) )
+				$builder = ( new MiqroBuilder( $this->miqro, 'INSERT INTO $table (`' . implode( '`, `', array_keys( $entry ) ) . '`) VALUES (\'' . implode( '\', \'', array_values( $entry ) ) . '\')' ) )->set( 'table', $this->tablename )->execute();
+		}
+	}
+	
+    /**
      * Count the amount of entries in the table
      * 
      * @param options array Options (where) 
@@ -397,7 +424,7 @@ class MiqroTable
             $builder->add( ' WHERE $whereData' );
         }
         
-        $query = $this->miqro->mysqli->query( $builder );
+        $query = $builder->execute();
         $array = $query->fetch_array();
         return $array[0];
     }
@@ -608,7 +635,9 @@ class MiqroBuilder
     
     public function execute()
     {
-        $this->miqro->mysqli->query( $this->__toString() );   
+        $query = $this->miqro->mysqli->query( $this->__toString() );
+        if( MiqroDB::$debug == true ) echo $this->miqro->mysqli->error;
+        return $query;
     }
 
 }

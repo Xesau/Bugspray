@@ -123,6 +123,7 @@ switch( $page )
              
                 $tpl->assign( 'settings', $db->table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
                 $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'saved' ] );
+                require_once CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php';
                 $tpl->var['lang'] = $l;
             }
             else

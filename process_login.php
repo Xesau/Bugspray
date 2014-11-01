@@ -18,7 +18,7 @@ if( !empty( $_POST[ 'email' ] ) )
 		{	$fields = $select->getEntry( 0 )->getFields();
 			if( crypt( $_POST[ 'password' ] . $fields[ 'salt' ], '$9x$' ) === $fields[ 'password' ] )
 			{	$table->update(
-					array( 'last_login' => time(), 'last_ip' => $_SERVER[ 'HTTP_REFERER' ] ),
+					array( 'last_login' => time(), 'last_ip' => $_SERVER[ 'REMOTE_ADDR' ] ),
 					array( 'where' => 'id = ' . $select->getEntry( 0 )->getField( 'id' ) )
 				);
 				$_SESSION[ 'user_id' ] = $select->getEntry( 0 )->getField( 'id' );

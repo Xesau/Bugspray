@@ -49,6 +49,20 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            Theme
+                        </label>
+                        <div class="col-sm-6">
+                            <select class="form-control" name="theme">
+                                <option value="">Select a theme</option>
+                                {loop="$server.available_themes"}
+                                <option value="{$value|basename}">{$value|basename}</option>
+                                
+                                {/loop}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-6 col-sm-offset-4">
                             <input class="btn btn-primary" value="Next page >" type="button" onclick="return nextPage1()" />
                         </div>
@@ -97,9 +111,9 @@
                     </div>
                     <div id="page_3">
                         <div class="form-group">
-                            <label class="control-label col-sm-4">Admin username</label>
+                            <label class="control-label col-sm-4">Admin name</label>
                             <div class="col-sm-6">
-                                <input class="form-control" name="admin_username" value="admin" />
+                                <input class="form-control" name="admin_name" placeholder="John Newlands" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -112,12 +126,6 @@
                             <label class="control-label col-sm-4">Admin password <small>(repeat)</small></label>
                             <div class="col-sm-6">
                                 <input class="form-control" name="admin_repeat_password" type="password" placeholder="********" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4">Admin name</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" name="admin_name" placeholder="John Newlands" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -183,8 +191,8 @@
             
             function nextPage3()
             {
-                if( $( 'input[name=admin_username]' ).val() == '' )
-                { redenize( $( 'input[name=admin_username]' ) ); return false; }
+                if( $( 'input[name=admin_email]' ).val() == '' )
+                { redenize( $( 'input[name=admin_email]' ) ); return false; }
                 if( $( 'input[name=admin_password]' ).val() == '' || $( 'input[name=admin_password]' ).val().length < 8 )
                 { redenize( $( 'input[name=admin_password]' ) ); return false; }
                 if( $( 'input[name=admin_repeat_password]' ).val() == '' )
