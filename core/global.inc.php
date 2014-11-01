@@ -66,9 +66,8 @@ if( !IN_INSTALL )
     /**
      * Set up the database connection and interface
      */
-    $db = new MiqroDB ( new MySQLi( $db_host, $db_user, $db_password, $db_database ) );
-    DB::loaderInit($db);
-    $db->debug = (bool)setting( 'debug_mode' );
+    DB::loaderInit( new MiqroDB ( new MySQLi( $db_host, $db_user, $db_password, $db_database ) ) );
+    MiqroDB::$debug = (bool)setting( 'debug_mode' );
 
     /**
      * Load language data
@@ -88,8 +87,8 @@ if( !IN_INSTALL )
 
         $tpl = new RainTPL();
 
-        $tpl->assign( 'settings', $db->table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
-        $tpl->assign( 'projects', $db->table( prefix( 'projects' ) )->select( '*' )->getAssoc( 'id' ) );
+        $tpl->assign( 'settings', DB::table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
+        $tpl->assign( 'projects', DB::table( prefix( 'projects' ) )->select( '*' )->getAssoc( 'id' ) );
         $tpl->assign( 'server', [ 'available_themes' => glob( CDIR . '/theme/*', GLOB_ONLYDIR ), 'available_languages' => glob( CDIR . '/language/*.lang.php' ) ] );
         $tpl->assign( 'loggedIn', LOGGED_IN );
     }
@@ -98,9 +97,12 @@ if( !IN_INSTALL )
      * Load plugins
      */
     if( !NO_PLUGINS )
+    {
+        PluginManager::init( DB::table( prefix( 'plugins_disabled' ) )->select( '*' )->getAssoc( 'name' ) );
         foreach( glob( CDIR . '/plugins/*.plugin.php' ) as $file )
             try { include $file; } catch ( Exception $e ) { echo 'Can\'t load plugin' . $file; }
-
+    }
+    
     /**
      * Assign language variable to TPL object
      * (becasue plugins may alter the state of the $l variable ) 

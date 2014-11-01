@@ -29,7 +29,7 @@
 				<td>{$lang.version}</td>
 				<td><input name="version" placeholder="{$lang.version}"></td>
 			</tr>{/if}
-			{if="$settings.issue_labels == 'true'"}<tr>
+			{if="$settings.issue_labels == 'true' && size( $issue_labels ) > 0 "}<tr>
 				<td>{$lang.label}</td>
 				<td>{loop="$issue_labels"}<input name="label" type="radio" value="{$key}"><span class="label" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$key}</span>{/loop}</td>
 			</tr>{/if}

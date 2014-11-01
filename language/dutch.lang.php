@@ -67,6 +67,9 @@ $l[ 'status' ][ 'removed' ] = 'Het geselecteerde element is verwijderd.';
 $l[ 'status' ][ 'created' ] = 'Het nieuwe element is aangemaakt.';
 $l[ 'status' ][ 'added' ] = 'Het element is toegevoegd.';
 $l[ 'status' ][ 'exists_already' ] = 'Dit element bestaat al en kan niet opnieuw worden toegevoegd.';
+$l[ 'status' ][ 'plugin_doesnt_exist' ] = 'De plugin bestaat niet';
+$l[ 'status' ][ 'enabled' ] = 'The selected entry was enabled';
+$l[ 'status' ][ 'disabled' ] = 'The selected entry was disabled';
 
 # STATUS MESSAGE TYPES
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Succes';
@@ -104,10 +107,13 @@ $l[ 'error' ] = 'Foutmelding';
 $l[ 'page_not_found' ] = 'De opgevraagde pagina kon niet worden gevonden. Als u denkt dat dit een fout is, meld dat dan aan de administrator.';
 
 # PLUGIS
-$l[ 'installed_plugins' ] = 'Geinstaleerde plugins';
+$l[ 'installed_plugins' ] = 'Ge&iuml;nstaleerde plugins';
+$l[ 'disabled_plugins' ] = 'Gedeactiveerde plugins';
 $l[ 'no_plugins' ] = 'Er zijn geen plugins geinstalleerd';
 $l[ 'find_new_plugins' ] = 'Vind meer plugins';
 $l[ 'disable_plugin' ] = 'Plugin de&auml;ctiveren';
+$l[ 'enable_plugin' ] = 'Plugin activeren';
+$l[ 'no_plugins_disabled' ] = 'Er zijn geen plugins gede&auml;ctiveerd';
 $l[ 'how_to_install_plugins' ] = 'Hoe instaleer je plugins?';
 $l[ 'plugin_install_desc' ] = '<ol>
 <li>Open de map waar bugspray geinstalleerd is</li>

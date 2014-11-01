@@ -5,6 +5,13 @@ class PluginManager
     private static $plugins = [];
     private static $adminpages = [];
     private static $pages = [];
+    private static $disabledPlugins = [];
+    private static $disables = null;
+    
+    public static function init( $disables )
+    {
+        self::$disables = $disables;
+    }
     
     /**
      * Register a new plugin and copy it's language data
@@ -15,12 +22,17 @@ class PluginManager
     {
         # Check wether the plugin isn't loaded already
         if( !in_array( $plugin, self::$plugins ) )
-            self::$plugins[] = $plugin;
-        
-        # Add additional language keys and values
-        global $l;
-        if( is_array( $plugin->getLanguageAddons() ) )
-            $l = array_merge( $l, $plugin->getLanguageAddons() );
+            if( !array_key_exists( $plugin->getName(), self::$disables ) )
+            {
+                self::$plugins[ $plugin->getName() ] = $plugin;
+                $plugin->onEnable();
+                # Add additional language keys and values
+                global $l;
+                if( is_array( $plugin->getLanguageAddons() ) )
+                    $l = array_merge( $l, $plugin->getLanguageAddons() );
+            }
+            else
+                self::$disabledPlugins[ $plugin->getName() ] = $plugin;    
     }
     
     /**
@@ -31,6 +43,26 @@ class PluginManager
     public static function getPlugins()
     {
         return self::$plugins;
+    }
+    
+    /**
+     * Get all the disabled plugins
+     * 
+     * @return array The plugins
+     */
+    public static function getDisabledPlugins()
+    {
+        return self::$disabledPlugins;
+    }
+    
+    public static function hasPlugin( $plugin )
+    {
+        return array_key_exists( $plugin, self::$plugins );
+    }
+    
+    public static function hasPluginDisabled( $plugin )
+    {
+        return array_key_exists( $plugin, self::$disables );
     }
     
     /**
@@ -102,6 +134,26 @@ class PluginManager
         return ( self::hasAdminPage( $page ) ?  self::$adminpages[ $page ] : null );
     }
     
+    public static function disable( $plugin )
+    {
+        self::$disables = $plugin;
+        if( array_key_exists( $plugin, self::$plugins ) )
+        {
+            self::$disabledPlugins[ $plugin ] = self::$plugins[ $plugin ];
+            self::$plugins[ $plugin ] = null;
+        }
+    }
+
+    public static function enable( $plugin )
+    {
+        self::$disables = array_diff( self::$disables, [ $plugin ] );
+        if( array_key_exists( $plugin, self::$plugins ) )
+        {
+            self::$disabledPlugins[ $plugin ] = self::$plugins[ $plugin ];
+            self::$plugins[ $plugin ] = null;
+        }
+    }
+    
 }
 
 abstract class Plugin
@@ -112,6 +164,13 @@ abstract class Plugin
     
     public function getAuthor() { return ''; }
     public function getWebsite() { return ''; }
+    
+    public function onEnable() {}
+    public function onDisable() {}
+    
+    public function getTemplateVariables() {
+        return [];
+    }
     
     public function getLanguageAddons()
     {

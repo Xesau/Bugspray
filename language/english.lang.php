@@ -99,3 +99,4 @@ $l[ 'status' ][ 'no_edit_permission'] = 'You don\'t have the required permission
 $l[ 'installed_plugins' ] = 'Installed plugins';
 $l[ 'find_new_plugins' ] = 'Find new plugins';
 $l[ 'how_to_install_plugins' ] = 'How to install plugins?';
+$l[ 'plugin_doesnt_exist' ] = 'Plugin doesn\'t exist';
