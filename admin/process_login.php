@@ -9,8 +9,8 @@ if( !empty( $_POST[ 'email' ] ) )
 	unset( $_SESSION[ 'login_error' ] );
 	unset( $_SESSION[ 'login_email' ] );
 	if( !empty( $_POST[ 'password' ] ) )
-	{	$table = $db->table( prefix( 'users' ) );
-		$select = $table->select( 'id,password,salt', array( 'where' => 'email = \'' . $db->escape( $_POST[ 'email' ] ) . '\''  ) );
+	{	$table = DB::table( prefix( 'users' ) );
+		$select = $table->select( 'id,password,salt', array( 'where' => 'email = \'' . DB::escape( $_POST[ 'email' ] ) . '\''  ) );
 		if( $select->size() > 0 )
 		{	$fields = $select->getEntry( 0 )->getFields();
 			if( crypt( $_POST[ 'password' ] . $fields[ 'salt' ], '$9x$' ) === $fields[ 'password' ] )
