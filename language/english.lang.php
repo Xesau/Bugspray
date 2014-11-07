@@ -51,7 +51,7 @@ $l[ 'admin' ][ 'home' ] = 'Home';
 $l[ 'admin' ][ 'settings' ] = 'Settings';
 $l[ 'admin' ][ 'projects' ] = 'Projects';
 $l[ 'admin' ][ 'users' ] = 'Users';
-$l[ 'admin' ][ 'labels' ] = 'Isusue Labels';
+$l[ 'admin' ][ 'labels' ] = 'Issue Labels';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
 $l[ 'admin_panel' ] = 'Administration Panel';
 
