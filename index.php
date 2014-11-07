@@ -7,6 +7,8 @@ require_once CDIR . '/core/global.inc.php';
 $path = ( isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 'home' );
 $tpl->assign( 'page', $path );
 
+if( isset( $_GET[ 'id' ] ) ) $tpl->assign( 'element', $_GET[ 'id' ] ); else $tpl->assign( 'element', null );
+
 switch ($path)
 {
 	case 'home':
@@ -51,9 +53,9 @@ switch ($path)
 			header( 'Location: ./' );
 		
 		if( isset( $_SESSION[ 'login_error' ] ) )
-        	$tpl->assign( 'error', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'login_error' ] ] );
-        
+        	$tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'login_' . $_SESSION[ 'login_error' ] ] );
         unset( $_SESSION[ 'login_error' ] );
+    
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'login' ] )->setTemplate( 'login' )->toArray() );
 		break;
 	

@@ -14,9 +14,19 @@
             <nav>
                 <ul class="no-spacing">
                     <li><a href="./"{if="$page == 'home'"} class="current"{/if}><i class="glyphicon glyphicon-home glfw"></i>{$lang.home}</a></li>
-                    <li><a href="projects"{if="$page == 'projects'"} class="current"{/if}><i class="glyphicon glyphicon-tasks glfw"></i>{$lang.projects}</a></li>
+                    <li class="haschildren">
+                        <a href="projects"{if="$page == 'projects'"} class="current"{/if}><i class="glyphicon glyphicon-tasks glfw"></i>{$lang.projects}</a>
+                        <ul>
+                            {loop="$projects"}
+                                <li><a {if="$element == $key"}class="current"{/if} href="project/{$key}">{$value.name}</a></li>
+                            {/loop}
+                        </ul>
+                    </li>
                     <hr />
                     {if="LOGGED_IN"}
+                    {if="hasPermission(USERID, 'bt_admin')"}
+                    <li><a href="admin"><i class="glyphicon glyphicon-cog glfw"></i>{$lang.admin_panel}</a></li>
+                    {/if}
                     <li><a href="logout"{if="$page == 'login'"} class="current"{/if}><i class="glyphicon glyphicon-lock glfw"></i>{$lang.logout}</a></li>
                     {else}
                     <li><a href="login"{if="$page == 'login'"} class="current"{/if}><i class="glyphicon glyphicon-user glfw"></i>{$lang.login}</a></li>

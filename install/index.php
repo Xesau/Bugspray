@@ -5,6 +5,7 @@ define( 'IN_INSTALL', true );
 
 require_once CDIR . '/core/global.inc.php';
 
+if( file_exists( CDIR . '/core/config.inc.php' ) ) header( 'Location: ../' );
 
 RainTPL::configure( 'tpl_ext', 'tpl' );
 RainTPL::configure( 'tpl_dir', 'tpl/' );

@@ -108,6 +108,9 @@ $l[ 'comment' ] = 'Reageer';
 $l[ 'error' ] = 'Foutmelding';
 $l[ 'page_not_found' ] = 'De opgevraagde pagina kon niet worden gevonden. Als u denkt dat dit een fout is, meld dat dan aan de administrator.';
 
+# LOGIN ERRORS
+$l[ 'login_email' ] = 'Het opgegeven e-mailadres was niet gevonden.';
+
 # PLUGIS
 $l[ 'installed_plugins' ] = 'Ge&iuml;nstaleerde plugins';
 $l[ 'disabled_plugins' ] = 'Gedeactiveerde plugins';

@@ -1,4 +1,4 @@
-<h3>{$lang.admin.settings}</h3>
+<h3 class="no-spacing">{$lang.admin.settings}</h3>
 <hr />
 <form method="post" action="save_settings" class="form-horizontal half-width nofix" autocomplete="off">
     <div class="form-group">
