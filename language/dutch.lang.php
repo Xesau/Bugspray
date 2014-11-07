@@ -7,6 +7,7 @@ $l[ 'admin' ][ 'settings' ] = 'Instellingen';
 $l[ 'admin' ][ 'labels' ] = 'Labels';
 $l[ 'admin' ][ 'users' ] = 'Gebruikers';
 $l[ 'admin' ][ 'projects' ] = 'Projecten';
+$l[ 'admin' ][ 'edit_project' ] = 'Bewerk project';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
 
 # SITE SETTINGS
@@ -68,8 +69,9 @@ $l[ 'status' ][ 'created' ] = 'Het nieuwe element is aangemaakt.';
 $l[ 'status' ][ 'added' ] = 'Het element is toegevoegd.';
 $l[ 'status' ][ 'exists_already' ] = 'Dit element bestaat al en kan niet opnieuw worden toegevoegd.';
 $l[ 'status' ][ 'plugin_doesnt_exist' ] = 'De plugin bestaat niet';
-$l[ 'status' ][ 'enabled' ] = 'The selected entry was enabled';
-$l[ 'status' ][ 'disabled' ] = 'The selected entry was disabled';
+$l[ 'status' ][ 'enabled' ] = 'Het geselecteerde element was ingeschakeld';
+$l[ 'status' ][ 'disabled' ] = 'Het geselecteerde element was uitgeschakeld';
+$l[ 'status' ][ 'doesnt_exist' ] = 'Dit element bestaat niet';
 
 # STATUS MESSAGE TYPES
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Succes';
@@ -125,3 +127,12 @@ $l[ 'plugin_install_desc' ] = '<ol>
 <li>Open de map "plugins"</li>
 <li>Sleep het gedownload mapje en .plugin.php-bestand in de de pluginmap</li>
 </ol>';
+
+# PROJECT FIELDS
+
+$l[ 'project_fields' ][ 'name' ] = 'Projectnaam';
+$l[ 'project_fields' ][ 'status' ] = 'Status';
+$l[ 'project_fields' ][ 'short' ] = 'Korte dag';
+$l[ 'project_fields' ][ 'description' ] = 'Omschrijving';
+$l[ 'project_fields' ][ 'leader_username' ] = 'Gebruikersnaam projectleider';
+$l[ 'project_fields' ][ 'creation_date' ] = 'Opzetdatum';

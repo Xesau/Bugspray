@@ -55,6 +55,36 @@ switch( $page )
         $tpl->assign( 'count', DB::$i->table( prefix( 'projects' ) )->count() );
         break;
     
+    case 'project':
+        if( empty( $_GET[ 'id' ] ) ||
+           ( !empty( $_GET[ 'id' ] )
+            && DB::table( prefix( 'projects' ) )
+            ->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )
+            ->size() < 1
+           )
+        )
+        {
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'projects' )->setTitle( $l[ 'admin' ][ 'projects' ] )->toArray() );
+            $tpl->assign( 'page', 'projects' );
+
+            $limit = 30;
+            $start = $limit - 30; 
+
+            $tpl->assign( 'projects', DB::$i->table( prefix( 'projects' ) )->select( '*', [ 'limit' => $start . ',' . $limit ] )->getAssoc( 'id' ) );
+            $tpl->assign( 'limit', $limit );
+            $tpl->assign( 'count', DB::$i->table( prefix( 'projects' ) )->count() );
+            
+            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
+        }
+        else
+        {
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'edit_project' )->setTitle( $l[ 'admin' ][ 'edit_project' ] )->toArray() );
+            $tpl->assign( 'page', 'projects' ); 
+            
+            $tpl->assign( 'project', DB::table( prefix( 'projects' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->getEntry( 0 )->getFields() );
+        }
+        break;
+    
     case 'users':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
         $tpl->assign( 'page', 'users' );

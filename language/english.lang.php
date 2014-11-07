@@ -50,6 +50,7 @@ $l[ 'go_back_home' ] = 'Click to go back to the homepage';
 $l[ 'admin' ][ 'home' ] = 'Home';
 $l[ 'admin' ][ 'settings' ] = 'Settings';
 $l[ 'admin' ][ 'projects' ] = 'Projects';
+$l[ 'admin' ][ 'edit_project' ] = 'Edit project';
 $l[ 'admin' ][ 'users' ] = 'Users';
 $l[ 'admin' ][ 'labels' ] = 'Issue Labels';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
@@ -95,8 +96,26 @@ $l[ 'status' ][ 'updated'] = 'The data was updated.';
 $l[ 'status' ][ 'created'] = 'The new entry was created.';
 $l[ 'status' ][ 'removed'] = 'The selected entry was removed.';
 $l[ 'status' ][ 'no_edit_permission'] = 'You don\'t have the required permission to edit this.';
+$l[ 'status' ][ 'exists_already' ] = 'This element exists already and so can\'t be added again.';
+$l[ 'status' ][ 'plugin_doesnt_exist' ] = 'The plugin doesn\'t exist';
+$l[ 'status' ][ 'enabled' ] = 'The selected entry was enabled';
+$l[ 'status' ][ 'disabled' ] = 'The selected entry was disabled';
+$l[ 'status' ][ 'doesnt_exist' ] = 'The entry doesn\'t exist';
+
+
+$l[ 'status' ][ 'type' ][ 'success' ] = 'Success';
+$l[ 'status' ][ 'type' ][ 'warning' ] = 'Warning';
+$l[ 'status' ][ 'type' ][ 'info' ] = 'Information';
+$l[ 'status' ][ 'type' ][ 'danger' ] = 'Error';
 
 $l[ 'installed_plugins' ] = 'Installed plugins';
 $l[ 'find_new_plugins' ] = 'Find new plugins';
 $l[ 'how_to_install_plugins' ] = 'How to install plugins?';
 $l[ 'plugin_doesnt_exist' ] = 'Plugin doesn\'t exist';
+
+$l[ 'project_fields' ][ 'name' ] = 'Project name';
+$l[ 'project_fields' ][ 'status' ] = 'Status';
+$l[ 'project_fields' ][ 'short' ] = 'Shorttag';
+$l[ 'project_fields' ][ 'description' ] = 'Description';
+$l[ 'project_fields' ][ 'leader_username' ] = 'Leader username';
+$l[ 'project_fields' ][ 'creation_date' ] = 'Creation Date';
