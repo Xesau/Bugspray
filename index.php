@@ -5,12 +5,13 @@ define( 'CDIR', realpath( dirname( __FILE__ ) ) );
 require_once CDIR . '/core/global.inc.php';
 
 $path = ( isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 'home' );
+$tpl->assign( 'page', $path );
 
 switch ($path)
 {
 	case 'home':
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'home' ] )->setTemplate( 'home' )->toArray() );
-		$tpl->assign( 'latest_issues', $db->table( prefix( 'issues' ) )->select( '*', array( 'limit' => '0,5', 'order' => 'id DESC' ) )->getAssoc( 'id' ) );
+		$tpl->assign( 'latest_issues', DB::table( prefix( 'issues' ) )->select( '*', array( 'limit' => '0,5', 'order' => 'id DESC' ) )->getAssoc( 'id' ) );
 		break;
 	
 	case 'projects':
@@ -19,14 +20,14 @@ switch ($path)
 		
 	case 'project':
 		if( !empty( $_GET[ 'id' ] ) && 
-			$db->table( prefix( 'projects' ) )->select( 'id', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
+			DB::table( prefix( 'projects' ) )->select( 'id', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
 		{
-			$tpl->assign( 'project', $db->table( prefix( 'projects' ) )->
-						select( '*', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->
+			$tpl->assign( 'project', DB::table( prefix( 'projects' ) )->
+						select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->
 						getEntry( 0 )->getFields() );
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $tpl->var[ 'project' ][ 'name' ] )->setTemplate( 'project' )->toArray() );
-			$tpl->assign( 'latest_issues', $db->table( prefix( 'issues' ) )->
-						select( '*', array( 'limit' => '0,5', 'order' => 'id DESC', 'where' => 'project = \'' . $db->escape( $tpl->var[ 'project' ][ 'id' ] ) . '\'' ) )->getAssoc( 'id' ) );
+			$tpl->assign( 'latest_issues', DB::table( prefix( 'issues' ) )->
+						select( '*', array( 'limit' => '0,5', 'order' => 'id DESC', 'where' => 'project = \'' . DB::escape( $tpl->var[ 'project' ][ 'id' ] ) . '\'' ) )->getAssoc( 'id' ) );
 		}
 		else
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
@@ -34,11 +35,11 @@ switch ($path)
 		
 	case 'issue':
 		if( !empty( $_GET[ 'id' ] ) && 
-                $db->table( prefix( 'issues' ) )->select( 'id', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
+                DB::table( prefix( 'issues' ) )->select( 'id', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
 		{
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'issue' ] )->setTemplate( 'issue' )->toArray() );
-			$tpl->assign( 'issue', $db->table( prefix( 'issues' ) )->
-					select( '*', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->
+			$tpl->assign( 'issue', DB::table( prefix( 'issues' ) )->
+					select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->
 					getEntry( 0 )->getFields() );
 		}
 		else
@@ -63,13 +64,13 @@ switch ($path)
 	
 	case 'newissue':
 		if( !empty( $_GET[ 'id' ] ) && 
-			$db->table( prefix( 'projects' ) )->select( 'id', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
+			DB::table( prefix( 'projects' ) )->select( 'id', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
 		{
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'new_issue' ] )->setTemplate( 'new_issue' )->toArray() );
-			$tpl->assign( 'project', $db->table( prefix( 'projects' ) )->
-						select( '*', array( 'where' => 'id = \'' . $db->escape( $_GET[ 'id' ] ) . '\'' ) )->
+			$tpl->assign( 'project', DB::table( prefix( 'projects' ) )->
+						select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->
 						getEntry( 0 )->getFields() );
-			$tpl->assign( 'issue_labels', $db->table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'label' ) );
+			$tpl->assign( 'issue_labels', DB::table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'label' ) );
 		}
 		else
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );

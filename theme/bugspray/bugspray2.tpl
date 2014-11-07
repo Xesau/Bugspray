@@ -2,6 +2,8 @@
 
 <html>
 	<head>
+    	<link rel="stylesheet" href="../../admin/tpl/css/bootstrap.min.css" />
+        <script src="../../admin/tpl/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="font-awesome.min.css" />
 		<title>{$settings.site_name|strip_tags} &bull; {$pagedata.title|strip_tags}</title>
@@ -25,3 +27,8 @@
 			</div>
 		</header>
 		<section class="content padded middle">
+            {include="template.$pagedata.template"}
+            
+		</section>
+	</body>
+</html>

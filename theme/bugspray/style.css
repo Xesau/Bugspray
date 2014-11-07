@@ -42,11 +42,6 @@ body { background-color: #f0f0f0; }
 	margin: 0;
 }
 
-/**
- * == Alignment and placement
- */
-.left   { float: left;                   }
-.right  { float: right;                  }
 .middle { margin: 0 auto; width: 1000px; }
 
 .padded { padding: 10px; }
@@ -59,7 +54,7 @@ h2 { font-weight: normal; }
  */
 header
 {
-	background-color: #2E2E2E;
+	background-color: #394046;
 	color: #ffffff;
 }
 
@@ -215,13 +210,6 @@ div.information
 	padding: 5px 0 10px 0;
 	font-size: 15px;
 	border-bottom: 1px solid #cccccc;
-}
-
-hr
-{
-    border: none;
-    border-top: 1px solid #555555;
-    margin-bottom: 1px;
 }
 
 fieldset

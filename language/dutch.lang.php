@@ -86,6 +86,8 @@ $l[ 'issues' ] = 'Tickets';
 # PROJECT DATA
 $l[ 'lead' ] = 'Projectleider';
 
+$l[ 'no_projects' ] = 'Er zijn nog geen projecten';
+
 # ISSUES
 $l[ 'issue' ] = 'Issue';
 $l[ 'new_issue' ] = 'Nieuw ticket';
