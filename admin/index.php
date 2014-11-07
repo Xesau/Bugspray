@@ -112,17 +112,20 @@ switch( $page )
             {   $langexists = file_exists( CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php'  );
                 DB::$i->table( prefix( 'settings' ) )->updateWhere(
                     [   'site_name' => $_POST[ 'site_name' ],
-                        'base_url' => $_POST[ 'base_url'],
-                        'debug_mode' => $_POST[ 'debug_mode'],
-                        'issue_labels' => $_POST[ 'issue_labels'],
-                        'admin_email' => $_POST[ 'admin_email'],
-                        'issue_project_version' => $_POST[ 'version'],
-                        'theme' => $_POST[ 'theme'],
-                        $langexists ? 'language' : '@dont_use@' => $langexists ? $_POST[ 'language'] : '@dont_use@'
+                        'base_url' => $_POST[ 'base_url' ],
+                        'debug_mode' => $_POST[ 'debug_mode' ],
+                        'issue_security' => $_POST[ 'security' ],
+                        'issue_priority' => $_POST[ 'issue_priority' ],
+                        'issue_labels' => $_POST[ 'issue_labels' ],
+                        'issue_project_version' => $_POST[ 'version' ],
+                        'admin_email' => $_POST[ 'admin_email' ],
+                        'issue_project_version' => $_POST[ 'version' ],
+                        'theme' => $_POST[ 'theme' ],
+                        $langexists ? 'language' : '@dont_use@' => $langexists ? $_POST[ 'language' ] : '@dont_use@'
                     ], 'value', 'setting'
                 );
              
-                $tpl->assign( 'settings', $db->table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
+                $tpl->assign( 'settings', DB::table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
                 $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'saved' ] );
                 require_once CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php';
                 $tpl->var['lang'] = $l;
