@@ -6,7 +6,7 @@
         <div class="col-sm-6">
             <input class="form-control" name="name" />
         </div>
-    </div>\
+    </div>
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.short}</label>
         <div class="col-sm-6">
@@ -22,7 +22,8 @@
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.upload_picture}</label>
         <div class="col-sm-6">
-            <input type="file" class="form-control" name="file" accept="image/*" />
+            <input type="file" name="file" accept="image/*" onchange="updateImage( this, event )" />
+            <img class="hidden full-width auto-height form-control" id="imgpreview" src="" />
         </div>
     </div>
     <div class="form-group">
@@ -31,3 +32,9 @@
         </div>
     </div>
 </form>
+<script>
+    $( 'input[name=file]' ).change( function( $event )
+    {
+        $( '#imgpreview' ).removeClass( 'hidden' ).attr( 'src', URL.createObjectURL( $event.target.files[0] ) );
+    } );
+</script>

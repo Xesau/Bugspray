@@ -7,6 +7,7 @@ $l[ 'admin' ][ 'settings' ] = 'Instellingen';
 $l[ 'admin' ][ 'labels' ] = 'Labels';
 $l[ 'admin' ][ 'users' ] = 'Gebruikers';
 $l[ 'admin' ][ 'projects' ] = 'Projecten';
+$l[ 'admin' ][ 'new_project' ] = 'Nieuw project';
 $l[ 'admin' ][ 'edit_project' ] = 'Bewerk project';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
 $l[ 'admin' ][ 'intro' ] = 'Dit is het instellingenpaneel van Bugspray. Hier kun je alle informatie van het systeem opvragen en wijzigen. In de menubalk aan de linkerkant staan alle categori&euml;en met instellingen.';

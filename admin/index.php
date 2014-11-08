@@ -68,6 +68,7 @@ switch( $page )
             $tpl->assign( 'page', 'projects' ); 
             
             $tpl->assign( 'project', DB::table( prefix( 'projects' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->getEntry( 0 )->getFields() );
+            $tpl->assign( 'hasImage', file_exists( CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' ) );
         }
         break;
     
@@ -77,6 +78,11 @@ switch( $page )
     
     case 'plugins':
         assignVars( 'plugins' );
+        break;
+    
+    case 'new_project':
+        $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'admin' ][ 'new_project' ] )->setTemplate( 'new_project' )->toArray() );
+        $tpl->assign( 'page', 'projects' );
         break;
     
     case 'save_project':

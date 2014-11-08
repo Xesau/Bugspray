@@ -16,6 +16,17 @@
     margin: 0;
 }
 
+
+.auto-height
+{
+     height: auto;   
+}
+
+.auto-width
+{
+     width: auto;   
+}
+
 .full-width
 {
     width: 100%;

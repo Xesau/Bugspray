@@ -50,6 +50,7 @@ $l[ 'go_back_home' ] = 'Click to go back to the homepage';
 $l[ 'admin' ][ 'home' ] = 'Home';
 $l[ 'admin' ][ 'settings' ] = 'Settings';
 $l[ 'admin' ][ 'projects' ] = 'Projects';
+$l[ 'admin' ][ 'new_project' ] = 'New project';
 $l[ 'admin' ][ 'edit_project' ] = 'Edit project';
 $l[ 'admin' ][ 'users' ] = 'Users';
 $l[ 'admin' ][ 'labels' ] = 'Issue Labels';
