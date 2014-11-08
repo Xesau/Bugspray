@@ -2,7 +2,7 @@
 
 class DB
 {
-    public static $i;
+    private static $i;
     
     public static function loaderInit( $inst )
     {
@@ -19,6 +19,11 @@ class DB
     {
         debug_backtrace();
         return self::$i->escape( $data );
+    }
+    
+    public static function lastQueries()
+    {
+        return self::$i->getLastQueries();
     }
     
 }

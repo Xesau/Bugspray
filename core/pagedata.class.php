@@ -39,6 +39,11 @@ class PageData
         $this->plugin = $plugin;
         return $this;
     }
+    
+    public function getPlugin()
+    {
+        return $this->plugin;
+    }
 	
 	public function toArray()
 	{
@@ -64,6 +69,16 @@ class PageData
         if( !in_array( $css, $this->css ) )
             $this->css[] = $css;
         return $this;
+    }
+    
+    public function getJS()
+    {
+        return $this->js;
+    }
+    
+    public function getCSS()
+    {
+        return $this->css;
     }
 
 }

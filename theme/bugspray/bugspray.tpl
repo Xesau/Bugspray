@@ -7,6 +7,12 @@
         <link rel="stylesheet" href="../../admin/tpl/css/style.css" />
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script src="../../admin/tpl/js/bootstrap.min.js"></script>
+        {loop="$pagedata.js"}
+        <script src="{$value}"></script>
+        {/loop}
+        {loop="$pagedata.css"}
+        <link rel="stylesheet" href="{$value}" />
+        {/loop}
     </head>
     
     <body>
@@ -24,7 +30,7 @@
                     </li>
                     <hr />
                     {if="LOGGED_IN"}
-                    {if="hasPermission(USERID, 'bt_admin')"}
+                    {if="hasPermission(USERID, 'bs_admin')"}
                     <li><a href="admin"><i class="glyphicon glyphicon-cog glfw"></i>{$lang.admin_panel}</a></li>
                     {/if}
                     <li><a href="logout"{if="$page == 'login'"} class="current"{/if}><i class="glyphicon glyphicon-lock glfw"></i>{$lang.logout}</a></li>

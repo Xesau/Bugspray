@@ -1,6 +1,6 @@
 <h3 class="no-spacing">{$lang.admin.edit_project}</h3>
 <hr />
-<form class="half-width form-horizontal" method="post" action="{$settings.base_url}/admin/save_project?id={$id}">
+<form class="half-width form-horizontal" method="post" action="{$settings.base_url}/admin/save_project/{$id}">
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.name}</label>
         <div class="col-sm-6">

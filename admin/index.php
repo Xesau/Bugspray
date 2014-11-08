@@ -9,10 +9,11 @@ $page = ( !empty( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : ( LOGGED_IN ? 'home' : '
 $page = ( $page == 'login' && LOGGED_IN ? 'home' : $page );
 $page = ( $page !== 'login' && !LOGGED_IN ? 'login' : $page );
 
-$page = ( hasPermission( USERID, 'bs_admin' ) ? $page : 'login' );
-if( !hasPermission( USERID, 'bs_admin' ) )
+if( LOGGED_IN )
 {
-    $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_permission' ] );
+    $page = ( hasPermission( USERID, 'bs_admin' ) ? $page : 'login' );
+    if( !hasPermission( USERID, 'bs_admin' ) )
+        $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_permission' ] );
 }
 
 if( !empty( $_GET[ 'id' ] ) )
@@ -34,12 +35,17 @@ switch( $page )
     case 'login':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'login' )->setTitle( $l[ 'login' ] )->toArray() );
         $tpl->assign( 'page', 'home' );
+    
+        if( isset( $_SESSION[ 'login_error' ] ) )
+        {
+            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'login_error' ] ] );
+            $tpl->assign( 'id', ( isset( $_SESSION[ 'login_email' ] ) ? $_SESSION[ 'login_email' ] : null ) );
+        }
+        unset( $_SESSION[ 'login_error' ] );
         break;
     
     case 'settings':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'settings' )->setTitle( $l[ 'admin' ][ 'settings' ] )->toArray() );
-        $tpl->assign( 'page', 'settings' );
-        if( !hasPermission( USERID, 'bs_update_settings' ) ) $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+        assignVars( 'settings' );
         break;
     
     case 'labels':
@@ -73,6 +79,22 @@ switch( $page )
         assignVars( 'plugins' );
         break;
     
+    case 'save_project':
+        if( empty( $_GET[ 'id' ]  ) || DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 )
+            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
+        else
+        {
+            DB::table( prefix( 'projects' ) )->updateFields( [
+                'name' => $_POST[ 'name' ],
+            ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
+            $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'updated' ] );
+        }
+        
+        # Set ID to 0 for page selector
+        $_GET[ 'id' ] = 0;
+        assignVars( 'projects' );
+        break;
+    
     case 'banuser':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
         $tpl->assign( 'page', 'users' );
@@ -99,15 +121,13 @@ switch( $page )
         break;
     
     case 'save_settings':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'settings' )->setTitle( $l[ 'admin' ][ 'settings' ] )->toArray() );
-        $tpl->assign( 'page', 'settings' );    
-    
         if( hasPermission( USERID, 'bs_update_settings' ) )
         {
             if( !empty( $_POST[ 'site_name' ] ) && !empty( $_POST[ 'base_url' ] ) && !empty( $_POST[ 'debug_mode' ] )
                     && !empty( $_POST[ 'issue_labels' ] ) && !empty( $_POST[ 'admin_email' ] ) && !empty( $_POST[ 'version' ] )
                     && !empty( $_POST[ 'theme' ] ) && !empty( $_POST[ 'language' ] ) )
-            {   $langexists = file_exists( CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php'  );
+            {
+                $langexists = file_exists( CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php'  );
                 DB::table( prefix( 'settings' ) )->updateWhere(
                     [   'site_name' => $_POST[ 'site_name' ],
                         'base_url' => $_POST[ 'base_url' ],
@@ -125,6 +145,7 @@ switch( $page )
              
                 $tpl->assign( 'settings', DB::table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
                 $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'saved' ] );
+                
                 require_once CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php';
                 $tpl->var['lang'] = $l;
             }
@@ -133,6 +154,8 @@ switch( $page )
         }
         else
             $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+    
+        assignVars( 'settings' );
         break;
     
     case 'deletelabel':
@@ -158,7 +181,7 @@ switch( $page )
                 if( DB::table( prefix( 'labels' ) )->select( 'id', [ 'where' => 'label = \'' . DB::escape( $_POST[ 'label_name' ] ) . '\'' ] )->size() == 0 )
                 {
                     DB::table( prefix( 'labels' ) )->insert( [
-                            'label' => $_POST[ 'label_name' ],
+                            'label' => $_POST[ 'label_name' ], 
                             'txtcolor' => $_POST[ 'text_color' ],
                             'bgcolor' => $_POST[ 'background_color' ]
                     ]);
@@ -177,9 +200,6 @@ switch( $page )
         break;
     
     case 'modifylabel':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
-        $tpl->assign( 'page', 'labels' );
-        
         if( hasPermission( USERID, 'bs_labels' ) )
             {
                 if( !empty( $_POST[ 'label_name']  ) && !empty( $_POST[ 'text_color']  ) && !empty( $_POST[ 'background_color']  ) )
@@ -197,7 +217,7 @@ switch( $page )
             else
                 $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
     
-        $tpl->assign( 'labels', DB::table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
+        assignVars( 'labels' );
         break;
     
     case 'logout':
@@ -251,7 +271,7 @@ switch( $page )
                 $page = PluginManager::getAdminPage( $_GET[ 'id' ] );
                 $tpl->assign( 'pagedata', $page->toArray() );
                 $tpl->assign( 'page', $_GET[ 'id' ] );
-                $tpl->assign( $plugin->getTemplateVariables( $_GET[ 'id' ] ) );
+                $tpl->assign( $page->getPlugin()->getTemplateVariables( $_GET[ 'id' ] ) );
             }
         }
         catch ( Exception $e ) {}
@@ -281,6 +301,9 @@ function assignVars( $page )
         case 'projects':
             $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'projects' )->setTitle( $l[ 'admin' ][ 'projects' ] )->toArray() );
             $tpl->assign( 'page', 'projects' );
+        
+            if( !hasPermission( USERID, 'bs_projects' ) )
+                $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
 
             $limit = ( !empty( $_GET[ 'id' ] ) ? ( $_GET[ 'id' ] + 1 ) * 30 : 30 );
             $start = $limit - 30; 
@@ -307,6 +330,12 @@ function assignVars( $page )
             $tpl->assign( 'users', DB::table( prefix( 'users' ) )->select( '*', [ 'limit' => $start . ',' . $limit ] )->getAssoc( 'id' ) );
             $tpl->assign( 'limit', $limit );
             $tpl->assign( 'count', DB::table( prefix( 'users' ) )->count() );
+            break;
+        
+        case 'settings':
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'settings' )->setTitle( $l[ 'admin' ][ 'settings' ] )->toArray() );
+            $tpl->assign( 'page', 'settings' );
+            if( !hasPermission( USERID, 'bs_update_settings' ) ) $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
             break;
     }
 }

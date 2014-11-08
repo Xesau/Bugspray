@@ -3,7 +3,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">{$lang.email}</label>
         <div class="col-sm-3">
-            <input class="form-control" name="email" type="email" />
+            <input class="form-control" name="email" value="{$id}" type="email" />
         </div>
     </div>
     <div class="form-group">
