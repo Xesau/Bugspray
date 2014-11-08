@@ -133,7 +133,7 @@ $l[ 'plugin_install_desc' ] = '<ol>
 
 $l[ 'project_fields' ][ 'name' ] = 'Projectnaam';
 $l[ 'project_fields' ][ 'status' ] = 'Status';
-$l[ 'project_fields' ][ 'short' ] = 'Korte dag';
+$l[ 'project_fields' ][ 'short' ] = 'Korte tag';
 $l[ 'project_fields' ][ 'description' ] = 'Omschrijving';
 $l[ 'project_fields' ][ 'leader_username' ] = 'Gebruikersnaam projectleider';
 $l[ 'project_fields' ][ 'creation_date' ] = 'Opzetdatum';
