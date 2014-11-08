@@ -85,7 +85,8 @@ $db->createTable( prefix( 'users' ), [
     ],
     'email' => [
         'type' => 'varchar',
-        'length' => 255
+        'length' => 255,
+        'unique' => true
     ],
     'displayname' => [
         'type' => 'varchar',

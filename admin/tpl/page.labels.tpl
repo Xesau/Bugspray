@@ -1,6 +1,6 @@
 <h3 class="no-spacing">{$lang.admin.labels}</h3>
 <hr />
-{if="hasPermission( USERID, 'bt_labels_remove' )"}
+{if="hasPermission( USERID, 'bs_labels' )"}
 {loop="labels"}
 <div class="label" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$value.label}</div> <a href="deletelabel/{$key}" class="glyphicon glyphicon-remove"></a>&nbsp;&nbsp;
 {/loop}
@@ -8,8 +8,9 @@
 {loop="labels"}
 <div class="label" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$value.label}</div>&nbsp;&nbsp;
 {/loop}
-{/if}
-{if="hasPermission( USERID, 'bt_labels_create' )"}<hr />
+{/if} 
+<hr />
+{if="hasPermission( USERID, 'bs_labels' )"}<hr />
 <form class="form-horizontal pull-left half-width" method="post" action="{$settings.base_url}/admin/newlabel">
     <h3>{$lang.new_label}</h3>
     <div class="form-group">

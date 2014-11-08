@@ -9,6 +9,7 @@ $l[ 'admin' ][ 'users' ] = 'Gebruikers';
 $l[ 'admin' ][ 'projects' ] = 'Projecten';
 $l[ 'admin' ][ 'edit_project' ] = 'Bewerk project';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
+$l[ 'admin' ][ 'intro' ] = 'Dit is het instellingenpaneel van Bugspray. Hier kun je alle informatie van het systeem opvragen en wijzigen. In de menubalk aan de linkerkant staan alle categori&euml;en met instellingen.';
 
 # SITE SETTINGS
 $l[ 'site_name' ] = 'Sitenaam';
@@ -136,3 +137,4 @@ $l[ 'project_fields' ][ 'short' ] = 'Korte dag';
 $l[ 'project_fields' ][ 'description' ] = 'Omschrijving';
 $l[ 'project_fields' ][ 'leader_username' ] = 'Gebruikersnaam projectleider';
 $l[ 'project_fields' ][ 'creation_date' ] = 'Opzetdatum';
+$l[ 'project_fields' ][ 'upload_picture' ] = 'Upload afbeelding';

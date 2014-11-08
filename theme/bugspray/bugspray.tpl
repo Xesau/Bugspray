@@ -14,7 +14,7 @@
             <nav>
                 <ul class="no-spacing">
                     <li><a href="./"{if="$page == 'home'"} class="current"{/if}><i class="glyphicon glyphicon-home glfw"></i>{$lang.home}</a></li>
-                    <li class="haschildren">
+                    <li class="haschildren {if="$projectOpen"} open{/if}">
                         <a href="projects"{if="$page == 'projects'"} class="current"{/if}><i class="glyphicon glyphicon-tasks glfw"></i>{$lang.projects}</a>
                         <ul>
                             {loop="$projects"}

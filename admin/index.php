@@ -9,6 +9,12 @@ $page = ( !empty( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : ( LOGGED_IN ? 'home' : '
 $page = ( $page == 'login' && LOGGED_IN ? 'home' : $page );
 $page = ( $page !== 'login' && !LOGGED_IN ? 'login' : $page );
 
+$page = ( hasPermission( USERID, 'bs_admin' ) ? $page : 'login' );
+if( !hasPermission( USERID, 'bs_admin' ) )
+{
+    $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_permission' ] );
+}
+
 if( !empty( $_GET[ 'id' ] ) )
     $tpl->assign( 'id', $_GET[ 'id' ] );
 else
@@ -37,43 +43,17 @@ switch( $page )
         break;
     
     case 'labels':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
-        $tpl->assign( 'page', 'labels' );
-    
-        $tpl->assign( 'labels', DB::$i->table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
+        assignVars( 'labels' );
         break;
     
     case 'projects':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'projects' )->setTitle( $l[ 'admin' ][ 'projects' ] )->toArray() );
-        $tpl->assign( 'page', 'projects' );
-    
-        $limit = ( !empty( $_GET[ 'id' ] ) ? ( $_GET[ 'id' ] + 1 ) * 30 : 30 );
-        $start = $limit - 30; 
-        
-        $tpl->assign( 'projects', DB::$i->table( prefix( 'projects' ) )->select( '*', [ 'limit' => $start . ',' . $limit ] )->getAssoc( 'id' ) );
-        $tpl->assign( 'limit', $limit );
-        $tpl->assign( 'count', DB::$i->table( prefix( 'projects' ) )->count() );
+        assignVars( 'projects' );
         break;
     
     case 'project':
-        if( empty( $_GET[ 'id' ] ) ||
-           ( !empty( $_GET[ 'id' ] )
-            && DB::table( prefix( 'projects' ) )
-            ->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )
-            ->size() < 1
-           )
-        )
+        if( empty( $_GET[ 'id' ] ) || ( !empty( $_GET[ 'id' ] ) && DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 ) )
         {
-            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'projects' )->setTitle( $l[ 'admin' ][ 'projects' ] )->toArray() );
-            $tpl->assign( 'page', 'projects' );
-
-            $limit = 30;
-            $start = $limit - 30; 
-
-            $tpl->assign( 'projects', DB::$i->table( prefix( 'projects' ) )->select( '*', [ 'limit' => $start . ',' . $limit ] )->getAssoc( 'id' ) );
-            $tpl->assign( 'limit', $limit );
-            $tpl->assign( 'count', DB::$i->table( prefix( 'projects' ) )->count() );
-            
+            assignVars( 'projects' );
             $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
         }
         else
@@ -86,23 +66,11 @@ switch( $page )
         break;
     
     case 'users':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
-        $tpl->assign( 'page', 'users' );
-        
-        $limit = ( !empty( $_GET[ 'id' ] ) ? ( $_GET[ 'id' ] + 1 ) * 30 : 30 );
-        $start = $limit - 30; 
-        
-        $tpl->assign( 'users', DB::$i->table( prefix( 'users' ) )->select( '*', [ 'limit' => $start . ',' . $limit ] )->getAssoc( 'id' ) );
-        $tpl->assign( 'limit', $limit );
-        $tpl->assign( 'count', DB::$i->table( prefix( 'users' ) )->count() );
+        assignVars( 'users' );
         break;
     
     case 'plugins':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'plugins' )->setTitle( $l[ 'admin' ][ 'plugins' ] )->toArray() );
-        $tpl->assign( 'page', 'plugins' );
-        
-        $tpl->assign( 'plugins', PluginManager::getPlugins() );
-        $tpl->assign( 'disabledPlugins', PluginManager::getDisabledPlugins() );
+        assignVars( 'plugins' );
         break;
     
     case 'banuser':
@@ -113,12 +81,12 @@ switch( $page )
         {
             if( !empty( $_POST[ 'reason' ] ) && !empty( $_POST[ 'expire' ] ) )
                 if( userExists( $_GET[ 'id' ] ) && !hasPermission( $_GET[ 'id' ], 'bs_unbannable' ) )
-                {   $table = DB::$i->table( prefix( 'users' ) );
+                {   $table = DB::table( prefix( 'users' ) );
                     $table->update( [
                         'banned' => 1,
                         'ban_reason' => $_POST[ 'reason' ],
                         'ban_expire' => $_POST[ 'expire' ]
-                    ], [ 'where' => 'id = \'' . DB::$i->escape( $_GET[ 'id' ] ) . '\'' ] );
+                    ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
                     $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'user_banned' ] );
                 }
                 else
@@ -140,7 +108,7 @@ switch( $page )
                     && !empty( $_POST[ 'issue_labels' ] ) && !empty( $_POST[ 'admin_email' ] ) && !empty( $_POST[ 'version' ] )
                     && !empty( $_POST[ 'theme' ] ) && !empty( $_POST[ 'language' ] ) )
             {   $langexists = file_exists( CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php'  );
-                DB::$i->table( prefix( 'settings' ) )->updateWhere(
+                DB::table( prefix( 'settings' ) )->updateWhere(
                     [   'site_name' => $_POST[ 'site_name' ],
                         'base_url' => $_POST[ 'base_url' ],
                         'debug_mode' => $_POST[ 'debug_mode' ],
@@ -168,13 +136,10 @@ switch( $page )
         break;
     
     case 'deletelabel':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
-        $tpl->assign( 'page', 'labels' );
-        
         if( isset( $_GET[ 'id' ] ) )
-            if( hasPermission( USERID, 'bs_labels_remove' ) )
+            if( hasPermission( USERID, 'bs_labels' ) )
             {
-                DB::$i->table( prefix( 'labels' ) )->delete( [ 'where' => 'id = \'' . DB::$i->escape( $_GET[ 'id' ] ) . '\'' ] );
+                DB::table( prefix( 'labels' ) )->delete( [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
                 $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'removed' ] );
             }
             else
@@ -182,14 +147,11 @@ switch( $page )
         else
             $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
         
-        $tpl->assign( 'labels', DB::$i->table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
+        assignVars( 'labels' );
         break;
     
     case 'newlabel':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
-        $tpl->assign( 'page', 'labels' );
-        
-        if( hasPermission( USERID, 'bs_labels_create' ) )
+        if( hasPermission( USERID, 'bs_labels' ) )
         {
             if( !empty( $_POST[ 'label_name']  ) && !empty( $_POST[ 'text_color']  ) && !empty( $_POST[ 'background_color']  ) )
             {
@@ -211,22 +173,22 @@ switch( $page )
         else
             $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
         
-        $tpl->assign( 'labels', DB::$i->table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
+        assignVars( 'labels' );
         break;
     
     case 'modifylabel':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
         $tpl->assign( 'page', 'labels' );
         
-        if( hasPermission( USERID, 'bs_labels_create' ) )
+        if( hasPermission( USERID, 'bs_labels' ) )
             {
                 if( !empty( $_POST[ 'label_name']  ) && !empty( $_POST[ 'text_color']  ) && !empty( $_POST[ 'background_color']  ) )
                 {
-                    DB::$i->table( prefix( 'labels' ) )->updateFields( [
+                    DB::table( prefix( 'labels' ) )->updateFields( [
                             'label' => $_POST[ 'label_name' ],
                             'txtcolor' => $_POST[ 'text_color' ],
                             'bgcolor' => $_POST[ 'background_color' ]
-                    ], [ 'where' => 'id = \'' . DB::$i->escape( $_POST[ 'label' ] ) . '\'' ] );
+                    ], [ 'where' => 'id = \'' . DB::escape( $_POST[ 'label' ] ) . '\'' ] );
                     $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'updated' ] );
                 }
                 else
@@ -235,7 +197,7 @@ switch( $page )
             else
                 $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
     
-        $tpl->assign( 'labels', DB::$i->table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
+        $tpl->assign( 'labels', DB::table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
         break;
     
     case 'logout':
@@ -244,7 +206,7 @@ switch( $page )
         break;
     
     case 'disable_plugin':
-        if( hasPermission( USERID, 'bs_plugin_disable' ) )
+        if( hasPermission( USERID, 'bs_plugins' ) )
         {
             if( !empty( $_GET[ 'id' ] ) && PluginManager::hasPlugin( $_GET[ 'id' ] ) )
             {
@@ -257,13 +219,12 @@ switch( $page )
         else
             $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
         
-        $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'admin' ][ 'plugins' ] )->setTemplate( 'plugins' )->toArray() );
-        $tpl->assign( 'page', 'plugins' );
-        $tpl->assign( 'plugins', PluginManager::getPlugins() );
+        PluginManager::updateDisables();
+        assignVars( 'plugins' );
         break;
     
     case 'enable_plugin':
-        if( hasPermission( USERID, 'bs_plugin_enable' ) )
+        if( hasPermission( USERID, 'bs_plugins' ) )
         {
             if( !empty( $_GET[ 'id' ] ) && PluginManager::hasPluginDisabled( $_GET[ 'id' ] ) )
             {
@@ -276,11 +237,8 @@ switch( $page )
         else
             $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
         
-        $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'admin' ][ 'plugins' ] )->setTemplate( 'plugins' )->toArray() );
-        $tpl->assign( 'page', 'plugins' );
-    
-        $tpl->assign( 'plugins', PluginManager::getPlugins() );
-        $tpl->assign( 'disabledPlugins', PluginManager::getDisabledPlugins() );
+        PluginManager::updateDisables();
+        assignVars( 'plugins' );
         break;
     
     case 'plugin':
@@ -303,6 +261,54 @@ switch( $page )
         $tpl->assign( 'pagedata', ( new PageData )->setTemplate( 'error' )->setTitle( $l[ 'error' ] )->toArray() );
         $tpl->assign( 'page', '' );
         break;
+}
+
+
+function assignVars( $page )
+{
+    global $tpl;
+    global $l;
+    switch( $page )
+    {
+        case 'plugins':
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'plugins' )->setTitle( $l[ 'admin' ][ 'plugins' ] )->toArray() );
+            $tpl->assign( 'page', 'plugins' );
+
+            $tpl->assign( 'plugins', PluginManager::getPlugins() );
+            $tpl->assign( 'disabledPlugins', PluginManager::getDisabledPlugins() );
+            break;
+        
+        case 'projects':
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'projects' )->setTitle( $l[ 'admin' ][ 'projects' ] )->toArray() );
+            $tpl->assign( 'page', 'projects' );
+
+            $limit = ( !empty( $_GET[ 'id' ] ) ? ( $_GET[ 'id' ] + 1 ) * 30 : 30 );
+            $start = $limit - 30; 
+
+            $tpl->assign( 'projects', DB::table( prefix( 'projects' ) )->select( '*', [ 'limit' => $start . ',' . $limit ] )->getAssoc( 'id' ) );
+            $tpl->assign( 'limit', $limit );
+            $tpl->assign( 'count', DB::table( prefix( 'projects' ) )->count() );
+            break;
+        
+        case 'labels':
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
+            $tpl->assign( 'page', 'labels' );
+
+            $tpl->assign( 'labels', DB::table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
+            break;
+        
+        case 'users':
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
+            $tpl->assign( 'page', 'users' );
+
+            $limit = ( !empty( $_GET[ 'id' ] ) ? ( $_GET[ 'id' ] + 1 ) * 30 : 30 );
+            $start = $limit - 30; 
+
+            $tpl->assign( 'users', DB::table( prefix( 'users' ) )->select( '*', [ 'limit' => $start . ',' . $limit ] )->getAssoc( 'id' ) );
+            $tpl->assign( 'limit', $limit );
+            $tpl->assign( 'count', DB::table( prefix( 'users' ) )->count() );
+            break;
+    }
 }
 
 

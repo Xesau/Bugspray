@@ -13,7 +13,7 @@
         <section class="sidebar">
             <nav>
                 <ul class="no-spacing">
-                    {if="LOGGED_IN"}
+                    {if="LOGGED_IN && hasPermission( USERID, 'bs_admin' )"}
                     <li><a href="./"{if="$page == 'home'"} class="current"{/if}><i class="glyphicon glyphicon-home glfw"></i>{$lang.admin.home}</a></li>
                     <li><a href="settings"{if="$page == 'settings'"} class="current"{/if}><i class="glyphicon glyphicon-cog glfw"></i>{$lang.admin.settings}</a></li>
                     <li><a href="labels"{if="$page == 'labels'"} class="current"{/if}><i class="glyphicon glyphicon-tags glfw"></i>{$lang.admin.labels}</a></li>

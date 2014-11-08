@@ -5,8 +5,8 @@
     <b>{$value->getName()}</b>
     {$value->getVersion()}
     ({if="$value->getWebsite() == ''"}{$value->getAuthor}{else}<a href="{$value->getWebsite()}">{$value->getAuthor()}</a>{/if})
-    <br /><br />
-    <small><a href="disable_plugin/{$value->getName()}">{$lang.disable_plugin}</a></small></div>
+    {if="hasPermission( USERID, 'bs_plugins')"}<br /><br />
+    <small><a href="disable_plugin/{$value->getName()}">{$lang.disable_plugin}</a></small></div>{/if}
 {/loop}
 {if="empty($plugins)"}{$lang.no_plugins}{/if}
 <hr />
@@ -14,8 +14,8 @@
 {loop="disabledPlugins"}
 <div class="entry">
     <b>{$value->getName()}</b> {$value->getVersion()} ({if="$value->getWebsite() == ''"}{$value->getAuthor}{else}<a href="{$value->getWebsite()}">{$value->getAuthor()}</a>{/if})
-    <br /><br />
-    <small><a href="enable_plugin/{$value->getName()}">{$lang.enable_plugin}</a></small>
+    {if="hasPermission( USERID, 'bs_plugins')"}<br /><br />
+    <small><a href="enable_plugin/{$value->getName()}">{$lang.enable_plugin}</a></small>{/if}
 </div>
 {/loop}
 {if="empty( $disabledPlugins )"}{$lang.no_plugins_disabled}{/if}

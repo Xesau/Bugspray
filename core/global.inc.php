@@ -98,7 +98,7 @@ if( !IN_INSTALL )
      */
     if( !NO_PLUGINS )
     {
-        PluginManager::init( DB::table( prefix( 'plugins_disabled' ) )->select( '*' )->getAssoc( 'name' ) );
+        PluginManager::updateDisables();
         foreach( glob( CDIR . '/plugins/*.plugin.php' ) as $file )
             try { include $file; } catch ( Exception $e ) { echo 'Can\'t load plugin' . $file; }
     }

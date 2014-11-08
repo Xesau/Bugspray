@@ -4,7 +4,7 @@
             <label class="col-sm-4 control-label">{$lang.title}</label>
             <div class="col-sm-6"><input class="form-control" name="title" placeholder="{$lang.title}"></div>
         </div>
-        {if="$settings.issue_security == '1'"}<div class="form-group">
+        {if="$settings.issue_security == 'true'"}<div class="form-group">
             <label class="col-sm-4 control-label">{$lang.security_level}</label>
             <div class="col-sm-6">
                 <select class="form-control" name="security">
@@ -13,7 +13,7 @@
                 </select>
             </div>
         </div>{/if}
-        {if="$settings.issue_priority == '1'"}<div class="form-group">
+        {if="$settings.issue_priority == 'true'"}<div class="form-group">
             <label class="col-sm-4 control-label">{$lang.priority}</label>
             <div class="col-sm-6">
                 <select class="form-control" name="priority">
@@ -23,11 +23,11 @@
                 </select>
             </div>
         </div>{/if}
-        {if="$settings.issue_project_version == '1'"}<div class="form-group">
+        {if="$settings.issue_project_version == 'true'"}<div class="form-group">
             <label class="col-sm-4 control-label">{$lang.version}</label>
             <div class="col-sm-6"><input class="form-control" name="version" placeholder="{$lang.version}"></div>
         </div>{/if}
-        {if="$settings.issue_labels == '1' && count( $issue_labels ) > 0 "}<div class="form-group">
+        {if="$settings.issue_labels == 'true' && count( $issue_labels ) > 0 "}<div class="form-group">
             <label class="col-sm-4 control-label">{$lang.label}</label>
             <div class="col-sm-6">{loop="$issue_labels"}<input name="label" type="radio" value="{$key}"><span class="label robs" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$key}</span>{/loop}</div>
         </div>{/if}

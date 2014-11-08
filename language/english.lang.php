@@ -54,6 +54,7 @@ $l[ 'admin' ][ 'edit_project' ] = 'Edit project';
 $l[ 'admin' ][ 'users' ] = 'Users';
 $l[ 'admin' ][ 'labels' ] = 'Issue Labels';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
+$l[ 'admin' ][ 'intro' ] = 'This is the settings panel of Bugspray. Here you can read and alter all the information of the system. All the setting categories are in the menu bar on the left hand side of the screen.'; 
 $l[ 'admin_panel' ] = 'Administration Panel';
 
 $l[ 'total' ] = 'Total';
@@ -119,3 +120,4 @@ $l[ 'project_fields' ][ 'short' ] = 'Shorttag';
 $l[ 'project_fields' ][ 'description' ] = 'Description';
 $l[ 'project_fields' ][ 'leader_username' ] = 'Leader username';
 $l[ 'project_fields' ][ 'creation_date' ] = 'Creation Date';
+$l[ 'project_fields' ][ 'upload_picture' ] = 'Upload picture';

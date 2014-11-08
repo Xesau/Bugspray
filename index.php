@@ -29,7 +29,13 @@ switch ($path)
 						getEntry( 0 )->getFields() );
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $tpl->var[ 'project' ][ 'name' ] )->setTemplate( 'project' )->toArray() );
 			$tpl->assign( 'latest_issues', DB::table( prefix( 'issues' ) )->
-						select( '*', array( 'limit' => '0,5', 'order' => 'id DESC', 'where' => 'project = \'' . DB::escape( $tpl->var[ 'project' ][ 'id' ] ) . '\'' ) )->getAssoc( 'id' ) );
+						select( '*', [
+                            'limit' => '0,5', 'order' => 'id DESC',
+                            'where' => [
+                                'project = \'' . DB::escape( $tpl->var[ 'project' ][ 'id' ] ) . '\'',
+                                ( hasPermission( USERID, 'bs_private_issues' ) ? : 'security = \'public\'' )
+                            ]
+                        ] )->getAssoc( 'id' ) );
 		}
 		else
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );

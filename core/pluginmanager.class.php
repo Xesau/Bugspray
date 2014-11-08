@@ -8,9 +8,9 @@ class PluginManager
     private static $disabledPlugins = [];
     private static $disables = null;
     
-    public static function init( $disables )
+    public static function updateDisables()
     {
-        self::$disables = $disables;
+        self::$disables = DB::table( prefix( 'plugins_disabled' ) )->select( '*' )->getAssoc( 'name' );
     }
     
     /**
