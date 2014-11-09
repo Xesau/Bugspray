@@ -92,8 +92,8 @@ class MiqroDB
             $fieldBuilder->set( 'comment', $value[ 'comment' ] );
             
             if( $value[ 'primary' ] == true ) $primaries[] = $key;
-            if( $value[ 'unique'] == true ) $uniques[] = $key;
-            if( $value[ 'fulltext'] == true ) $fulltexts[] = $key;
+            if( $value[ 'unique' ] == true ) $uniques[] = $key;
+            if( $value[ 'fulltext' ] == true ) $fulltexts[] = $key;
             
             $fieldSQLs[] = $fieldBuilder->__toString();
         }
@@ -176,7 +176,7 @@ class MiqroTable
         if( !is_array( $options ) )
             throw new MiqroException( 'Parameter $options isn\'t an array', 3 );
         
-        $builder = new MiqroBuilder( $this->miqro, 'DELETE FROM `$table` ' );
+        $builder = new MiqroBuilder( $this->miqro, 'DELETE FROM $table ' );
         $builder->set( 'table', $this->tablename );
         
         if( !empty( $options[ 'where' ] ) )
@@ -206,7 +206,7 @@ class MiqroTable
         if( !is_array( $options ) )
             throw new MiqroException( 'Options parameters not an array', 3 ); 
             
-        $sql = 'UPDATE `$table` SET $data ';
+        $sql = 'UPDATE $table SET $data ';
         
         $sqldata = [];
         
@@ -248,7 +248,7 @@ class MiqroTable
         
         foreach( $fields as $key => $value )
         {
-            $builder = new MiqroBuilder( $this->miqro, 'UPDATE `$table` SET `$update` = \'$value\' WHERE $where = \'$key\'' );
+            $builder = new MiqroBuilder( $this->miqro, 'UPDATE $table SET `$update` = \'$value\' WHERE $where = \'$key\'' );
             $builder->set( 'table', $this->tablename )->set( 'where', $where )->set( 'update', $update );
             $builder->set( 'key', $key )->set( 'value', $value );
 
@@ -273,7 +273,7 @@ class MiqroTable
         if( !is_array( $options ) )
             throw new MiqroException( 'Parameter $fields not an array', 3 ); 
         
-        $builder = new MiqroBuilder( $this->miqro, 'UPDATE `$table` SET $updateData ' );
+        $builder = new MiqroBuilder( $this->miqro, 'UPDATE $table SET $updateData ' );
         
         $update = '';
         foreach( $fields as $key => $value )
@@ -315,9 +315,9 @@ class MiqroTable
             $fields = explode( ',', $fields );
         
         if( !is_array($fields) && trim( $fields ) !== '*' )
-            $sql = 'SELECT `$fields` FROM `$table` ';
+            $sql = 'SELECT $fields FROM $table ';
         else
-            $sql = 'SELECT * FROM `$table` ';
+            $sql = 'SELECT * FROM $table ';
     
         if( isset ( $options[ 'where' ] ) )
         {
@@ -327,7 +327,7 @@ class MiqroTable
                 
             else
             {
-                $where = '';
+                $where = [];
                 
                 foreach( $options[ 'where' ] as $req  )
                     $where[] = $req;
@@ -365,7 +365,7 @@ class MiqroTable
         if( !is_array( $param ) )
             throw new MiqroException( 'Insert parameters not an array', 3 );
         
-        $sql = 'INSERT INTO `$table` (';
+        $sql = 'INSERT INTO $table (';
         
         $fields = '';
         foreach( $param as $key => $value )
@@ -391,7 +391,7 @@ class MiqroTable
     /**
      * Insert a many rows into the table
      * 
-     * @param param assoc: The field>value data. Structure:
+     * @param entries assoc: The field>value data. Structure:
      *   [ 'field' => 'row' ],
      *   [ 'field' => 'row' ],
      *   [ 'field' => 'row' ]
@@ -425,7 +425,7 @@ class MiqroTable
      */
     public function count( $options = [] )
     {
-        $builder = new MiqroBuilder( $this->miqro, 'SELECT COUNT(*) FROM `$table`' );
+        $builder = new MiqroBuilder( $this->miqro, 'SELECT COUNT(*) FROM $table' );
         $builder->set( 'table', $this->tablename );
         
         if( !empty( $options[ 'where' ] ) )
