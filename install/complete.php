@@ -100,10 +100,15 @@ $db->createTable( prefix( 'users' ), [
         'type' => 'varchar',
         'length' => 20
     ],
+    'activated' => [
+        'type' => 'enum',
+        'data' => "'0','1'",
+        'default' => '0'
+    ],
     'banned' => [
         'type' => 'enum',
         'data' => "'0','1'",
-        'default' => '0',
+        'default' => '0'
     ],
     'ban_reason' => [
         'type' => 'varchar',
@@ -132,6 +137,7 @@ $db->table( prefix( 'users' ) )->insert( [
     'displayname' => $_POST[ 'admin_name' ],
     'password' => crypt( $_POST[ 'admin_password' ] . $salt, '$9x$' ),
     'salt' => $salt,
+    'activated' => '1',
     'banned' => '0',
     'ban_reason' => '',
     'ban_expire' => '',
@@ -155,6 +161,11 @@ $db->createTable( prefix( 'user_permissions' ), [
 
 $db->table( prefix( 'user_permissions' ) )->insert( [ 'id' => $uid, 'permissions' => '*' ] );
 
+$db->createTable( prefix( 'activation_keys' ), [
+    'id' => [ 'primary' => true ],
+    'key' => [ 'length' => 5 ];
+], [ 'ifNotExists' => 'true' ] );
+
 $db->createTable( prefix( 'projects' ), [
     'id' => [
         'autoIncrement' => true,
@@ -174,7 +185,7 @@ $db->createTable( prefix( 'projects' ), [
     ],
     'project_lead' => [],
     'date_created' => []
-], [ 'ifNotExists' => true ]);
+], [ 'ifNotExists' => true ] );
 
 $db->createTable( prefix( 'issues' ), [
     'id' => [
@@ -211,7 +222,7 @@ $db->createTable( prefix( 'issues' ), [
     'editor' => [
         'null' => true
     ]
-], [ 'ifNotExists' => true ]);
+], [ 'ifNotExists' => true ] );
 
 $db->createTable( prefix( 'labels' ), [
     'id' => [
