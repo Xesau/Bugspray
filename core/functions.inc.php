@@ -36,7 +36,7 @@ function userPermissions( $userid )
 function hasPermission( $userid, $permission )
 {
     $perms = userPermissions( $userid );
-    return in_array( $permission, $perms ) || in_array( '*', $perms );
+    return in_array( $permission, $perms ) || ( in_array( '*', $perms ) && !in_array( '-' . $permission, $perms ) );
 }
 
 function userData( $userid, $field )
