@@ -18,7 +18,7 @@ if( !empty( $_POST[ 'email' ] ) &&
             DB::table( prefix( 'users' ) )->insert( [
                 'email' => $_POST[ 'email' ],
                 'displayname' => $_POST[ 'fullname' ],
-                'password' => password_hash( $_POST[ 'admin_password' ], PASSWORD_BCRYPT, [ 'salt' => $salt ] ),
+                'password' => password_hash( $_POST[ 'password' ], PASSWORD_BCRYPT, [ 'salt' => $salt ] ),
                 'salt' => $salt,
                 'activated' => '0',
                 'banned' => '0',

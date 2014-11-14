@@ -24,6 +24,8 @@
         <div class="col-sm-4"><input class="btn btn-primary" type="submit" value="{$lang.login}"></div>
     </div>
 </form>
+<div class="clearfix hidden visible-xs visible-md"></div>
+<hr class="hidden visible-xs visible-md" />
 <form class="pull-left form-horizontal half-width" autocomplete="off"  action="send/register" method="post">
     <h2 class="no-spacing">{$lang.register}</h2>
     <hr />
