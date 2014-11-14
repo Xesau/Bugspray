@@ -26,4 +26,9 @@ class DB
         return self::$i->getLastQueries();
     }
     
+    public static function mysqli() 
+    {
+        return self::$i->mysqli;
+    }
+    
 }

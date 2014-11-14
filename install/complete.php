@@ -130,12 +130,12 @@ $db->createTable( prefix( 'users' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
-$salt = substr( md5( rand(0,9999999) ), 0, 20 );
+$salt = substr( md5( rand( 0, 9999999 ) ), 0, 22 );
 
 $db->table( prefix( 'users' ) )->insert( [
     'email' => $_POST[ 'admin_email' ],
     'displayname' => $_POST[ 'admin_name' ],
-    'password' => crypt( $_POST[ 'admin_password' ] . $salt, '$9x$' ),
+    'password' => password_hash( $_POST[ 'admin_password' ], PASSWORD_BCRYPT, [ 'salt' => $salt ] ),
     'salt' => $salt,
     'activated' => '1',
     'banned' => '0',
@@ -163,7 +163,7 @@ $db->table( prefix( 'user_permissions' ) )->insert( [ 'id' => $uid, 'permissions
 
 $db->createTable( prefix( 'activation_keys' ), [
     'id' => [ 'primary' => true ],
-    'key' => [ 'length' => 5 ];
+    'activation_code' => [ 'length' => 5 ]
 ], [ 'ifNotExists' => 'true' ] );
 
 $db->createTable( prefix( 'projects' ), [
@@ -292,3 +292,10 @@ if( $template == 'installed' ) $tpl->assign( 'settings', $db->table( prefix( 'se
 if( $template == 'installed' ) $tpl->assign( 'admin', $db->table( prefix( 'users' ) )->select( '*', [ 'where' => 'id = \'' . $uid . '\'' ] )->getEntry( 0 )->getFields() );
 
 $tpl->draw( $template );
+
+if( isset( $db ) )
+{
+    echo '<pre>';
+    var_dump( $db->getLastQueries() );
+    echo '</pre>';
+}

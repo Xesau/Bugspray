@@ -74,6 +74,8 @@ $l[ 'status' ][ 'plugin_doesnt_exist' ] = 'De plugin bestaat niet';
 $l[ 'status' ][ 'enabled' ] = 'Het geselecteerde element was ingeschakeld';
 $l[ 'status' ][ 'disabled' ] = 'Het geselecteerde element was uitgeschakeld';
 $l[ 'status' ][ 'doesnt_exist' ] = 'Dit element bestaat niet';
+$l[ 'status' ][ 'login_password' ] = 'Het opgegeven wachtwoord is onjuist.';
+$l[ 'status' ][ 'login_email' ] = 'Het opgegeven e-mailadres is onjuist.';
 
 # STATUS MESSAGE TYPES
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Succes';
@@ -113,7 +115,12 @@ $l[ 'error' ] = 'Foutmelding';
 $l[ 'page_not_found' ] = 'De opgevraagde pagina kon niet worden gevonden. Als u denkt dat dit een fout is, meld dat dan aan de administrator.';
 
 # LOGIN ERRORS
-$l[ 'login_email' ] = 'Het opgegeven e-mailadres was niet gevonden.';
+$l[ 'status' ][ 'login_email' ] = 'Het opgegeven e-mailadres was niet gevonden.';
+$l[ 'status' ][ 'login_password' ] = 'Het opgegeven wachtwoord klopt niet.';
+
+# REGISTER ERRORS
+$l[ 'status' ][ 'register_email_syntax' ] = 'Het opgegeven e-mailadres kan niet bestaan. Bij een fout, <a href="mailto:%admin_email%">stuur de eigenaar een e-mailbericht</a>.';
+$l[ 'status' ][ 'register_fields' ] = 'Niet alle velden zijn ingevuld. Alle velden zijn vereist.';
 
 # PLUGIS
 $l[ 'installed_plugins' ] = 'Ge&iuml;nstaleerde plugins';
@@ -129,6 +136,15 @@ $l[ 'plugin_install_desc' ] = '<ol>
 <li>Open de map "plugins"</li>
 <li>Sleep het gedownload mapje en .plugin.php-bestand in de de pluginmap</li>
 </ol>';
+
+# REGISTRATION EMAIL
+$l[ 'registration_mail_title' ] = 'Uw registratie op %sitename%';
+$l[ 'registration_mail_text' ] = 'BHallo %name%,<br /><br />
+U hebt u zojuist geregistreerd op %sitename%.<br /><br />Om uw account te activeren moet u op deze activatielink klikken: <a href="%activation_link%">Activeer mijn account!</a>. Als je geen links kunt open, voer dan deze code in op de activatiepagina:<br /><br />
+%code%<br />
+%activation_page%<br /><br />
+Met vriendelijke groet,
+%sitename% team.';
 
 # PROJECT FIELDS
 

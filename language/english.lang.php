@@ -104,7 +104,6 @@ $l[ 'status' ][ 'enabled' ] = 'The selected entry was enabled';
 $l[ 'status' ][ 'disabled' ] = 'The selected entry was disabled';
 $l[ 'status' ][ 'doesnt_exist' ] = 'The entry doesn\'t exist';
 
-
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Success';
 $l[ 'status' ][ 'type' ][ 'warning' ] = 'Warning';
 $l[ 'status' ][ 'type' ][ 'info' ] = 'Information';
@@ -122,3 +121,11 @@ $l[ 'project_fields' ][ 'description' ] = 'Description';
 $l[ 'project_fields' ][ 'leader_username' ] = 'Leader username';
 $l[ 'project_fields' ][ 'creation_date' ] = 'Creation Date';
 $l[ 'project_fields' ][ 'upload_picture' ] = 'Upload picture';
+
+$l[ 'registration_mail_title' ] = 'Your registration on %sitename%';
+$l[ 'registration_mail_text' ] = 'Hello %name%,<br /><br />
+You just registered on %sitename%.<br /><br />To activate your account, please click this link: <a href="%activation_link%">Activate my account</a>. If you can\'t open links, enter this code at the activation page:<br /><br />
+%code%<br />
+%activation_page%<br /><br />
+Best regards,
+%sitename% team.';

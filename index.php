@@ -60,7 +60,21 @@ switch ($path)
 		
 		if( isset( $_SESSION[ 'login_error' ] ) )
         	$tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'login_' . $_SESSION[ 'login_error' ] ] );
+        
+        if( isset( $_SESSION[ 'register_error' ] ) )
+            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'register_' . $_SESSION[ 'register_error' ] ] );
+    
+        if( isset( $_SESSION[ 'login_email' ] ) )
+            $tpl->assign( 'login_email', $_SESSION[ 'login_email' ] );
+
+        if( isset( $_SESSION[ 'register_email' ] ) )
+            $tpl->assign( 'register_fields', $_SESSION[ 'register_fields' ] );
+        else
+            $tpl->assign( 'register_fields', [] );
+                             
         unset( $_SESSION[ 'login_error' ] );
+        unset( $_SESSION[ 'register_error' ] );
+        unset( $_SESSION[ 'login_email' ] );
     
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'login' ] )->setTemplate( 'login' )->toArray() );
 		break;

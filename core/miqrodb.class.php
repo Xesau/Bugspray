@@ -382,7 +382,7 @@ class MiqroTable
         }
         
         $sql .= $values . ');';
-        $this->miqro->query( (new MiqroBuilder( $this->miqro, $sql ))->set( 'table', $this->tablename, true ) );
+        $this->miqro->query( (new MiqroBuilder( $this->miqro, $sql ) )->set( 'table', $this->tablename, true ) );
         
         if( !empty( $this->miqro->mysqli->error ) )
             MiqroDB::$lastError = $this->miqro->mysqli->error;
