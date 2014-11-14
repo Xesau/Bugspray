@@ -82,7 +82,7 @@ $l[ 'status' ][ 'plugin_doesnt_exist' ] = 'De plugin bestaat niet';
 $l[ 'status' ][ 'enabled' ] = 'Het geselecteerde element was ingeschakeld';
 $l[ 'status' ][ 'disabled' ] = 'Het geselecteerde element was uitgeschakeld';
 $l[ 'status' ][ 'doesnt_exist' ] = 'Dit element bestaat niet';
-$l[ 'status' ][ 'login_password' ] = 'Het opgegeven wachtwoord is onjuist.';
+$l[ 'status' ][ 'incorrect_password' ] = 'Het opgegeven wachtwoord is onjuist.';
 $l[ 'status' ][ 'login_email' ] = 'Het opgegeven e-mailadres is onjuist.';
 
 # STATUS MESSAGE TYPES

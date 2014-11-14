@@ -114,6 +114,7 @@ $l[ 'status' ][ 'plugin_doesnt_exist' ] = 'The plugin doesn\'t exist';
 $l[ 'status' ][ 'enabled' ] = 'The selected entry was enabled';
 $l[ 'status' ][ 'disabled' ] = 'The selected entry was disabled';
 $l[ 'status' ][ 'doesnt_exist' ] = 'The entry doesn\'t exist';
+$l[ 'status' ][ 'incorrect_password' ] = 'The entered password is incorrect.';
 
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Success';
 $l[ 'status' ][ 'type' ][ 'warning' ] = 'Warning';

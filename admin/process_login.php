@@ -17,7 +17,7 @@ if( !empty( $_POST[ 'email' ] ) )
 		if( $select->size() > 0 )
 		{
             $fields = $select->getEntry( 0 )->getFields();
-			if( crypt( $_POST[ 'password' ] . $fields[ 'salt' ], '$9x$' ) === $fields[ 'password' ] )
+			if( password_hash( $_POST[ 'password' ], PASSWORD_BCRYPT, [ 'salt' => $fields[ 'salt' ] ] ) === $fields[ 'password' ] )
 			{
                 if( hasPermission( $fields[ 'id' ], 'bs_admin' ) )
                 {
