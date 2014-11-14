@@ -1,6 +1,7 @@
 <h3 class="no-spacing">{$lang.registration_completed}</h3>
 <hr>
-{$lang.check_your_email_for_the_activation_code}
+{$lang.thanks_for_registering}<br />
+{$lang.enter_activation_code}
 <hr>
 <form class="form-inline" action="{$settings.base_url}/activate">
     <div class="form-group">

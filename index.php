@@ -67,7 +67,7 @@ switch ($path)
         if( isset( $_SESSION[ 'login_email' ] ) )
             $tpl->assign( 'login_email', $_SESSION[ 'login_email' ] );
 
-        if( isset( $_SESSION[ 'register_email' ] ) )
+        if( isset( $_SESSION[ 'register_fields' ] ) )
             $tpl->assign( 'register_fields', $_SESSION[ 'register_fields' ] );
         else
             $tpl->assign( 'register_fields', [] );
@@ -84,6 +84,12 @@ switch ($path)
 		header( 'Location: ./');
 		break;
 	
+    case 'activate':
+        $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'activate_account' ] )->setTemplate( 'register_complete' )->toArray() );
+        $tpl->assign( 'page', null );
+        unset( $_POST[ 'register_fields' ] );
+        break;
+    
 	case 'newissue':
 		if( !empty( $_GET[ 'id' ] ) && 
 			DB::table( prefix( 'projects' ) )->select( 'id', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )

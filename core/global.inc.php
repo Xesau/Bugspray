@@ -108,5 +108,10 @@ if( !IN_INSTALL )
      * (becasue plugins may alter the state of the $l variable ) 
      */
     if( !NO_TPL )
+    {
+        $l = str_replace( '%baseurl%', setting( 'base_url' ), $l );
+        $l = str_replace( '%sitename%', setting( 'site_name' ), $l );
+        $l = str_replace( '%admin_email%', setting( 'admin_email' ), $l );
         $tpl->assign( 'lang', $l );
+    }
 }

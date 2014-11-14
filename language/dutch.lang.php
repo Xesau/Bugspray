@@ -146,6 +146,11 @@ U hebt u zojuist geregistreerd op %sitename%.<br /><br />Om uw account te active
 Met vriendelijke groet,
 %sitename% team.';
 
+$l[ 'thanks_for_registering' ] = 'Bedankt voor het registreren op %sitename%';
+$l[ 'enter_activation_code' ] = 'Voer uw activatiecode in in het formulier hieronder';
+$l[ 'registration_completed' ] = 'Registratie afgerond';
+$l[ 'activate_account' ] = 'Activeer uw account';
+
 # PROJECT FIELDS
 
 $l[ 'project_fields' ][ 'name' ] = 'Projectnaam';

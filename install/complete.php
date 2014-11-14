@@ -21,16 +21,34 @@ if( empty( $_POST[ 'site_name' ] ) ||
    empty( $_POST[ 'admin_password' ] ) ||
    empty( $_POST[ 'admin_repeat_password' ] ) ||
    empty( $_POST[ 'admin_name' ] ) )
-{    $template = 'error'; goto do_tpl; }
+{
+    $template = 'error';
+    $error = 'fields';
+    goto draw_template;
+}
 
-### DATA CHECK
-if( strlen( $_POST[ 'admin_password' ] ) < 8 ||
-  $_POST[ 'admin_password' ] !== $_POST[ 'admin_repeat_password' ] )
-    exit( 'data error' );
+### VALIDATE CHECK
+if( $_POST[ 'admin_password' ] !== $_POST[ 'admin_repeat_password' ] )
+{
+    $template = 'error';
+    $error = 'password_equality';
+    goto draw_template;
+}
+
+if( strlen( $_POST[ 'admin_password' ] ) < 8 )
+{
+    $template = 'error';
+    $error = 'password_legnth';
+    goto draw_template;
+}
     
 $mysqli = @new MySQLi( $_POST[ 'db_host' ], $_POST[ 'db_username' ], $_POST[ 'db_password' ], $_POST[ 'db_name' ] );
 if( $mysqli->connect_error )
-{    $template = 'mysql_error'; goto do_tpl; }
+{
+    $template = 'error';
+    $error = 'mysql';
+    goto draw_template;
+}
 
 $db = new MiqroDB( $mysqli );
 
@@ -52,7 +70,8 @@ if( isset( $_POST[ 'db_prefix' ] ) )
 { function prefix( $tableName ) { global $_POST; return $_POST[ 'db_prefix' ] . $tableName; }; }
 else
 { function prefix( $tableName ) { return $tableName; } }
-   
+
+### CREATE SETTINGS TABLE
 $db->createTable( prefix( 'settings' ), [
     'setting' => [
         'type' => 'varchar',
@@ -65,6 +84,7 @@ $db->createTable( prefix( 'settings' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
+### INSERT DEFAULT SETTINGS
 $db->table( prefix( 'settings' ) )->insertMany( [
 	[ 'setting' => 'site_name', 'value' => $_POST[ 'site_name' ] ],
 	[ 'setting' => 'base_url', 'value' => $_POST[ 'base_url' ] ],
@@ -78,6 +98,8 @@ $db->table( prefix( 'settings' ) )->insertMany( [
 	[ 'setting' => 'admin_email', 'value' => $_POST[ 'admin_email' ] ],
 ], [ 'existsKey' => 'setting' ] );
 
+
+### CREATE USER TABLE
 $db->createTable( prefix( 'users' ), [
     'id' => [
         'autoIncrement' => true,
@@ -130,8 +152,10 @@ $db->createTable( prefix( 'users' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
+### GENERATE A RANDOM SALT FOR THE ADMIN USER
 $salt = substr( md5( rand( 0, 9999999 ) ), 0, 22 );
 
+### INSERT THE ADMIN USER WITH GIVEN CREDENTIALS
 $db->table( prefix( 'users' ) )->insert( [
     'email' => $_POST[ 'admin_email' ],
     'displayname' => $_POST[ 'admin_name' ],
@@ -147,8 +171,10 @@ $db->table( prefix( 'users' ) )->insert( [
     'register_ip' => $_SERVER[ 'REMOTE_ADDR' ]
 ] );
 
+### GETTING THE ADMIN USER ID
 $uid = $db->mysqli->insert_id;
 
+### CREATE USER PERMISSIONS TABLE
 $db->createTable( prefix( 'user_permissions' ), [
     'id' => [
         'unique' => true   
@@ -159,13 +185,16 @@ $db->createTable( prefix( 'user_permissions' ), [
     ]
 ], [ 'ifNotExists' => 'true' ] );
 
+### INSERT ADMIN PERMISSIONS
 $db->table( prefix( 'user_permissions' ) )->insert( [ 'id' => $uid, 'permissions' => '*' ] );
 
+### CREATE REGISTRATION ACTIVATION CODES TABLE
 $db->createTable( prefix( 'activation_keys' ), [
     'id' => [ 'primary' => true ],
     'activation_code' => [ 'length' => 5 ]
 ], [ 'ifNotExists' => 'true' ] );
 
+### CREATE PROJECTS TABLE
 $db->createTable( prefix( 'projects' ), [
     'id' => [
         'autoIncrement' => true,
@@ -187,6 +216,7 @@ $db->createTable( prefix( 'projects' ), [
     'date_created' => []
 ], [ 'ifNotExists' => true ] );
 
+### CREATE ISSUES TABLE
 $db->createTable( prefix( 'issues' ), [
     'id' => [
         'autoIncrement' => 'true',
@@ -224,6 +254,7 @@ $db->createTable( prefix( 'issues' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
+### CREATE LABELS TABLE
 $db->createTable( prefix( 'labels' ), [
     'id' => [
         'autoIncrement' => true,
@@ -244,12 +275,14 @@ $db->createTable( prefix( 'labels' ), [
     ]
 ], [ 'ifNotExists' => true ] );
 
+### INSERT DEFAULT ISSUES
 $db->table( prefix( 'labels' ) )->insertMany( [
     [ 'label' => 'Bug', 'txtcolor' => 'FFFFFF', 'bgcolor' => '610B0B' ],
     [ 'label' => 'Bug + Fix', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'A5DF00' ],
     [ 'label' => 'Feature request', 'txtcolor' => 'FFFFFF', 'bgcolor' => 'F4FA58' ],
 ], [ 'existsKey' => 'label' ] );
 
+### CREATE COMMENTS TABLE
 $db->createTable( prefix( 'comments' ), [
     'id' => [
         'autoIncrement' => true,
@@ -271,6 +304,7 @@ $db->createTable( prefix( 'comments' ), [
     ],
 ], [ 'ifNotExists' => true ] );
 
+### CREATE DISABLED PLUGINS TABLE
 $db->createTable( prefix( 'plugins_disabled' ), [
     'name' => [
         'type' => 'varchar',
@@ -281,8 +315,8 @@ $db->createTable( prefix( 'plugins_disabled' ), [
 
 $template = 'installed';
 
-# DRAW TEMPLATE
-do_tpl:
+### DRAW TEMPLATE
+draw_template:
 $tpl = new RainTPL();
 
 RainTPL::configure( 'tpl_ext', 'tpl' );
@@ -290,6 +324,11 @@ RainTPL::configure( 'tpl_dir', 'tpl/' );
 
 if( $template == 'installed' ) $tpl->assign( 'settings', $db->table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
 if( $template == 'installed' ) $tpl->assign( 'admin', $db->table( prefix( 'users' ) )->select( '*', [ 'where' => 'id = \'' . $uid . '\'' ] )->getEntry( 0 )->getFields() );
+
+if( isset( $error ) ) $tpl->assign( 'error', $error );
+
+$tpl->assign( 'mysql_server', $_POST[ 'db_host' ] );
+$tpl->assign( 'mysql_username', $_POST[ 'db_username' ] );
 
 $tpl->draw( $template );
 

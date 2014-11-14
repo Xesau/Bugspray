@@ -29,8 +29,6 @@ if( !empty( $_POST[ 'email' ] ) &&
                 'last_ip' => '',
                 'register_ip' => $_SERVER[ 'REMOTE_ADDR' ]
             ] );
-
-            echo DB::mysqli()->insert_id;
             
             $activation_code = rand( 0, 99999 );
             DB::table( prefix( 'activation_keys' ) )->insert( [
@@ -45,12 +43,12 @@ if( !empty( $_POST[ 'email' ] ) &&
             $message = str_replace( '%activation_page%', $bn . '/activate', $message );
             $message = str_replace( '%name%', $_POST[ 'fullname' ], $message );
             
-            $headers = 'From: ' . $sn . ' <' . setting( 'admin_email' ) . '>' . PHP_EOL . 'Content-Type: text/html; charset=utf-16';
+            $headers  = 'From: ' . $sn . ' <' . setting( 'admin_email' ) . '>' . "\r\n";
+            $headers .= 'Content-Type: text/html; charset=utf-16';
             
             mail( $_POST[ 'email' ], str_replace('%sitename%', setting( 'site_name' ), $l[ 'registration_mail_title' ] ), $message, $headers );
             
-            exit(MiqroDB::$lastError);
-            header( 'Location: ' . setting( 'base_url' ) . '/register_activate' );
+            header( 'Location: ' . setting( 'base_url' ) . '/activate' );
         }
         else
         {
