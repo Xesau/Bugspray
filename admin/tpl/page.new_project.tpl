@@ -1,4 +1,4 @@
-<h3 class="no-spacing">{$lang.admin.new_project}</h3>
+<h3 class="no-spacing">{$lang.admin.new_project} <a href="projects" class="btn btn-danger pull-right">{$lang.back}</a></h3>
 <hr />
 <form class="half-width form-horizontal" method="post" action="{$settings.base_url}/admin/new_project">
     <div class="form-group">

@@ -85,7 +85,7 @@ class PluginManager
      * @param pagedata PageData the page data object
      * @param plugin Plugin The plugin that owns the page
      */
-    public function reigsterPage( $name, $pagedata, Plugin $plugin )
+    public function registerPage( $name, $pagedata, Plugin $plugin )
     {
         if( !self::$pages[ $name ] == null )
             self::$pages[ $name ] = $pagedata->setPlugin( $plugin );
@@ -99,8 +99,14 @@ class PluginManager
     public static function getAdminPages( $asArray = false )
     {
         if( !$asArray ) return self::$adminpages;
+        $pages = [];
         
-        foreach( self::$adminpages as $page => $data ) $pages[ $page ] = $data->toArray();
+        foreach( self::$adminpages as $page => $data )
+        {
+            if( self::isEnabled( $data->getPlugin()->getName() ) )
+                $pages[ $page ] = $data->toArray();
+        }
+        
         return $pages != null ? $pages : [];
     }
     
@@ -154,6 +160,10 @@ class PluginManager
         }
     }
     
+    public static function isEnabled( $plugin )
+    {
+        return !array_key_exists( $plugin, self::$disables );
+    }
 }
 
 abstract class Plugin

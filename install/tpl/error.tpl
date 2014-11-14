@@ -30,7 +30,7 @@
                 The given password does not equal the repeated password.
                 {/if}<br /><br />
                 Please go <a href="javascript:history.go(-1)">back</a> and try again.<br />
-                (password fields will be wiped)
+                (fields will be wiped)
             </div>
         </section>
     </body>

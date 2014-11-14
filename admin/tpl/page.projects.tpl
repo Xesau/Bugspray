@@ -1,4 +1,4 @@
-<h3 class="no-spacing">{$lang.admin.projects}</h3>
+<h3 class="no-spacing">{$lang.admin.projects} {if="hasPermission( USERID, 'bs_projects' )"}<a href="new_project" class="btn btn-primary pull-right">{$lang.admin.new_project}</a>{/if}</h3>
 <hr />
 {if="hasPermission( USERID, 'bs_projects' )"}
 {loop="$projects"}

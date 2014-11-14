@@ -32,8 +32,26 @@ class TestPlugin extends Plugin
     public function getLanguageAddons()
     {
         if( setting( 'language' ) == 'dutch' )
-            return [ 'test_addon'  => 'Testtoevoeging', 'test_page' => 'Testpagina' ];
-        return [ 'test_addon' => 'Test Addon', 'test_page' => 'Test Page' ];
+            return [
+                'test_addon'  => 'Testinvoegtoepassing',
+                'test_page' => 'Testpagina',
+                'test_page_of_test_addon' => 'Dit is een testpagina van een testinvoegtoepassing'
+            ];
+        return [
+            'test_addon' => 'Test Addon',
+            'test_page' => 'Test Page',
+            'test_page_of_test_addon' => 'This is a test page of a test addon'
+        ];
+    }
+    
+    public function getTemplateVariables()
+    {
+        if( !empty( $_GET[ 'id' ] ) && $_GET[ 'id' ] == 'test' && IN_ADMIN )
+            return [
+                'custom_variable' => 'Custom Variable (value)'
+            ];
+        else
+            return [];
     }
 
 }

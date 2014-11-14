@@ -9,7 +9,6 @@
 <div class="label" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$value.label}</div>&nbsp;&nbsp;
 {/loop}
 {/if} 
-<hr />
 {if="hasPermission( USERID, 'bs_labels' )"}<hr />
 <form class="form-horizontal pull-left half-width" method="post" action="{$settings.base_url}/admin/newlabel">
     <h3>{$lang.new_label}</h3>

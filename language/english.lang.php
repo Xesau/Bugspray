@@ -25,6 +25,7 @@ $l[ 'label' ] = 'Issue Label';
 $l[ 'lead' ] = 'Project Lead';
 $l[ 'label_name' ] = 'Label Name';
 $l[ 'no_issues' ] = 'There are no issues';
+$l[ 'no_projects' ] = 'There are no projects. Click the button to make one!';
 
 $l[ 'text_color' ] = 'Text color';
 $l[ 'background_color' ] = 'Background color';
@@ -70,6 +71,7 @@ $l[ 'ban' ] = 'Ban';
 $l[ 'remove' ] = 'Remove';
 $l[ 'add' ] = 'Add';
 $l[ 'create' ] = 'Create';
+$l[ 'back' ] = '&laquo; Back';
 
 $l[ 'site_name' ] = 'Site name';
 $l[ 'base_url' ] = 'Base URL';
@@ -111,8 +113,18 @@ $l[ 'status' ][ 'type' ][ 'danger' ] = 'Error';
 
 $l[ 'installed_plugins' ] = 'Installed plugins';
 $l[ 'find_new_plugins' ] = 'Find new plugins';
+$l[ 'no_plugins' ] = 'There are no plugins installed or there are none of them is activated';
 $l[ 'how_to_install_plugins' ] = 'How to install plugins?';
 $l[ 'plugin_doesnt_exist' ] = 'Plugin doesn\'t exist';
+$l[ 'disable_plugin' ] = 'Disable plugin';
+$l[ 'enable_plugin' ] = 'Enable plugin';
+$l[ 'disabled_plugins' ] = 'Disabled plugins';
+$l[ 'no_plugins_disabled' ] = 'There are no plugins disabled.';
+$l[ 'plugin_install_desc' ] = '<ol>
+<li>Open the folder you installed bugspray in</li>
+<li>Open the folder "plugins"</li>
+<li>Drag and drop the downloaded folder and .plugin.php-file into the plugin folder</li>
+</ol>';
 
 $l[ 'project_fields' ][ 'name' ] = 'Project name';
 $l[ 'project_fields' ][ 'status' ] = 'Status';

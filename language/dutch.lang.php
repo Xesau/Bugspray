@@ -41,6 +41,7 @@ $l[ 'add' ] = 'Toevoegen';
 $l[ 'delete' ] = 'Verwijder';
 $l[ 'preview' ] = 'Voorbeeld';
 $l[ 'live_preview' ] = 'Live-voorbeeld';
+$l[ 'back' ] = '&laquo; Terug';
 
 # USER SERVICE
 $l[ 'logout' ] = 'Uitloggen';
@@ -125,7 +126,7 @@ $l[ 'status' ][ 'register_fields' ] = 'Niet alle velden zijn ingevuld. Alle veld
 # PLUGIS
 $l[ 'installed_plugins' ] = 'Ge&iuml;nstaleerde plugins';
 $l[ 'disabled_plugins' ] = 'Gedeactiveerde plugins';
-$l[ 'no_plugins' ] = 'Er zijn geen plugins geinstalleerd';
+$l[ 'no_plugins' ] = 'Er zijn geen plugins geinstalleerd of er zijn geen plugins actief';
 $l[ 'find_new_plugins' ] = 'Vind meer plugins';
 $l[ 'disable_plugin' ] = 'Plugin de&auml;ctiveren';
 $l[ 'enable_plugin' ] = 'Plugin activeren';
