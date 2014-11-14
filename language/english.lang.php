@@ -46,6 +46,9 @@ $l[ 'last_login' ] = 'Last login';
 $l[ 'last_ip' ] = 'Last used IP adress';
 $l[ 'register_ip' ] = 'Registration IP adress';
 
+$l[ 'new_password' ] = 'New password';
+$l[ 'new_password_repeat' ] = 'New password <small>(repeat)</small>';
+
 $l[ 'never' ] = 'Never';
 
 $l[ 'error' ] = 'Error';

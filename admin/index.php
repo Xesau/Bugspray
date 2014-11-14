@@ -13,7 +13,7 @@ if( LOGGED_IN )
 {
     $page = ( hasPermission( USERID, 'bs_admin' ) ? $page : 'login' );
     if( !hasPermission( USERID, 'bs_admin' ) )
-        $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_permission' ] );
+        showMessage( [ 'type' => 'info', 'language_key' => 'no_permission' ] );
 }
 
 if( !empty( $_GET[ 'id' ] ) )
@@ -27,6 +27,7 @@ $tpl->assign( 'current_path', [ 'home' => $l[ 'admin' ][ 'home' ] ] );
 
 switch( $page )
 {
+    ### NORMAL PAGES
     case 'home':
         $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'home' )->setTitle( $l[ 'admin' ][ 'home' ] )->toArray() );
         $tpl->assign( 'page', 'home' );
@@ -38,7 +39,7 @@ switch( $page )
     
         if( isset( $_SESSION[ 'login_error' ] ) )
         {
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'login_error' ] ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => $_SESSION[ 'login_error' ] ] );
             $tpl->assign( 'id', ( isset( $_SESSION[ 'login_email' ] ) ? $_SESSION[ 'login_email' ] : null ) );
         }
         unset( $_SESSION[ 'login_error' ] );
@@ -56,11 +57,21 @@ switch( $page )
         assignVars( 'projects' );
         break;
     
+    case 'users':
+        assignVars( 'users' );
+        break;
+    
+    case 'plugins':
+        assignVars( 'plugins' );
+        break;
+    
+    
+    ### EDIT PAGES
     case 'project':
         if( empty( $_GET[ 'id' ] ) || ( !empty( $_GET[ 'id' ] ) && DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 ) )
         {
             assignVars( 'projects' );
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
         }
         else
         {
@@ -76,15 +87,17 @@ switch( $page )
         if( empty( $_GET[ 'id' ] ) || ( !empty( $_GET[ 'id' ] ) && DB::table( prefix( 'users' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 ) )
         {
             assignVars( 'users' );
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
         }
         else
         {
             if( !hasPermission( USERID, 'bs_users' ) )
             {
-                $tpl->assign( 'disable', true );
-                $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+                $tpl->assign( 'disabled', true );
+                showMessage( [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
             }
+            else
+                $tpl->assign( 'disabled', false );
             
             $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'edit_user' )->setTitle( $l[ 'admin' ][ 'edit_user' ] )->toArray() );
             $tpl->assign( 'page', 'users' ); 
@@ -94,28 +107,21 @@ switch( $page )
         }
         break;
     
-    case 'users':
-        assignVars( 'users' );
-        break;
-    
-    case 'plugins':
-        assignVars( 'plugins' );
-        break;
-    
     case 'new_project':
         $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'admin' ][ 'new_project' ] )->setTemplate( 'new_project' )->toArray() );
         $tpl->assign( 'page', 'projects' );
         break;
     
+    ### ACTIONS
     case 'save_project':
         if( empty( $_GET[ 'id' ]  ) || DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 )
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
         else
         {
             DB::table( prefix( 'projects' ) )->updateFields( [
                 'name' => $_POST[ 'name' ],
             ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
-            $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'updated' ] );
+            showMessage( [ 'type' => 'success', 'language_key' => 'updated' ] );
         }
         
         # Set ID to 0 for page selector
@@ -124,9 +130,6 @@ switch( $page )
         break;
     
     case 'banuser':
-        $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
-        $tpl->assign( 'page', 'users' );
-        
         if( hasPermission( USERID, 'bs_ban' ) )
         {
             if( !empty( $_POST[ 'reason' ] ) && !empty( $_POST[ 'expire' ] ) )
@@ -137,15 +140,18 @@ switch( $page )
                         'ban_reason' => $_POST[ 'reason' ],
                         'ban_expire' => $_POST[ 'expire' ]
                     ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
-                    $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'user_banned' ] );
+                    showMessage( [ 'type' => 'success', 'language_key' => 'user_banned' ] );
                 }
                 else
-                    $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doest_exist' ] );
+                    showMessage( [ 'type' => 'danger', 'language_key' => 'doest_exist' ] );
             else
-               $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
+               showMessage( [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
         }
         else
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
+    
+        $_GET[ 'id' ] = 0;
+        assignVars( 'users' );
         break;
     
     case 'save_settings':
@@ -172,16 +178,16 @@ switch( $page )
                 );
              
                 $tpl->assign( 'settings', DB::table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
-                $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'saved' ] );
+                showMessage( [ 'type' => 'success', 'language_key' => 'saved' ] );
                 
                 require_once CDIR . '/language/' . $_POST[ 'language' ] . '.lang.php';
                 $tpl->var['lang'] = $l;
             }
             else
-                $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
+                showMessage( [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
         }
         else
-            $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+            showMessage( [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
     
         assignVars( 'settings' );
         break;
@@ -191,12 +197,12 @@ switch( $page )
             if( hasPermission( USERID, 'bs_labels' ) )
             {
                 DB::table( prefix( 'labels' ) )->delete( [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
-                $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'removed' ] );
+                showMessage( [ 'type' => 'success', 'language_key' => 'removed' ] );
             }
             else
-                $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
+                showMessage( [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
         else
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
         
         assignVars( 'labels' );
         break;
@@ -213,16 +219,16 @@ switch( $page )
                             'txtcolor' => $_POST[ 'text_color' ],
                             'bgcolor' => $_POST[ 'background_color' ]
                     ]);
-                    $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'created' ] );
+                    showMessage( [ 'type' => 'success', 'language_key' => 'created' ] );
                 }
                 else
-                    $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'exists_already' ] );
+                    showMessage( [ 'type' => 'danger', 'language_key' => 'exists_already' ] );
             }
             else
-                $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
+                showMessage( [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
         }
         else
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
         
         assignVars( 'labels' );
         break;
@@ -237,20 +243,15 @@ switch( $page )
                             'txtcolor' => $_POST[ 'text_color' ],
                             'bgcolor' => $_POST[ 'background_color' ]
                     ], [ 'where' => 'id = \'' . DB::escape( $_POST[ 'label' ] ) . '\'' ] );
-                    $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'updated' ] );
+                    showMessage( [ 'type' => 'success', 'language_key' => 'updated' ] );
                 }
                 else
-                    $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
+                    showMessage( [ 'type' => 'danger', 'language_key' => 'data_missing' ] );
             }
             else
-                $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
+                showMessage( [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
     
         assignVars( 'labels' );
-        break;
-    
-    case 'logout':
-        unset( $_SESSION[ 'admin_user_id' ] );
-        header( 'Location: ' . setting( 'base_url' ) . '/admin' );
         break;
     
     case 'disable_plugin':
@@ -259,13 +260,13 @@ switch( $page )
             if( !empty( $_GET[ 'id' ] ) && PluginManager::hasPlugin( $_GET[ 'id' ] ) )
             {
                 DB::table( prefix( 'plugins_disabled' ) )->insert( [ 'name' => $_GET[ 'id' ] ] );
-                $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'disabled' ] );
+                showMessage( [ 'type' => 'success', 'language_key' => 'disabled' ] );
             }
             else
-                $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'plugin_doesnt_exist' ] );
+                showMessage( [ 'type' => 'danger', 'language_key' => 'plugin_doesnt_exist' ] );
         }
         else
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
         
         PluginManager::updateDisables();
         assignVars( 'plugins' );
@@ -277,18 +278,25 @@ switch( $page )
             if( !empty( $_GET[ 'id' ] ) && PluginManager::hasPluginDisabled( $_GET[ 'id' ] ) )
             {
                 DB::table( prefix( 'plugins_disabled' ) )->delete( [ 'where' => 'name = \'' . $_GET[ 'id' ] . '\'' ] );
-                $tpl->assign( 'status', [ 'type' => 'success', 'language_key' => 'enabled' ] );
+                showMessage( [ 'type' => 'success', 'language_key' => 'enabled' ] );
             }
             else
-                $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'plugin_doesnt_exist' ] );
+                showMessage( [ 'type' => 'danger', 'language_key' => 'plugin_doesnt_exist' ] );
         }
         else
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
+            showMessage( [ 'type' => 'danger', 'language_key' => 'no_permission' ] );
         
         PluginManager::updateDisables();
         assignVars( 'plugins' );
         break;
     
+    ### LOGOUT
+    case 'logout':
+        unset( $_SESSION[ 'admin_user_id' ] );
+        header( 'Location: ' . setting( 'base_url' ) . '/admin' );
+        break;
+    
+    ### PLUGIN PAGES
     case 'plugin':
         $tpl->assign( 'page', '' );
         $tpl->assign( 'pagedata', ( new PageData )->setTemplate( 'error' )->setTitle( $l[ 'error' ] )->toArray() );
@@ -305,13 +313,14 @@ switch( $page )
         catch ( Exception $e ) {}
         break;
     
+    ### ERROR 404 I HATE YOU
     default:
         $tpl->assign( 'pagedata', ( new PageData )->setTemplate( 'error' )->setTitle( $l[ 'error' ] )->toArray() );
         $tpl->assign( 'page', '' );
         break;
 }
 
-
+### SHARED PAGE INFORMATION SWITCH
 function assignVars( $page )
 {
     global $tpl;
@@ -331,7 +340,7 @@ function assignVars( $page )
             $tpl->assign( 'page', 'projects' );
         
             if( !hasPermission( USERID, 'bs_projects' ) )
-                $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+                showMessage( [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
 
             $limit = ( !empty( $_GET[ 'id' ] ) ? ( $_GET[ 'id' ] + 1 ) * 30 : 30 );
             $start = $limit - 30; 
@@ -350,7 +359,7 @@ function assignVars( $page )
         
         case 'users':
             if( !hasPermission( USERID, 'bs_users' ) )
-                $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+                showMessage( [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
         
             $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
             $tpl->assign( 'page', 'users' );
@@ -366,10 +375,21 @@ function assignVars( $page )
         case 'settings':
             $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'settings' )->setTitle( $l[ 'admin' ][ 'settings' ] )->toArray() );
             $tpl->assign( 'page', 'settings' );
-            if( !hasPermission( USERID, 'bs_update_settings' ) ) $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+            if( !hasPermission( USERID, 'bs_update_settings' ) ) showMessage( [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
             break;
     }
 }
 
+### SHOW MESSAGE ON TOP OF SCREEN
+function showMessage( $msgData )
+{
+    global $tpl;
+    
+    if( !isset( $tpl->var[ 'status' ] ) )
+        $tpl->assign( 'status' ,[] );
+    
+    $tpl->var[ 'status' ][] = $msgData;
+}
 
+### RENDER
 $tpl->draw( 'admin' );

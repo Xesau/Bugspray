@@ -41,9 +41,11 @@
         
         <section class="full-width content">
             {if="isset($status)"}
-            <div class="alert alert-{$status.type}">
-                <b>{$lang['status']['type'][$status['type']]}:</b> {$lang['status'][$status[language_key]]}
+            {loop="$status"}
+            <div class="alert alert-{$value.type}">
+                <b>{$lang['status']['type'][$value['type']]}:</b> {$lang['status'][$value[language_key]]}
             </div>
+            {/loop}
             {/if}
             {if="$pagedata.plugin != null"}{include="../../plugins/$pagedata[plugin][name]/page.$pagedata.template"}{else}{include="page.$pagedata.template"}{/if}
         </section>

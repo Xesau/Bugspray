@@ -60,6 +60,8 @@ $l[ 'last_ip' ] = 'Laatst gebruikte IP-adres';
 $l[ 'register_ip' ] = 'IP-adres gebruikt voor registratie';
 
 $l[ 'forgot_password' ] = 'Wachtwoord vergeten?';
+$l[ 'new_password' ] = 'Nieuw wachtwoord';
+$l[ 'new_password_repeat' ] = 'Nieuw wachtwoord <small>(herhaal)</small>';
 
 # LABELS
 $l[ 'label' ] = 'Label';
