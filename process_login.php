@@ -16,7 +16,7 @@ if( !empty( $_POST[ 'email' ] ) )
 		$select = $table->select( 'id,password,salt', array( 'where' => 'email = \'' . DB::escape( $_POST[ 'email' ] ) . '\''  ) );
 		if( $select->size() > 0 )
 		{	$fields = $select->getEntry( 0 )->getFields();
-			if( hash_equals( crypt( $_POST[ 'password' ] . $fields[ 'salt' ], '$9x$' ), $fields[ 'password' ] ) )
+			if( hash_equals( password_hash( $_POST[ 'password' ], PASSWORD_BCRYPT, [ 'salt' => $fields[ 'salt' ] ] ), $fields[ 'password' ] ) )
 			{	$table->update(
 					array( 'last_login' => time(), 'last_ip' => $_SERVER[ 'REMOTE_ADDR' ] ),
 					array( 'where' => 'id = ' . $select->getEntry( 0 )->getField( 'id' ) )
