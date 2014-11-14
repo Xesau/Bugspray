@@ -6,6 +6,7 @@ $l[ 'admin' ][ 'home' ] = 'Home';
 $l[ 'admin' ][ 'settings' ] = 'Instellingen';
 $l[ 'admin' ][ 'labels' ] = 'Labels';
 $l[ 'admin' ][ 'users' ] = 'Gebruikers';
+$l[ 'admin' ][ 'edit_user' ] = 'Bewerk gebruiker';
 $l[ 'admin' ][ 'projects' ] = 'Projecten';
 $l[ 'admin' ][ 'new_project' ] = 'Nieuw project';
 $l[ 'admin' ][ 'edit_project' ] = 'Bewerk project';
@@ -53,6 +54,10 @@ $l[ 'fullname' ] = 'Volledige naam';
 $l[ 'email' ] = 'E-mailadres';
 $l[ 'password' ] = 'Wachtwoord';
 $l[ 'repeat_password' ] = 'Wachtwoord <small>(nog een keer)</small>';
+$l[ 'date_of_birth' ] = 'Geboortedatum';
+$l[ 'last_login' ] = 'Laatste inlogpoging';
+$l[ 'last_ip' ] = 'Laatst gebruikte IP-adres';
+$l[ 'register_ip' ] = 'IP-adres gebruikt voor registratie';
 
 $l[ 'forgot_password' ] = 'Wachtwoord vergeten?';
 
@@ -114,6 +119,7 @@ $l[ 'comment' ] = 'Reageer';
 # ERRORS
 $l[ 'error' ] = 'Foutmelding';
 $l[ 'page_not_found' ] = 'De opgevraagde pagina kon niet worden gevonden. Als u denkt dat dit een fout is, meld dat dan aan de administrator.';
+$l[ 'never'] = 'Nooit';
 
 # LOGIN ERRORS
 $l[ 'status' ][ 'login_email' ] = 'Het opgegeven e-mailadres was niet gevonden.';

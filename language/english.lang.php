@@ -42,6 +42,11 @@ $l[ 'fullname' ] = 'Full name';
 $l[ 'date_of_birth' ] = 'Date of Birth';
 $l[ 'logout' ] = 'Logout';
 $l[ 'registration_date' ] = 'Registration date';
+$l[ 'last_login' ] = 'Last login';
+$l[ 'last_ip' ] = 'Last used IP adress';
+$l[ 'register_ip' ] = 'Registration IP adress';
+
+$l[ 'never' ] = 'Never';
 
 $l[ 'error' ] = 'Error';
 $l[ 'something_went_wrong' ] = 'Something went wrong...';
@@ -56,6 +61,7 @@ $l[ 'admin' ][ 'edit_project' ] = 'Edit project';
 $l[ 'admin' ][ 'users' ] = 'Users';
 $l[ 'admin' ][ 'labels' ] = 'Issue Labels';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
+$l[ 'admin' ][ 'edit_user' ] = 'Edit user';
 $l[ 'admin' ][ 'intro' ] = 'This is the settings panel of Bugspray. Here you can read and alter all the information of the system. All the setting categories are in the menu bar on the left hand side of the screen.'; 
 $l[ 'admin_panel' ] = 'Administration Panel';
 

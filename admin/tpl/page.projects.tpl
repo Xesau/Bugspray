@@ -2,7 +2,7 @@
 <hr />
 {if="hasPermission( USERID, 'bs_projects' )"}
 {loop="$projects"}
-<div class="project">
+<div class="entry">
     <img class="pull-left" src="{$settings.base_url}/content/project_imgs/{if="file_exists(CDIR . '/content/project_imgs/'. $value.id . '.png')"}{$value.id}{else}default.png{/if}" />
     <div class="pull-left">
         <h3 class="no-spacing"><a href="project/{$value.id}">{$value.name}</a> <small>({$value.short})</small></h3>
@@ -14,7 +14,7 @@
 {/loop}
 {else}
 {loop="$projects"}
-<div class="project">
+<div class="entry">
     <img class="pull-left" src="{$settings.base_url}/content/project_imgs/{if="file_exists(CDIR . '/content/project_imgs/'. $value.id . '.png')"}{$value.id}{else}default.png{/if}" />
     <div class="pull-left">
         <h3 class="no-spacing">{$value.name} <small>({$value.short})</small></h3>

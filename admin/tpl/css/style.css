@@ -16,6 +16,15 @@
     margin: 0;
 }
 
+body
+{
+    background-color: #FAFAFA;   
+}
+
+.left-margin
+{
+    margin-left: 7px;
+}
 
 .auto-height
 {
@@ -137,5 +146,16 @@ section.content
     padding-left: 230px;
     float: left;
 }
+
+.entry
+{
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    float: left;
+    min-width: 300px;
+    border: 1px solid #E6E6E6;
+}
+
 
 .robs { margin-right: 5px; margin-left: 5px; }

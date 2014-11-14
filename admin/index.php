@@ -72,6 +72,28 @@ switch( $page )
         }
         break;
     
+    case 'user':
+        if( empty( $_GET[ 'id' ] ) || ( !empty( $_GET[ 'id' ] ) && DB::table( prefix( 'users' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 ) )
+        {
+            assignVars( 'users' );
+            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'doesnt_exist' ] );
+        }
+        else
+        {
+            if( !hasPermission( USERID, 'bs_users' ) )
+            {
+                $tpl->assign( 'disable', true );
+                $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+            }
+            
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'edit_user' )->setTitle( $l[ 'admin' ][ 'edit_user' ] )->toArray() );
+            $tpl->assign( 'page', 'users' ); 
+
+            $tpl->assign( 'user', DB::table( prefix( 'users' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->getEntry( 0 )->getFields() );
+            $tpl->assign( 'hasImage', file_exists( CDIR . '/content/avatar/' . $_GET[ 'id' ] . '.png' ) );
+        }
+        break;
+    
     case 'users':
         assignVars( 'users' );
         break;
@@ -327,6 +349,9 @@ function assignVars( $page )
             break;
         
         case 'users':
+            if( !hasPermission( USERID, 'bs_users' ) )
+                $tpl->assign( 'status', [ 'type' => 'info', 'language_key' => 'no_edit_permission' ] );
+        
             $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'users' )->setTitle( $l[ 'admin' ][ 'users' ] )->toArray() );
             $tpl->assign( 'page', 'users' );
 
