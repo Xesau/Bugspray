@@ -46,6 +46,8 @@ $l[ 'live_preview' ] = 'Live-voorbeeld';
 $l[ 'back' ] = '&laquo; Terug';
 $l[ 'enable' ] = 'Inschakelen';
 $l[ 'disable' ] = 'Uitschakelen';
+$l[ 'stop' ] = 'Stop';
+$l[ 'continue' ] = 'Ga verder &raquo;';
 
 # USER SERVICE
 $l[ 'logout' ] = 'Uitloggen';
@@ -86,8 +88,9 @@ $l[ 'status' ][ 'enabled' ] = 'Het geselecteerde element was ingeschakeld';
 $l[ 'status' ][ 'disabled' ] = 'Het geselecteerde element was uitgeschakeld';
 $l[ 'status' ][ 'doesnt_exist' ] = 'Dit element bestaat niet';
 $l[ 'status' ][ 'incorrect_password' ] = 'Het opgegeven wachtwoord is onjuist.';
-$l[ 'status' ][ 'login_email' ] = 'Het opgegeven e-mailadres is onjuist.';
+$l[ 'status' ][ 'incorrect_email' ] = 'Het opgegeven e-mailadres is onjuist.';
 $l[ 'status' ][ 'picture_removed' ] = 'De afbeelding is verwijderd';
+$l[ 'status' ][ 'code_incorrect' ] = 'De ingevoerde activatiecode is onjuist. Het account zou al geactiveerd kunnen zijn.';
 
 # STATUS MESSAGE TYPES
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Succes';
@@ -100,6 +103,7 @@ $l[ 'home' ] = 'Home';
 $l[ 'projects' ] = 'Projecten';
 $l[ 'project' ] = 'Projecten';
 $l[ 'issues' ] = 'Tickets';
+$l[ 'profile' ] = 'Profile';
 
 # PROJECT DATA
 $l[ 'lead' ] = 'Projectleider';

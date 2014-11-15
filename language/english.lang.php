@@ -4,6 +4,7 @@ $l[ 'home' ] = 'Home';
 
 $l[ 'projects' ] = 'Projects';
 $l[ 'project' ] = 'Project';
+$l[ 'profile' ] = 'Profile';
 
 $l[ 'issues' ] = 'Issues';
 $l[ 'issue' ] = 'Issue';
@@ -83,6 +84,8 @@ $l[ 'create' ] = 'Create';
 $l[ 'back' ] = '&laquo; Back';
 $l[ 'enable'] = 'Enable';
 $l[ 'disable' ] = 'Disable';
+$l[ 'stop' ] = 'Stop';
+$l[ 'continue' ] = 'Continue &raquo;';
 
 $l[ 'site_name' ] = 'Site name';
 $l[ 'base_url' ] = 'Base URL';
@@ -119,7 +122,9 @@ $l[ 'status' ][ 'enabled' ] = 'The selected entry was enabled';
 $l[ 'status' ][ 'disabled' ] = 'The selected entry was disabled';
 $l[ 'status' ][ 'doesnt_exist' ] = 'The entry doesn\'t exist';
 $l[ 'status' ][ 'incorrect_password' ] = 'The entered password is incorrect.';
+$l[ 'status' ][ 'incorrect_email' ] = 'The entered email adress is incorrect.';
 $l[ 'status' ][ 'picture_removed' ] = 'The picture was removed.';
+$l[ 'status' ][ 'code_incorrect' ] = 'The given activation code was incorrect. The account may already have been activated.';
 
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Success';
 $l[ 'status' ][ 'type' ][ 'warning' ] = 'Warning';
@@ -157,3 +162,7 @@ You just registered on %sitename%.<br /><br />To activate your account, please c
 %activation_page%<br /><br />
 Best regards,
 %sitename% team.';
+$l[ 'activate_account' ] = 'Activate your account';
+$l[ 'registration_completed' ] = 'Registration completed!';
+$l[ 'thanks_for_registering' ] = 'Thanks for registering on %sitename%.';
+$l[ 'enter_activation_code' ] = 'Enter the e-mailed activation code here.';

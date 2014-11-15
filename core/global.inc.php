@@ -82,7 +82,7 @@ if( !IN_INSTALL )
     if( !NO_TPL )
     {   RainTPL::configure( 'tpl_ext', 'tpl' );
         RainTPL::configure( 'tpl_dir', ( IN_ADMIN === false ? 'theme/' . setting( 'theme' ) : 'tpl' ) . '/' );
-        RainTPL::configure( 'path_replace', true );
+        RainTPL::configure( 'path_replace', false );
         RainTPL::configure( 'base_url', setting( 'base_url' ) . ( IN_ADMIN === true ? '/admin' : '' ) . '/' );
 
         $tpl = new RainTPL();

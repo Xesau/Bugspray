@@ -17,6 +17,9 @@ class MiqroDB
     
     public function query( $sql )
     {
+        ## TEMP BUG FIX for nonrunning queries
+        if( $sql instanceof MiqroBuilder ) $sql = $sql->__toString();
+        
         $this->lastQueries[] = $sql;
         return $this->mysqli->query( $sql );
     }
@@ -311,11 +314,12 @@ class MiqroTable
         if( !is_array( $options ) )
             throw new MiqroException( 'Options parameters not an array', 3 );
         
-        if( strpos( $fields, ',' ) !== false )
-            $fields = explode( ',', $fields );
-        
         if( !is_array($fields) && trim( $fields ) !== '*' )
+        {
             $sql = 'SELECT $fields FROM $table ';
+            if( strpos( $fields, ',' ) !== false )
+                $fields = explode( ',', $fields );
+        }
         else
             $sql = 'SELECT * FROM $table ';
     
@@ -382,7 +386,7 @@ class MiqroTable
         }
         
         $sql .= $values . ');';
-        $this->miqro->query( (new MiqroBuilder( $this->miqro, $sql ) )->set( 'table', $this->tablename, true ) );
+        ( new MiqroBuilder( $this->miqro, $sql ) )->set( 'table', $this->tablename, true )->execute();
         
         if( !empty( $this->miqro->mysqli->error ) )
             MiqroDB::$lastError = $this->miqro->mysqli->error;
@@ -413,7 +417,7 @@ class MiqroTable
               if( $options[ 'existsKey' ] == null ||
                (    $options[ 'existsKey' ] !== null &&
                     $this->select( $options[ 'existsKey' ], [ 'where' => $options[ 'existsKey' ] . ' = \'' . $entry[ $options[ 'existsKey' ] ] . '\'' ] )->size() == 0 ) )
-                $builder = ( new MiqroBuilder( $this->miqro, 'INSERT INTO $table (`' . implode( '`, `', array_keys( $entry ) ) . '`) VALUES (\'' . implode( '\', \'', array_values( $entry ) ) . '\')' ) )->set( 'table', $this->tablename )->execute();
+                ( new MiqroBuilder( $this->miqro, 'INSERT INTO $table (`' . implode( '`, `', array_keys( $entry ) ) . '`) VALUES (\'' . implode( '\', \'', array_values( $entry ) ) . '\')' ) )->set( 'table', $this->tablename )->execute();
         }
     }
     

@@ -30,7 +30,8 @@ function rpath ( $path )
 
 function userPermissions( $userid )
 {
-    return explode( PHP_EOL, DB::table( prefix( 'user_permissions' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( 'permissions' ) );
+    $select = DB::table( prefix( 'user_permissions' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] );
+    return $select->size() > 0 ? explode( PHP_EOL, $select->getEntry( 0 )->getField( 'permissions' ) ) : [];
 }
 
 function hasPermission( $userid, $permission )
@@ -39,26 +40,69 @@ function hasPermission( $userid, $permission )
     return in_array( $permission, $perms ) || ( in_array( '*', $perms ) && !in_array( '-' . $permission, $perms ) );
 }
 
-function userData( $userid, $field )
+/**
+ * Get one or more field(s) of an user
+ *
+ * @param $userid integer User ID
+ * @param $fields string|array The field(s)
+ */
+function userData( $userid, $fields )
 {
-    return DB::table( prefix( 'users' ) )->select( $field, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
+    $select = DB::table( prefix( 'users' ) )->select( $fields, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 );
+    if( is_array( $fields ) )
+       return $select->getFields();
+    else
+       return $select->getField( $fields );
 }
 
-function userDataByEmail( $email, $field )
+/**
+ * Get one or more field(s) of an user identified by e-mail adress
+ *
+ * @param $email string The user his e-mail adress
+ * @param $fields string|array The field(s)
+ */
+function userDataByEmail( $email, $fields )
 {
-    return DB::table( prefix( 'users' ) )->select( $field, [ 'where' => 'email = \'' . DB::escape( $email ) . '\'' ] )->getEntry( 0 )->getField( $field );
+    $select = DB::table( prefix( 'users' ) )->select( $fields, [ 'where' => 'email = \'' . DB::escape( $email ) . '\'' ] )->getEntry( 0 );
+    if( is_array( $fields ) )
+       return $select->getFields();
+    else
+       return $select->getField( $fields );
 }
 
-function projectData( $userid, $field )
+/**
+ * Get one or more field(s) of a project
+ *
+ * @param $project integer Project ID
+ * @param $fields string|array The field(s)
+ */
+function projectData( $project, $fields )
 {
-    return DB::table( prefix( 'projects' ) )->select( $field, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
+    $select = DB::table( prefix( 'projects' ) )->select( $fields, [ 'where' => 'id = \'' . DB::escape( $project ) . '\'' ] )->getEntry( 0 );
+    if( is_array( $fields ) )
+       return $select->getFields();
+    else
+       return $select->getField( $fields );
 }
 
-function issueData( $userid, $field )
+/**
+ * Get one or more field(s) of an issue
+ *
+ * @param $issue integer Issue ID
+ * @param $fields string|array The field(s)
+ */
+function issueData( $issue, $fields )
 {
-    return DB::table( prefix( 'issue' ) )->select( $field, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
+    $select = DB::table( prefix( 'issues' ) )->select( $fields, [ 'where' => 'id = \'' . DB::escape( $issue ) . '\'' ] )->getEntry( 0 );
+    if( is_array( $fields ) )
+       return $select->getFields();
+    else
+       return $select->getField( $fields );
 }
 
+/**
+ * Get a data field of $plugin
+ */
 function pluginData( Plugin $plugin, $field )
 {
     switch( $field )
@@ -72,6 +116,20 @@ function pluginData( Plugin $plugin, $field )
         case 'version':
             return $plugin->getVersion();
     }
+}
+
+/**
+ * Show a message at the top of the screen
+ * (if theme supports it)
+ */
+function showMessage( $type, $language_key )
+{
+    global $tpl;
+    
+    if( !isset( $tpl->var[ 'status' ] ) )
+        $tpl->assign( 'status', [] );
+    
+    $tpl->var[ 'status' ][] = [ 'type' => $type, 'language_key' => $language_key ];
 }
 
 ?>

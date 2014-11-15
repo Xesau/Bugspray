@@ -31,6 +31,7 @@ if( !empty( $_POST[ 'email' ] ) &&
             ] );
             
             $activation_code = rand( 0, 99999 );
+            
             DB::table( prefix( 'activation_keys' ) )->insert( [
                 'id' => DB::mysqli()->insert_id,
                 'activation_code' => $activation_code
@@ -68,7 +69,7 @@ if( !empty( $_POST[ 'email' ] ) &&
 }
 else
 {
-    $_SESSION[ 'register_error' ] = 'fields';
+    $_SESSION[ 'register_error' ] = 'data_missing';
     $_SESSION[ 'register_fields' ] = $_POST;
     header( 'Location: ' . setting( 'base_url' ) . '/login' );
 }

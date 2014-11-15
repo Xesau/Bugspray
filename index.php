@@ -59,10 +59,10 @@ switch ($path)
 			header( 'Location: ./' );
 		
 		if( isset( $_SESSION[ 'login_error' ] ) )
-        	$tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'login_' . $_SESSION[ 'login_error' ] ] );
+        	$tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'login_error' ] ] );
         
         if( isset( $_SESSION[ 'register_error' ] ) )
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => 'register_' . $_SESSION[ 'register_error' ] ] );
+            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'register_error' ] ] );
     
         if( isset( $_SESSION[ 'login_email' ] ) )
             $tpl->assign( 'login_email', $_SESSION[ 'login_email' ] );
@@ -85,8 +85,32 @@ switch ($path)
 		break;
 	
     case 'activate':
-        $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'activate_account' ] )->setTemplate( 'register_complete' )->toArray() );
-        $tpl->assign( 'page', null );
+        if( !empty( $_REQUEST[ 'id' ] ) )
+        {
+            $select  = DB::table( prefix( 'activation_keys' ) )->select( ['id', 'activation_code' ], [ 'where' => 'activation_code = \'' . DB::escape( $_REQUEST[ 'id' ] ) . '\'' ] );
+            if( $select->size() > 0 && $_REQUEST[ 'id' ] == $select->getEntry( 0 )->getField( 'activation_code' ) )
+            {
+                DB::table( prefix( 'activation_keys' ) )->delete( [ 'where' => [
+                    'activation_code = \'' . DB::escape( $_REQUEST[ 'id' ] ) . '\'',
+                    'id = \'' . DB::escape( $select->getEntry( 0 )->getField( 'id' ) ) . '\''
+                ] ] );
+                
+                showMessage( 'success', 'account_activated' );
+                $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'login' ] )->setTemplate( 'login' )->toArray() );
+                $tpl->assign( 'page', 'login' );
+            }
+            else
+            {
+                showMessage( 'danger', 'code_incorrect' );
+                $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'activate_account' ] )->setTemplate( 'register_complete' )->toArray() );
+                $tpl->assign( 'page', null );
+            }
+        }
+        else
+        {
+            $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'activate_account' ] )->setTemplate( 'register_complete' )->toArray() );
+            $tpl->assign( 'page', null );
+        }
         unset( $_POST[ 'register_fields' ] );
         break;
     
@@ -103,13 +127,6 @@ switch ($path)
 		else
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
 		break;
-		
-    case 'activate':
-        if( !empty( $_GET[ 'id' ] ) )
-        {
-            
-        }
-        break;
     
 	default:
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );

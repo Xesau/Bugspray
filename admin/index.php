@@ -22,7 +22,8 @@ else
     $tpl->assign( 'id', NULL );
 
 $tpl->assign( 'plugin_pages', PluginManager::getAdminPages( true ) );
-
+$tpl->assign( 'admin', $tpl->var[ 'settings' ][ 'base_url' ] . '/admin' );
+$tpl->assign( 'themepath', $tpl->var[ 'settings' ][ 'base_url' ] . '/admin/tpl' );;
 $tpl->assign( 'current_path', [ 'home' => $l[ 'admin' ][ 'home' ] ] );
 
 switch( $page )
@@ -564,17 +565,6 @@ function assignVars( $page )
             if( !hasPermission( USERID, 'bs_update_settings' ) ) showMessage( 'info', 'no_edit_permission' );
             break;
     }
-}
-
-### SHOW MESSAGE ON TOP OF SCREEN
-function showMessage( $type, $language_key )
-{
-    global $tpl;
-    
-    if( !isset( $tpl->var[ 'status' ] ) )
-        $tpl->assign( 'status', [] );
-    
-    $tpl->var[ 'status' ][] = [ 'type' => $type, 'language_key' => $language_key ];
 }
 
 ### RENDER
