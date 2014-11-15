@@ -1,22 +1,28 @@
 <h3 class="no-spacing">{$lang.admin.new_project} <a href="projects" class="btn btn-danger pull-right">{$lang.back}</a></h3>
 <hr />
-<form class="half-width form-horizontal" method="post" action="{$settings.base_url}/admin/new_project">
+<form class="half-width form-horizontal" method="post" action="{$settings.base_url}/admin/save_new_project">
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.name}</label>
         <div class="col-sm-6">
-            <input class="form-control" name="name" />
+            <input class="form-control" name="name" placeholder="PHP Hypertext Processor" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.short}</label>
         <div class="col-sm-6">
-            <input class="form-control" name="short" />
+            <input class="form-control" name="short" placeholder="PHP" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.description}</label>
         <div class="col-sm-6">
-            <textarea class="form-control" name="description"></textarea>
+            <textarea class="form-control" name="description" placeholder="{$lang.give_a_description}"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{$lang.project_fields.leader_email}</label>
+        <div class="col-sm-6">
+            <input name="lead" class="form-control" type="email" placeholder="john.doe@gmail.com" />
         </div>
     </div>
     <div class="form-group">
@@ -37,4 +43,5 @@
     {
         $( '#imgpreview' ).removeClass( 'hidden' ).attr( 'src', URL.createObjectURL( $event.target.files[0] ) );
     } );
+    $( 'input[name=lead]' ).autocomplete({source:[{$lead_emails}]});
 </script>

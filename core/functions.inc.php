@@ -44,6 +44,11 @@ function userData( $userid, $field )
     return DB::table( prefix( 'users' ) )->select( $field, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );
 }
 
+function userDataByEmail( $email, $field )
+{
+    return DB::table( prefix( 'users' ) )->select( $field, [ 'where' => 'email = \'' . DB::escape( $email ) . '\'' ] )->getEntry( 0 )->getField( $field );
+}
+
 function projectData( $userid, $field )
 {
     return DB::table( prefix( 'projects' ) )->select( $field, [ 'where' => 'id = \'' . DB::escape( $userid ) . '\'' ] )->getEntry( 0 )->getField( $field );

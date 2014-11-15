@@ -3,7 +3,10 @@
 {loop="users"}
 <div class="entry">
     {if="file_exists( CDIR . '/content/avatar/' . $key . '.png' )"}
-    <img class="pull-left" src="../../content/avatar/{$key}.png" width=100>
+    <div class="pic pull-left">
+        <img class="pull-left" src="../../content/avatar/{$key}.png?t={'' . CDIR . '/content/avatar/' . $key1 . '.' . 'png'|filemtime}" width=100>
+        <a class="remove-pic btn btn-danger" href="remove_avatar/{$key}">x</a>
+    </div>
     {else}
     <img class="pull-left" src="../../content/avatar/default.png" width=100>
     {/if}

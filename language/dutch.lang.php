@@ -84,6 +84,7 @@ $l[ 'status' ][ 'disabled' ] = 'Het geselecteerde element was uitgeschakeld';
 $l[ 'status' ][ 'doesnt_exist' ] = 'Dit element bestaat niet';
 $l[ 'status' ][ 'incorrect_password' ] = 'Het opgegeven wachtwoord is onjuist.';
 $l[ 'status' ][ 'login_email' ] = 'Het opgegeven e-mailadres is onjuist.';
+$l[ 'status' ][ 'picture_removed' ] = 'De afbeelding is verwijderd';
 
 # STATUS MESSAGE TYPES
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Succes';
@@ -99,8 +100,17 @@ $l[ 'issues' ] = 'Tickets';
 
 # PROJECT DATA
 $l[ 'lead' ] = 'Projectleider';
-
+$l[ 'give_a_description' ] = 'Geef een omschrijving...';
 $l[ 'no_projects' ] = 'Er zijn nog geen projecten';
+
+# PROJECT FIELDS
+$l[ 'project_fields' ][ 'name' ] = 'Projectnaam';
+$l[ 'project_fields' ][ 'status' ] = 'Status';
+$l[ 'project_fields' ][ 'short' ] = 'Korte tag';
+$l[ 'project_fields' ][ 'description' ] = 'Omschrijving';
+$l[ 'project_fields' ][ 'leader_email' ] = 'E-mailadres projectleider';
+$l[ 'project_fields' ][ 'creation_date' ] = 'Opzetdatum';
+$l[ 'project_fields' ][ 'upload_picture' ] = 'Upload afbeelding';
 
 # ISSUES
 $l[ 'issue' ] = 'Issue';
@@ -159,13 +169,3 @@ $l[ 'thanks_for_registering' ] = 'Bedankt voor het registreren op %sitename%';
 $l[ 'enter_activation_code' ] = 'Voer uw activatiecode in in het formulier hieronder';
 $l[ 'registration_completed' ] = 'Registratie afgerond';
 $l[ 'activate_account' ] = 'Activeer uw account';
-
-# PROJECT FIELDS
-
-$l[ 'project_fields' ][ 'name' ] = 'Projectnaam';
-$l[ 'project_fields' ][ 'status' ] = 'Status';
-$l[ 'project_fields' ][ 'short' ] = 'Korte tag';
-$l[ 'project_fields' ][ 'description' ] = 'Omschrijving';
-$l[ 'project_fields' ][ 'leader_username' ] = 'Gebruikersnaam projectleider';
-$l[ 'project_fields' ][ 'creation_date' ] = 'Opzetdatum';
-$l[ 'project_fields' ][ 'upload_picture' ] = 'Upload afbeelding';

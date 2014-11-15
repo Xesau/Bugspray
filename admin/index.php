@@ -81,6 +81,10 @@ switch( $page )
             $tpl->assign( 'project', DB::table( prefix( 'projects' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->getEntry( 0 )->getFields() );
             $tpl->assign( 'hasImage', file_exists( CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' ) );
         }
+        
+        $lead_emails =  DB::table( prefix( 'users' ) )->select( 'email' )->getEntries();
+        foreach($lead_emails as &$email) $email = $email[0];
+        $tpl->assign( 'lead_emails', '"' . implode('","', $lead_emails) . '"' );
         break;
     
     case 'user':
@@ -108,8 +112,11 @@ switch( $page )
         break;
     
     case 'new_project':
-        $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'admin' ][ 'new_project' ] )->setTemplate( 'new_project' )->toArray() );
+        $tpl->assign( 'pagedata', ( new PageData )->setTitle( $l[ 'admin' ][ 'new_project' ] )->setTemplate( 'new_project' )->addJS( 'http://code.jquery.com/ui/1.11.2/jquery-ui.js' )->toArray() );
         $tpl->assign( 'page', 'projects' );
+        $lead_emails =  DB::table( prefix( 'users' ) )->select( 'email' )->getEntries();
+        foreach($lead_emails as &$email) $email = $email[0];
+        $tpl->assign( 'lead_emails', '"' . implode('","', $lead_emails) . '"' );
         break;
     
     ### ACTIONS
@@ -124,24 +131,78 @@ switch( $page )
                 {
                     DB::table( prefix( 'projects' ) )->updateFields( [
                         'name' => $_POST[ 'name' ],
+                        'short' => $_POST[ 'short' ],
+                        'description' => $_POST[ 'description' ],
+                        'project_lead' => userDataByEmail( $_POST[ 'project_lead' ], 'id' )
                     ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
-                    showMessage( 'success', 'updated' );
-
+                    
                     if( !empty( $_FILES[ 'file' ] ) )
-                        move_uploaded_file( $_FILES[ 'file' ][ 'tmp_name' ], CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' );   
+                        move_uploaded_file( $_FILES[ 'file' ][ 'tmp_name' ], CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' );
+                    
+                    showMessage( 'success', 'updated' );
                 }
                 else
                     showMessage( 'danger', 'data_missing' );
             }
-            else
-                showMessage( 'danger', 'doesnt_exist' );
         }
         else
-            showMessage( 'error', 'no_permisison' );
+            showMessage( 'danger', 'no_permisison' );
     
         # Set ID to 0 for page selector
         $_GET[ 'id' ] = 0;
         assignVars( 'projects' );
+        break;
+    
+    case 'save_new_project':
+        if( hasPermission( USERID, 'bs_projects' ) )
+        {
+            if( !empty( $_POST[ 'name' ] ) && !empty( $_POST[ 'short' ] ) && !empty( $_POST[ 'description' ] ) && !empty( $_POST[ 'lead' ] ) )
+            {
+                if( DB::table( prefix( 'projects' ) )
+                   ->select( 'id', [ 'where' => 'name = \'' . DB::escape( $_POST[ 'name' ] ) . '\' OR short = \'' . DB::escape( $_POST[ 'short '] ) . '\'' ] )->size() > 0 )
+                    showMessage( 'danger', 'already_exists' );
+                ### TODO: MAKE SOME WAY OF GO BACK
+                else
+                {
+                    DB::table( prefix( 'projects' ) )->insert( [
+                        'name' => $_POST[ 'name' ],
+                        'short' => $_POST[ 'short' ],
+                        'description' => $_POST[ 'description' ],
+                        'project_lead' => userDataByEmail( $_POST[ 'lead' ], 'id' ),
+                        'date_created' => time()
+                    ] );
+                    
+                    if( !empty( $_FILES[ 'file' ] ) )
+                        move_uploaded_file( $_FILES[ 'file' ][ 'tmp_name' ], CDIR . '/content/project_imgs/' . DB::mysqli()->insert_id . '.png' );
+                    
+                    showMessage( 'success', 'created' );
+                }
+            }
+            else
+                showMessage( 'danger', 'data_missing' );
+        }
+        else
+            showMessage( 'danger', 'no_permisison' );
+        
+        assignVars( 'projects' );
+        break;
+    
+    case 'remove_avatar':
+        if( hasPermission( USERID, 'bs_users' ) )
+        {
+            if( !empty( $_GET[ 'id' ] ) )
+            {
+                @unlink( CDIR . '/content/avatar/' . $_GET[ 'id' ] . '.png' );
+                showMessage( 'success', 'picture_removed' );
+            }
+            else
+                showMessage( 'danger', 'data_missing' );
+        }
+        else
+            showMessage( 'danger', 'no_permisison' );
+        
+        $_GET[ 'id' ] = 0;
+        assignVars( 'users' );
         break;
     
     case 'banuser':

@@ -157,5 +157,16 @@ section.content
     border: 1px solid #E6E6E6;
 }
 
+.pic
+{
+    position: relative;
+}
+
+.remove-pic
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 
 .robs { margin-right: 5px; margin-left: 5px; }

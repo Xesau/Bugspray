@@ -115,6 +115,7 @@ $l[ 'status' ][ 'enabled' ] = 'The selected entry was enabled';
 $l[ 'status' ][ 'disabled' ] = 'The selected entry was disabled';
 $l[ 'status' ][ 'doesnt_exist' ] = 'The entry doesn\'t exist';
 $l[ 'status' ][ 'incorrect_password' ] = 'The entered password is incorrect.';
+$l[ 'status' ][ 'picture_removed' ] = 'The picture was removed.';
 
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Success';
 $l[ 'status' ][ 'type' ][ 'warning' ] = 'Warning';
@@ -140,9 +141,10 @@ $l[ 'project_fields' ][ 'name' ] = 'Project name';
 $l[ 'project_fields' ][ 'status' ] = 'Status';
 $l[ 'project_fields' ][ 'short' ] = 'Shorttag';
 $l[ 'project_fields' ][ 'description' ] = 'Description';
-$l[ 'project_fields' ][ 'leader_username' ] = 'Leader username';
+$l[ 'project_fields' ][ 'leader_email' ] = 'Leader email';
 $l[ 'project_fields' ][ 'creation_date' ] = 'Creation Date';
 $l[ 'project_fields' ][ 'upload_picture' ] = 'Upload picture';
+$l[ 'give_a_description' ] = 'Give a description...';
 
 $l[ 'registration_mail_title' ] = 'Your registration on %sitename%';
 $l[ 'registration_mail_text' ] = 'Hello %name%,<br /><br />

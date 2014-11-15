@@ -41,4 +41,5 @@
     {
         $( '#imgpreview' ).removeClass( 'hidden' ).attr( 'src', URL.createObjectURL( $event.target.files[0] ) );
     } );
+    $( 'input[name=lead]' ).autocomplete({source:[{$lead_emails}]});
 </script>
