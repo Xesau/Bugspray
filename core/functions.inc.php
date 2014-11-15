@@ -101,6 +101,21 @@ function issueData( $issue, $fields )
 }
 
 /**
+ * Get one or more field(s) of a comment
+ *
+ * @param $comment integer Issue ID
+ * @param $fields string|array The field(s)
+ */
+function commenteData( $comment, $fields )
+{
+    $select = DB::table( prefix( 'comment' ) )->select( $fields, [ 'where' => 'id = \'' . DB::escape( $comment ) . '\'' ] )->getEntry( 0 );
+    if( is_array( $fields ) )
+       return $select->getFields();
+    else
+       return $select->getField( $fields );
+}
+
+/**
  * Get a data field of $plugin
  */
 function pluginData( Plugin $plugin, $field )
