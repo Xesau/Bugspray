@@ -22,7 +22,7 @@ if( !empty( $_POST[ 'email' ] ) )
                 if( hasPermission( $fields[ 'id' ], 'bs_admin' ) )
                 {
                     $table->update(
-                        array( 'last_login' => time(), 'last_ip' => $_SERVER[ 'HTTP_REFERER' ] ),
+                        array( 'last_login' => time(), 'last_ip' => $_SERVER[ 'REMOTE_ADDR' ] ),
                         array( 'where' => 'id = ' . $select->getEntry( 0 )->getField( 'id' ) )
                     );
                     $_SESSION[ 'admin_user_id' ] = $select->getEntry( 0 )->getField( 'id' );

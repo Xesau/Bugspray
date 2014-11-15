@@ -114,16 +114,31 @@ switch( $page )
     
     ### ACTIONS
     case 'save_project':
-        if( empty( $_GET[ 'id' ]  ) || DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 )
-            showMessage( 'danger','doesnt_exist' );
-        else
+        if( !hasPermission( USERID, 'bs_projects' ) )
         {
-            DB::table( prefix( 'projects' ) )->updateFields( [
-                'name' => $_POST[ 'name' ],
-            ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
-            showMessage( 'success', 'updated' );
+            if( empty( $_GET[ 'id' ]  ) || DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 )
+                showMessage( 'danger','doesnt_exist' );
+            else
+            {
+                if( !empty( $_POST[ 'name' ] ) && !empty( $_POST[ 'short' ] ) && !empty( $_POST[ 'description' ] ) )
+                {
+                    DB::table( prefix( 'projects' ) )->updateFields( [
+                        'name' => $_POST[ 'name' ],
+                    ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
+                    showMessage( 'success', 'updated' );
+
+                    if( !empty( $_FILES[ 'file' ] ) )
+                        move_uploaded_file( $_FILES[ 'file' ][ 'tmp_name' ], CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' );   
+                }
+                else
+                    showMessage( 'danger', 'data_missing' );
+            }
+            else
+                showMessage( 'danger', 'doesnt_exist' );
         }
-        
+        else
+            showMessage( 'error', 'no_permisison' );
+    
         # Set ID to 0 for page selector
         $_GET[ 'id' ] = 0;
         assignVars( 'projects' );
@@ -177,6 +192,9 @@ switch( $page )
                             ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
                         }
                     }
+                    
+                    if( !empty( $_FILES[ 'file' ] ) )
+                        move_uploaded_file( $_FILES[ 'file' ][ 'tmp_name' ], CDIR . '/content/avatar/' . $_GET[ 'id' ] . '.png' );   
                     
                     showMessage( 'success', 'updated' );
                 }
