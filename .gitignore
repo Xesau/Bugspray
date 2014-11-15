@@ -23,8 +23,7 @@ hs_err_pid*
 .LSOverride
 
 # Icon must end with two \r
-Icon
-
+Icon
 # Thumbnails
 ._*
 
@@ -61,3 +60,5 @@ $RECYCLE.BIN/
 admin/tmp/
 install/tmp/
 core/config.inc.php
+content/project_imgs/*.png
+content/avatar/*.png

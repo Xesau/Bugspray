@@ -155,18 +155,34 @@ section.content
     float: left;
     min-width: 300px;
     border: 1px solid #E6E6E6;
+    margin-right: 5px;
+    min-height: 122px;
+}
+
+.disabled
+{
+    color: #B54B4B;
 }
 
 .pic
 {
     position: relative;
+    height: 100px;
+    width: 100px;
+    overflow: hidden;
 }
 
 .remove-pic
 {
+    opacity: .75;
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.pic:hover .remove-pic
+{
+    opacity: 1;
 }
 
 .robs { margin-right: 5px; margin-left: 5px; }

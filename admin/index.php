@@ -121,28 +121,36 @@ switch( $page )
     
     ### ACTIONS
     case 'save_project':
-        if( !hasPermission( USERID, 'bs_projects' ) )
+        if( hasPermission( USERID, 'bs_projects' ) )
         {
             if( empty( $_GET[ 'id' ]  ) || DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() < 1 )
                 showMessage( 'danger','doesnt_exist' );
             else
             {
-                if( !empty( $_POST[ 'name' ] ) && !empty( $_POST[ 'short' ] ) && !empty( $_POST[ 'description' ] ) )
-                {
-                    DB::table( prefix( 'projects' ) )->updateFields( [
-                        'name' => $_POST[ 'name' ],
-                        'short' => $_POST[ 'short' ],
-                        'description' => $_POST[ 'description' ],
-                        'project_lead' => userDataByEmail( $_POST[ 'project_lead' ], 'id' )
-                    ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
-                    
-                    if( !empty( $_FILES[ 'file' ] ) )
-                        move_uploaded_file( $_FILES[ 'file' ][ 'tmp_name' ], CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' );
-                    
-                    showMessage( 'success', 'updated' );
-                }
+                if( DB::table( prefix( 'projects' ) )
+                   ->select( 'id',
+                        [ 'where' => '( name = \'' . DB::escape( $_POST[ 'name' ] ) . '\' OR short = \'' . DB::escape( $_POST[ 'short'] ) . '\' ) AND id != \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ]
+                    )->size() > 0 )
+                    showMessage( 'danger', 'exists_already' );
                 else
-                    showMessage( 'danger', 'data_missing' );
+                {
+                    if( !empty( $_POST[ 'name' ] ) && !empty( $_POST[ 'short' ] ) && !empty( $_POST[ 'description' ] ) && !empty( $_POST[ 'project_lead' ] ) )
+                    {
+                        DB::table( prefix( 'projects' ) )->updateFields( [
+                            'name' => $_POST[ 'name' ],
+                            'short' => $_POST[ 'short' ],
+                            'description' => $_POST[ 'description' ],
+                            'project_lead' => userDataByEmail( $_POST[ 'project_lead' ], 'id' )
+                        ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
+
+                        if( !empty( $_FILES[ 'file' ] ) )
+                            move_uploaded_file( $_FILES[ 'file' ][ 'tmp_name' ], CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' );
+
+                        showMessage( 'success', 'updated' );
+                    }
+                    else
+                        showMessage( 'danger', 'data_missing' );
+                }
             }
         }
         else
@@ -160,7 +168,7 @@ switch( $page )
             {
                 if( DB::table( prefix( 'projects' ) )
                    ->select( 'id', [ 'where' => 'name = \'' . DB::escape( $_POST[ 'name' ] ) . '\' OR short = \'' . DB::escape( $_POST[ 'short '] ) . '\'' ] )->size() > 0 )
-                    showMessage( 'danger', 'already_exists' );
+                    showMessage( 'danger', 'exists_already' );
                 ### TODO: MAKE SOME WAY OF GO BACK
                 else
                 {
@@ -203,6 +211,66 @@ switch( $page )
         
         $_GET[ 'id' ] = 0;
         assignVars( 'users' );
+        break;
+    
+    case 'remove_project_img':
+        if( hasPermission( USERID, 'bs_projects' ) )
+        {
+            if( !empty( $_GET[ 'id' ] ) )
+            {
+                @unlink( CDIR . '/content/project_imgs/' . $_GET[ 'id' ] . '.png' );
+                showMessage( 'success', 'picture_removed' );
+            }
+            else
+                showMessage( 'danger', 'data_missing' );
+        }
+        else
+            showMessage( 'danger', 'no_permisison' );
+        
+        $_GET[ 'id' ] = 0;
+        assignVars( 'projects' );
+        break;
+        
+    case 'disable_project':
+        if( hasPermission( USERID, 'bs_projects' ) )
+        {
+            if( !empty( $_GET[ 'id' ] ) && DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] ) )
+            {
+                DB::table( prefix( 'projects' ) )->updateFields( [
+                    'enabled' => '0'
+                ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
+                
+                showMessage( 'success', 'updated' );
+            }
+            else
+                showMessage( 'danger', 'doesnt_exist' );
+        }
+        else
+            showMessage( 'danger', 'no_permission' );
+        
+        $_GET[ 'id' ] = 0;
+        assignVars( 'projects' );
+        break;
+    
+    case 'enable_project':
+        if( hasPermission( USERID, 'bs_projects' ) )
+        {
+            if( !empty( $_GET[ 'id' ] ) && DB::table( prefix( 'projects' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] ) )
+            {
+                DB::table( prefix( 'projects' ) )->updateFields( [
+                    'enabled' => '1'
+                ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
+                
+                showMessage( 'success', 'updated' );
+            }
+            else
+                showMessage( 'danger', 'doesnt_exist' );
+        }
+        else
+            showMessage( 'danger', 'no_permission' );
+        
+        $_GET[ 'id' ] = 0;
+        assignVars( 'projects' );
         break;
     
     case 'banuser':

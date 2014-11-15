@@ -1,7 +1,8 @@
 {include="template.projects"}
 <div class="clearfix"></div>
 <hr />
-<h2>{$lang.issues}</h2>
+<h3>{$lang.issues}</h3>
+<hr />
 {loop="latest_issues"}
 <p class="issue">
 	{$value.project|projectData:'short'}#{$key} <a href="issue/{$key}">{$value.name}</a> <small>({$value.description|substr:0,30}...)</small>

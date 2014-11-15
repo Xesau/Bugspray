@@ -104,6 +104,13 @@ switch ($path)
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
 		break;
 		
+    case 'activate':
+        if( !empty( $_GET[ 'id' ] ) )
+        {
+            
+        }
+        break;
+    
 	default:
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
 		break;

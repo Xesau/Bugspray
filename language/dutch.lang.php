@@ -34,6 +34,7 @@ $l[ 'use' ] = 'Gebruiken';
 $l[ 'dont_use' ] = 'Niet gebruiken';
 $l[ 'on' ] = 'Aan';
 $l[ 'off' ] = 'Uit';
+$l[ 'max_x_chars' ] = 'maximaal %x% karakters'
 
 # GENERAL ACTIONS
 $l[ 'save' ] = 'Opslaan';
@@ -43,6 +44,8 @@ $l[ 'delete' ] = 'Verwijder';
 $l[ 'preview' ] = 'Voorbeeld';
 $l[ 'live_preview' ] = 'Live-voorbeeld';
 $l[ 'back' ] = '&laquo; Terug';
+$l[ 'enable' ] = 'Inschakelen';
+$l[ 'disable' ] = 'Uitschakelen';
 
 # USER SERVICE
 $l[ 'logout' ] = 'Uitloggen';
@@ -102,6 +105,7 @@ $l[ 'issues' ] = 'Tickets';
 $l[ 'lead' ] = 'Projectleider';
 $l[ 'give_a_description' ] = 'Geef een omschrijving...';
 $l[ 'no_projects' ] = 'Er zijn nog geen projecten';
+$l[ 'disabled' ] = 'uitgeschakeld';
 
 # PROJECT FIELDS
 $l[ 'project_fields' ][ 'name' ] = 'Projectnaam';

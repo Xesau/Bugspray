@@ -88,7 +88,8 @@ if( !IN_INSTALL )
         $tpl = new RainTPL();
 
         $tpl->assign( 'settings', DB::table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
-        $tpl->assign( 'projects', DB::table( prefix( 'projects' ) )->select( '*' )->getAssoc( 'id' ) );
+        if( !IN_ADMIN ) $tpl->assign( 'projects', DB::table( prefix( 'projects' ) )->select( '*', [ 'where' => 'enabled = \'1\'' ] )->getAssoc( 'id' ) );
+        if(  IN_ADMIN ) $tpl->assign( 'projects', DB::table( prefix( 'projects' ) )->select( '*' )->getAssoc( 'id' ) );
         $tpl->assign( 'server', [ 'available_themes' => glob( CDIR . '/theme/*', GLOB_ONLYDIR ), 'available_languages' => glob( CDIR . '/language/*.lang.php' ) ] );
         $tpl->assign( 'loggedIn', LOGGED_IN );
     }

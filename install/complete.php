@@ -120,7 +120,7 @@ $db->createTable( prefix( 'users' ), [
     ],
     'salt' => [
         'type' => 'varchar',
-        'length' => 20
+        'length' => 22
     ],
     'activated' => [
         'type' => 'enum',
@@ -203,14 +203,16 @@ $db->createTable( prefix( 'projects' ), [
     'name' => [
         'type' => 'varchar',
         'length' => 255,
+        'unique' => true
     ],
     'short' => [
         'type' => 'varchar',
         'length' => 4,
+        'unique' => true
     ],
     'description' => [
         'type' => 'text',
-        'length' => null,
+        'length' => null
     ],
     'project_lead' => [],
     'date_created' => []

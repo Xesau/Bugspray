@@ -25,7 +25,7 @@ $l[ 'label' ] = 'Issue Label';
 $l[ 'lead' ] = 'Project Lead';
 $l[ 'label_name' ] = 'Label Name';
 $l[ 'no_issues' ] = 'There are no issues';
-$l[ 'no_projects' ] = 'There are no projects. Click the button to make one!';
+$l[ 'no_projects' ] = 'There are no projects.' . ( IN_ADMIN ? 'Click the button to make one!' : '' );
 
 $l[ 'text_color' ] = 'Text color';
 $l[ 'background_color' ] = 'Background color';
@@ -81,6 +81,8 @@ $l[ 'remove' ] = 'Remove';
 $l[ 'add' ] = 'Add';
 $l[ 'create' ] = 'Create';
 $l[ 'back' ] = '&laquo; Back';
+$l[ 'enable'] = 'Enable';
+$l[ 'disable' ] = 'Disable';
 
 $l[ 'site_name' ] = 'Site name';
 $l[ 'base_url' ] = 'Base URL';
@@ -89,9 +91,11 @@ $l[ 'debug_mode' ] = 'Debug mode';
 
 $l[ 'on' ] = 'On';
 $l[ 'off' ] = 'Off';
+$l[ 'max_x_chars' ] = 'maximum of %x% characters';
 
 $l[ 'preview' ] = 'Preview';
 $l[ 'live_preview' ] = 'Live preview';
+$l[ 'disabled' ] = 'disabled';
 
 $l[ 'use_labels' ] = 'Use labels';
 $l[ 'use_project_version' ] = 'Use project version field';
