@@ -6,7 +6,7 @@
     {$value->getVersion()}
     ({if="$value->getWebsite() == ''"}{$value->getAuthor}{else}<a href="{$value->getWebsite()}">{$value->getAuthor()}</a>{/if})
     {if="hasPermission( USERID, 'bs_plugins')"}<br /><br />
-    <small><a href="[$admin}/disable_plugin/{$value->getName()}">{$lang.disable_plugin}</a></small>{/if}
+    <small><a href="{$admin}/disable_plugin/{$value->getName()}">{$lang.disable_plugin}</a></small>{/if}
 </div>
 {/loop}
 <div class="clearfix"></div>
