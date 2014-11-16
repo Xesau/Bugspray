@@ -1,6 +1,6 @@
 <h3 class="no-spacing">{$lang.admin.edit_user} <i>{$id|userData:'displayname'}</i> <a href="users" class="btn btn-danger pull-right">{$lang.back}</a></h3>
 <hr />
-<form class="form-horizontal half-width" method="post" action="../save_user/{$id}" enctype="multipart/form-data">
+<form class="form-horizontal half-width" id="user_form" method="post" action="{$admin}/save_user/{$id}" enctype="multipart/form-data">
     <div class="form-group">
         <label class="col-sm-4 control-label" for="fullname">{$lang.fullname}</label>
         <div class="col-sm-6">
@@ -34,16 +34,46 @@
     </div>
     <div class="form-group">
         <div class="col-sm-4">
-            <a href="banuser/{$id}" class="btn btn-danger pull-right"{if="!hasPermission( USERID, 'bs_ban' )"} disabled{/if}>{$lang.ban}</a>
+            <a href="javascript:showBan()" class="btn btn-danger pull-right"{if="!hasPermission( USERID, 'bs_ban' )"} disabled{/if}>{$lang.ban}</a>
         </div>
         <div class="col-sm-6">
             <input type="submit" class="btn btn-success" value="{$lang.save}"{if="$disabled"} disabled{/if} />
         </div>
     </div>
 </form>
+{if="hasPermission( USERID, 'bs_ban' )"}
+<form class="form-horizontal half-width" id="ban_form">
+    <div class="form-group">
+        <label class="control-label col-sm-4">{$lang.ban_reason}</label>
+        <div class="col-sm-6">
+            <input class="form-control" name="reason" placeholder="Spam" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4">{$lang.expire_date}</label>
+        <div class="col-sm-6">
+            <input class="form-control" name="expire" placeholder="{'d-m-y H:i:s'|date}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-6 col-sm-offset-4">
+            <input type="submit" value="{$lang.ban}" class="btn btn-danger" />
+        </div>
+    </div>
+</form>
+{/if}
 <script>
+    $( '#ban_form' ).hide();
+    $( 'input[name=expire]' ).datepicker();
+    
     $( 'input[name=file]' ).change( function( $event )
     {
         $( '#imgpreview' ).removeClass( 'hidden' ).attr( 'src', URL.createObjectURL( $event.target.files[0] ) );
     } );
+    
+    function showBan()
+    {
+        $( '#user_form' ).slideUp();
+        $( '#ban_form' ).slideDown();
+    }
 </script>

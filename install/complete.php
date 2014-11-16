@@ -214,6 +214,11 @@ $db->createTable( prefix( 'projects' ), [
         'type' => 'text',
         'length' => null
     ],
+    'enabled' => [
+        'type' => 'enum',
+        'data' => "'0','1'",
+        'default' => '0'
+    ],
     'project_lead' => [],
     'date_created' => []
 ], [ 'ifNotExists' => true ] );

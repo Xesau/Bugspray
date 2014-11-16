@@ -53,6 +53,8 @@ $l[ 'continue' ] = 'Ga verder &raquo;';
 $l[ 'logout' ] = 'Uitloggen';
 $l[ 'login' ] = 'Inloggen';
 $l[ 'register' ] = 'Registreren';
+$l[ 'ban_reason' ] = 'Verbanningsreden';
+$l[ 'expire_date' ] = 'Verloopdatum';
 
 # USER DATA
 $l[ 'fullname' ] = 'Volledige naam';

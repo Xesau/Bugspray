@@ -6,7 +6,8 @@
         <link rel="stylesheet" href="{$themepath}/css/bootstrap.min.css" />
         <link rel="stylesheet" href="{$themepath}/css/style.css?a" />
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="{$themepath}/css/bootstrap-jqui.min.css" />
         <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
         <script src="{$themepath}/js/bootstrap.min.js"></script>
 {loop="pagedata.js"}

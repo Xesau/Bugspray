@@ -130,7 +130,7 @@ switch( $page )
             {
                 if( DB::table( prefix( 'projects' ) )
                    ->select( 'id',
-                        [ 'where' => '( name = \'' . DB::escape( $_POST[ 'name' ] ) . '\' OR short = \'' . DB::escape( $_POST[ 'short'] ) . '\' ) AND id != \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ]
+                        [ 'where' => '( name = \'' . DB::escape( $_POST[ 'name' ] ) . '\' OR short = \'' . DB::escape( $_POST[ 'short' ] ) . '\' ) AND id != \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ]
                     )->size() > 0 )
                     showMessage( 'danger', 'exists_already' );
                 else
@@ -168,7 +168,7 @@ switch( $page )
             if( !empty( $_POST[ 'name' ] ) && !empty( $_POST[ 'short' ] ) && !empty( $_POST[ 'description' ] ) && !empty( $_POST[ 'lead' ] ) )
             {
                 if( DB::table( prefix( 'projects' ) )
-                   ->select( 'id', [ 'where' => 'name = \'' . DB::escape( $_POST[ 'name' ] ) . '\' OR short = \'' . DB::escape( $_POST[ 'short '] ) . '\'' ] )->size() > 0 )
+                   ->select( 'id', [ 'where' => 'name = \'' . DB::escape( $_POST[ 'name' ] ) . '\' OR short = \'' . DB::escape( $_POST[ 'short'] ) . '\'' ] )->size() > 0 )
                     showMessage( 'danger', 'exists_already' );
                 ### TODO: MAKE SOME WAY OF GO BACK
                 else
@@ -538,7 +538,7 @@ function assignVars( $page )
             break;
         
         case 'labels':
-            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->toArray() );
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'labels' )->setTitle( $l[ 'admin' ][ 'labels' ] )->addJS( $tpl->var[ 'admin' ] . '/tpl/js/jscolor.js' )->toArray() );
             $tpl->assign( 'page', 'labels' );
 
             $tpl->assign( 'labels', DB::table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );

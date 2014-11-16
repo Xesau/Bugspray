@@ -166,3 +166,6 @@ $l[ 'activate_account' ] = 'Activate your account';
 $l[ 'registration_completed' ] = 'Registration completed!';
 $l[ 'thanks_for_registering' ] = 'Thanks for registering on %sitename%.';
 $l[ 'enter_activation_code' ] = 'Enter the e-mailed activation code here.';
+
+$l[ 'ban_reason' ] = 'Ban reason';
+$l[ 'expire_date' ] = 'Expire date';

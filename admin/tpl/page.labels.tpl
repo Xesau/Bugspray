@@ -10,7 +10,7 @@
 {/loop}
 {/if} 
 {if="hasPermission( USERID, 'bs_labels' )"}<hr />
-<form class="form-horizontal pull-left half-width" method="post" action="{$settings.base_url}/admin/newlabel">
+<form class="form-horizontal pull-left half-width" method="post" action="{$admin}/newlabel">
     <h3>{$lang.new_label}</h3>
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.label}</label>
@@ -36,7 +36,7 @@
         </div>
     </div>
 </form>
-<form class="form-horizontal pull-left half-width" method="post" action="{$settings.base_url}/admin/modifylabel">
+<form class="form-horizontal pull-left half-width" method="post" action="{$admin}/modifylabel">
     <h3>{$lang.modify_label} <select onchange="updateLabel(this)" name="label" class="form-control half-width inline"><option></option>{loop="labels"}<option value="{$key}">{$value.label}</option>{/loop}</select></h3>
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.label}</label>
@@ -62,7 +62,6 @@
         </div>
     </div>
 </form>
-<script src="js/jscolor.js"></script>
 <script>
     function previewLabel()
     {

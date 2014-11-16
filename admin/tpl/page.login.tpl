@@ -1,5 +1,5 @@
 <h3 class="no-spacing">{$lang.login}</h3>
-<form method="post" action="send/login" class="form-horizontal">
+<form method="post" action="{$admin}/send/login" class="form-horizontal">
     <div class="form-group">
         <label class="col-sm-2 control-label">{$lang.email}</label>
         <div class="col-sm-3">

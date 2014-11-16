@@ -30,7 +30,7 @@
         <label class="col-sm-4 control-label">{$lang.project_fields.upload_picture}</label>
         <div class="col-sm-6">
             <input type="file" name="file" accept="image/*" />
-            <img class="{if="!$hasImage"}hidden {/if}full-width auto-height form-control" id="imgpreview" src="{if="$hasImage"}../../content/project_imgs/{$id}.png{/if}" />
+            <img class="{if="!$hasImage"}hidden {/if}full-width auto-height form-control" id="imgpreview" src="{if="$hasImage"}{$settings.base_url}/content/project_imgs/{$id}.png{/if}" />
         </div>
     </div>
     <div class="form-group">
@@ -40,9 +40,9 @@
     <div class="form-group">
         <div class="col-sm-4">
             {if="$project.enabled == '0'"}
-            <a href="enable_project/{$id}" class="btn btn-success pull-right">{$lang.enable}</a>
+            <a href="{$admin}/enable_project/{$id}" class="btn btn-success pull-right">{$lang.enable}</a>
             {else}
-            <a href="disable_project/{$id}" class="btn btn-danger pull-right">{$lang.disable}</a>
+            <a href="{$admin}/disable_project/{$id}" class="btn btn-danger pull-right">{$lang.disable}</a>
             {/if}
         </div>
         <div class="col-sm-6">

@@ -1,6 +1,6 @@
 <h3 class="no-spacing">{$lang.admin.new_project} <a href="projects" class="btn btn-danger pull-right">{$lang.back}</a></h3>
 <hr />
-<form class="half-width form-horizontal" method="post" action="{$settings.base_url}/admin/save_new_project" enctype="multipart/form-data">
+<form class="half-width form-horizontal" method="post" action="{$admin}/save_new_project" enctype="multipart/form-data">
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.name}</label>
         <div class="col-sm-6">
