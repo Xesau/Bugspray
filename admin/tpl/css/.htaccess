@@ -1,1 +1,1 @@
-Header set Cache-Control "max-age=10, public"
+Header set Cache-Control "max-age=10,public"

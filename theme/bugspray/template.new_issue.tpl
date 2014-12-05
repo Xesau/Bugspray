@@ -29,7 +29,7 @@
         </div>{/if}
         {if="$settings.issue_labels == 'true' && count( $issue_labels ) > 0 "}<div class="form-group">
             <label class="col-sm-4 control-label">{$lang.label}</label>
-            <div class="col-sm-6">{loop="$issue_labels"}<input name="label" type="radio" value="{$key}"><span class="label robs" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$key}</span>{/loop}</div>
+            <div class="col-sm-6">{loop="$issue_labels"}<input name="label" type="radio" value="{$key}" id="label_{$key}"><label for="label_{$key}" class="label robs" style="background-color: #{$value.bgcolor}; color: #{$value.txtcolor}">{$value.label}</label>{/loop}</div>
         </div>{/if}
         <div class="form-group">
             <label class="col-sm-4 control-label">{$lang.description}</label>

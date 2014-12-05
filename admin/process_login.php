@@ -1,6 +1,8 @@
 <?php
 
 define( 'CDIR', realpath( dirname( __FILE__ ) . '/..' ) );
+define( 'NO_TPL', true );
+define( 'NO_PLUGINS', true );
 
 require_once CDIR . '/core/global.inc.php';
 
@@ -15,7 +17,7 @@ if( !empty( $_POST[ 'email' ] ) && !empty( $_POST[ 'password' ] ) )
     if( $select->size() > 0 )
     {
         $fields = $select->getEntry( 0 )->getFields();
-        if( password_hash( $_POST[ 'password' ], PASSWORD_BCRYPT, [ 'salt' => $fields[ 'salt' ] ] ) === $fields[ 'password' ] )
+        if( crypt( $_POST[ 'password' ], '$2y$10$' . $fields[ 'salt' ] . '$' ) === $fields[ 'password' ] )
         {
             if( hasPermission( $fields[ 'id' ], 'bs_admin' ) )
             {

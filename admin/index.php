@@ -104,7 +104,7 @@ switch( $page )
             else
                 $tpl->assign( 'disabled', false );
             
-            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'edit_user' )->setTitle( $l[ 'admin' ][ 'edit_user' ] )->toArray() );
+            $tpl->assign( 'pagedata', ( new PageData() )->setTemplate( 'edit_user' )->setTitle( $l[ 'admin' ][ 'edit_user' ] )->addJS( $tpl->var[ 'settings' ][ 'base_url' ] . '/admin/tpl/js/jquery-datetimepicker.js' )->toArray() );
             $tpl->assign( 'page', 'users' ); 
 
             $tpl->assign( 'user', DB::table( prefix( 'users' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->getEntry( 0 )->getFields() );
@@ -278,17 +278,17 @@ switch( $page )
         if( hasPermission( USERID, 'bs_ban' ) )
         {
             if( !empty( $_POST[ 'reason' ] ) && !empty( $_POST[ 'expire' ] ) )
-                if( userExists( $_GET[ 'id' ] ) && !hasPermission( $_GET[ 'id' ], 'bs_unbannable' ) )
+                if( !empty( $_GET[ 'id' ] ) && DB::table( prefix( 'users' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->size() > 0 )
                 {   $table = DB::table( prefix( 'users' ) );
-                    $table->update( [
+                    $table->updateFields( [
                         'banned' => 1,
                         'ban_reason' => $_POST[ 'reason' ],
-                        'ban_expire' => $_POST[ 'expire' ]
+                        'ban_expire' => strtotime( $_POST[ 'expire' ] )
                     ], [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] );
                     showMessage( 'success', 'user_banned' );
                 }
                 else
-                    showMessage( 'danger', 'doest_exist' );
+                    showMessage( 'danger', 'doesnt_exist' );
             else
                showMessage( 'danger', 'data_missing' );
         }

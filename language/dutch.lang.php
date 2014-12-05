@@ -12,6 +12,7 @@ $l[ 'admin' ][ 'new_project' ] = 'Nieuw project';
 $l[ 'admin' ][ 'edit_project' ] = 'Bewerk project';
 $l[ 'admin' ][ 'plugins' ] = 'Plugins';
 $l[ 'admin' ][ 'intro' ] = 'Dit is het instellingenpaneel van Bugspray. Hier kun je alle informatie van het systeem opvragen en wijzigen. In de menubalk aan de linkerkant staan alle categori&euml;en met instellingen.';
+$l[ 'admin' ][ 'back_to_site' ] = 'Terug naar site';
 
 # SITE SETTINGS
 $l[ 'site_name' ] = 'Sitenaam';
@@ -34,7 +35,7 @@ $l[ 'use' ] = 'Gebruiken';
 $l[ 'dont_use' ] = 'Niet gebruiken';
 $l[ 'on' ] = 'Aan';
 $l[ 'off' ] = 'Uit';
-$l[ 'max_x_chars' ] = 'maximaal %x% karakters'
+$l[ 'max_x_chars' ] = 'maximaal %x% karakters';
 
 # GENERAL ACTIONS
 $l[ 'save' ] = 'Opslaan';
@@ -48,6 +49,9 @@ $l[ 'enable' ] = 'Inschakelen';
 $l[ 'disable' ] = 'Uitschakelen';
 $l[ 'stop' ] = 'Stop';
 $l[ 'continue' ] = 'Ga verder &raquo;';
+$l[ 'close' ] = 'Sluit';
+$l[ 'open' ] = 'Open';
+$l[ 'edit' ] = 'Bewerk';
 
 # USER SERVICE
 $l[ 'logout' ] = 'Uitloggen';
@@ -75,6 +79,11 @@ $l[ 'label' ] = 'Label';
 $l[ 'text_color' ] = 'Tekstkleur';
 $l[ 'background_color' ] = 'Achtergrondkleur';
 
+# SEARCH SYSTEM
+$l[ 'search' ] = 'Zoeken';
+$l[ 'search_query' ] = 'Zoekopdracht';
+$l[ 'search_results' ] = 'Zoekresultaten';
+
 # STATUS MESSAGES
 $l[ 'status' ][ 'saved' ] = 'De gegevens zijn opgeslagen!';
 $l[ 'status' ][ 'data_missing' ] = 'Niet alle velden waren ingevuld. Probeer het opnieuw.';
@@ -93,6 +102,7 @@ $l[ 'status' ][ 'incorrect_password' ] = 'Het opgegeven wachtwoord is onjuist.';
 $l[ 'status' ][ 'incorrect_email' ] = 'Het opgegeven e-mailadres is onjuist.';
 $l[ 'status' ][ 'picture_removed' ] = 'De afbeelding is verwijderd';
 $l[ 'status' ][ 'code_incorrect' ] = 'De ingevoerde activatiecode is onjuist. Het account zou al geactiveerd kunnen zijn.';
+$l[ 'status' ][ 'user_banned' ] = 'De gebruiker is verbannen.';
 
 # STATUS MESSAGE TYPES
 $l[ 'status' ][ 'type' ][ 'success' ] = 'Succes';
@@ -105,7 +115,7 @@ $l[ 'home' ] = 'Home';
 $l[ 'projects' ] = 'Projecten';
 $l[ 'project' ] = 'Projecten';
 $l[ 'issues' ] = 'Tickets';
-$l[ 'profile' ] = 'Profile';
+$l[ 'profile' ] = 'Profiel';
 
 # PROJECT DATA
 $l[ 'lead' ] = 'Projectleider';
@@ -137,9 +147,13 @@ $l[ 'medium'] = 'Middelmatig';
 $l[ 'low'] = 'Laag';
 $l[ 'no_issues' ] = 'Er zijn nog geen tickets';
 $l[ 'comment' ] = 'Reageer';
+$l[ 'author' ] = 'Auteur';
+$l[ 'comments' ] = 'Reacties';
+$l[ 'no_comments' ] = 'Geen reacties';
 
 # ERRORS
 $l[ 'error' ] = 'Foutmelding';
+$l[ 'something_went_wrong' ] = 'Er is iets foutgegaan';
 $l[ 'page_not_found' ] = 'De opgevraagde pagina kon niet worden gevonden. Als u denkt dat dit een fout is, meld dat dan aan de administrator.';
 $l[ 'never'] = 'Nooit';
 

@@ -4,6 +4,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^send/login$ process_login.php
 RewriteRule ^send/register$ process_register.php
+RewriteRule ^send/newissue/([0-9]+)$ process_new_issue.php?id=$1
 RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/?$ index.php?page=$1&id=$2
 RewriteRule ^([a-zA-Z0-9]+)/?$ index.php?page=$1
 

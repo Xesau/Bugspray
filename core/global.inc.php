@@ -59,6 +59,7 @@ if( !IN_INSTALL )
      * Load required classes
      */
     require_once CDIR . '/core/miqrodb.class.php';
+    require_once CDIR . '/core/settings.class.php';
     require_once CDIR . '/core/pluginmanager.class.php';
     require_once CDIR . '/core/db.loader.php';
 
@@ -68,7 +69,26 @@ if( !IN_INSTALL )
      */
     DB::loaderInit( new MiqroDB ( new MySQLi( $db_host, $db_user, $db_password, $db_database ) ) );
     MiqroDB::$debug = (bool)setting( 'debug_mode' );
-
+    
+    /**
+     * Set up system settings.
+     */
+    Settings::init();
+    
+    /**
+     * Check for deleted accounts/wrong sessions
+     */
+    if( LOGGED_IN && !IN_ADMIN && !DB::table( prefix( 'users' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_SESSION[ 'user_id' ] ) . '\'' ] ) )
+    {
+        unset( $_SESSION[ 'user_id' ] );
+        header( 'Location: ' . Settings::get( 'base_url' ) );
+    }
+    
+    if( LOGGED_IN &&  IN_ADMIN && !DB::table( prefix( 'users' ) )->select( 'id', [ 'where' => 'id = \'' . DB::escape( $_SESSION[ 'admin_user_id' ] ) . '\'' ] ) )
+    {
+        unset( $_SESSION[ 'admin_user_id' ] );
+    }
+    
     /**
      * Load language data
      */
@@ -80,17 +100,21 @@ if( !IN_INSTALL )
      * Set up TPL object if required
      */
     if( !NO_TPL )
-    {   RainTPL::configure( 'tpl_ext', 'tpl' );
+    {
+        RainTPL::configure( 'tpl_ext', 'tpl' );
         RainTPL::configure( 'tpl_dir', ( IN_ADMIN === false ? 'theme/' . setting( 'theme' ) : 'tpl' ) . '/' );
         RainTPL::configure( 'path_replace', false );
         RainTPL::configure( 'base_url', setting( 'base_url' ) . ( IN_ADMIN === true ? '/admin' : '' ) . '/' );
 
         $tpl = new RainTPL();
 
-        $tpl->assign( 'settings', DB::table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
+        $tpl->assign( 'settings', Settings::all() );
         if( !IN_ADMIN ) $tpl->assign( 'projects', DB::table( prefix( 'projects' ) )->select( '*', [ 'where' => 'enabled = \'1\'' ] )->getAssoc( 'id' ) );
         if(  IN_ADMIN ) $tpl->assign( 'projects', DB::table( prefix( 'projects' ) )->select( '*' )->getAssoc( 'id' ) );
-        $tpl->assign( 'server', [ 'available_themes' => glob( CDIR . '/theme/*', GLOB_ONLYDIR ), 'available_languages' => glob( CDIR . '/language/*.lang.php' ) ] );
+        $tpl->assign( 'server', [
+            'available_themes' => glob( CDIR . '/theme/*', GLOB_ONLYDIR ),
+            'available_languages' => glob( CDIR . '/language/*.lang.php' )
+        ] );
         $tpl->assign( 'loggedIn', LOGGED_IN );
     }
 

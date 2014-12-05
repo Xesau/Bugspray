@@ -22,10 +22,17 @@ function getIssue( $issueID )
 	return ( $select->size() > 0 ? $select->getEntry( 0 )->getFields() : null );	
 }
 
-function rpath ( $path )
+function getIssuesFor( $userID, $start, $limit, $project = -1 )
 {
-	$m = [ 'home', 'projects', 'issues', 'project', 'issue', 'newissue', 'login', 'logout', 'register' ];
-	return ( in_array( $path, $m ) ? $path : null );
+    return DB::table( prefix( 'issues' ) )->
+        select( '*', [
+            'limit' => $start . ',' . $limit,
+            'order' => 'id DESC',
+            'where' => [
+                ( $project == -1 ? : 'project = \'' . DB::escape( $project ) . '\'' ),
+                ( hasPermission( $userID, 'bs_private_issues' ) ? : '( security = \'public\' OR author = \''. DB::escape( $userID ) .'\')' )
+            ]
+        ] )->getAssoc( 'id' );
 }
 
 function userPermissions( $userid )
@@ -106,7 +113,7 @@ function issueData( $issue, $fields )
  * @param $comment integer Issue ID
  * @param $fields string|array The field(s)
  */
-function commenteData( $comment, $fields )
+function commentData( $comment, $fields )
 {
     $select = DB::table( prefix( 'comment' ) )->select( $fields, [ 'where' => 'id = \'' . DB::escape( $comment ) . '\'' ] )->getEntry( 0 );
     if( is_array( $fields ) )
@@ -114,6 +121,23 @@ function commenteData( $comment, $fields )
     else
        return $select->getField( $fields );
 }
+
+
+/**
+ * Get one or more field(s) of a label
+ *
+ * @param $comment integer Issue ID
+ * @param $fields string|array The field(s)
+ */
+function labelData( $label, $fields )
+{
+    $select = DB::table( prefix( 'labels' ) )->select( $fields, [ 'where' => 'id = \'' . DB::escape( $label ) . '\'' ] )->getEntry( 0 );
+    if( is_array( $fields ) )
+       return $select->getFields();
+    else
+       return $select->getField( $fields );
+}
+
 
 /**
  * Get a data field of $plugin

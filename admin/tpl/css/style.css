@@ -27,6 +27,11 @@ body
     background-color: #FAFAFA;   
 }
 
+.clickable
+{
+    cursor: pointer;
+}
+
 .left-margin
 {
     margin-left: 7px;
@@ -34,17 +39,23 @@ body
 
 .auto-height
 {
-     height: auto;   
+    height: auto
+    min-height: 0;
+    max-height: 0;
 }
 
 .auto-width
 {
-     width: auto;   
+    width: auto;
+    min-width: 0;
+    max-width: 0;
 }
 
 .full-width
 {
     width: 100%;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .half-width
@@ -71,6 +82,34 @@ body
 {
     min-width: 26px;
     width: 26px;
+}
+
+.space.bottom
+{
+    margin-bottom: 5px;
+}
+
+.space.top
+{
+    margin-top: 5px;
+}
+
+@media only screen and (max-device-width:767px)
+{
+    .phone-nofloat
+    {
+        float: none;
+    }
+    
+    .phone-space.bottom
+    {
+        margin-bottom: 5px;
+    }
+    
+    .phone-space.top
+    {
+        margin-top: 5px;
+    }
 }
 
 /** HEADER **/
@@ -136,6 +175,7 @@ section.sidebar nav ul li a
 
 section.sidebar nav ul li a:hover, section.sidebar nav ul li a.current
 {
+    border-radius: 5px;
     background-color: #6F7C83;
 }
 
@@ -153,16 +193,21 @@ section.content
     float: left;
 }
 
+.fixed .entry
+{
+    min-width: 300px;
+    min-height: 122px;
+}
+
 .entry
 {
     background: #ffffff;
     padding: 10px;
     border-radius: 10px;
     float: left;
-    min-width: 300px;
     border: 1px solid #E6E6E6;
     margin-right: 5px;
-    min-height: 122px;
+    margin-bottom: 5px;
 }
 
 .disabled
@@ -192,3 +237,9 @@ section.content
 }
 
 .robs { margin-right: 5px; margin-left: 5px; }
+
+
+input[type="search"]
+{
+    margin-bottom: 5px;
+}

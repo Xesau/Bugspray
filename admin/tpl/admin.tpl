@@ -3,12 +3,12 @@
 <html>
     <head>
         <title>{$settings.site_name|strip_tags} &bull; {$pagedata.title}</title>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" />
+        <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+        <link rel="stylesheet" href="{$themepath}/css/bootstrap-jqui.min.css" />
         <link rel="stylesheet" href="{$themepath}/css/bootstrap.min.css" />
         <link rel="stylesheet" href="{$themepath}/css/style.css?a" />
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" href="{$themepath}/css/bootstrap-jqui.min.css" />
-        <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
         <script src="{$themepath}/js/bootstrap.min.js"></script>
 {loop="pagedata.js"}
         <script src="{$value}"></script>
@@ -36,6 +36,7 @@
                     {if="count($plugin_pages)>0"}
                     <li><hr /></li>
                     {/if}
+                    <li><a href="{$settings.base_url}"><i class="glyphicon glyphicon-arrow-left glfw"></i>{$lang.admin.back_to_site}</a></li>
                     <li><a href="{$admin}/logout"><i class="glyphicon glyphicon-lock glfw"></i>{$lang.logout}</a></li>
                     {else}
                     <li><a href="{$admin}/login" class="current"><i class="glyphicon glyphicon-wrench glfw"></i>{$lang.login}</a></li>

@@ -137,8 +137,7 @@ $db->createTable( prefix( 'users' ), [
         'length' => 255
     ],
     'ban_expire' => [
-        'type' => 'int',
-        'length' => 11
+        'null' => true
     ],
     'last_login' => [],
     'registered' => [],
@@ -159,7 +158,7 @@ $salt = substr( md5( rand( 0, 9999999 ) ), 0, 22 );
 $db->table( prefix( 'users' ) )->insert( [
     'email' => $_POST[ 'admin_email' ],
     'displayname' => $_POST[ 'admin_name' ],
-    'password' => password_hash( $_POST[ 'admin_password' ], PASSWORD_BCRYPT, [ 'salt' => $salt ] ),
+    'password' => crypt( $_POST[ 'admin_password' ], '$2y$10$' . $salt . '$' ),
     'salt' => $salt,
     'activated' => '1',
     'banned' => '0',
@@ -258,6 +257,10 @@ $db->createTable( prefix( 'issues' ), [
     ],
     'editor' => [
         'null' => true
+    ],
+    'status' => [
+        'type' => 'enum',
+        'data' => "'open','closed','invalid'"
     ]
 ], [ 'ifNotExists' => true ] );
 

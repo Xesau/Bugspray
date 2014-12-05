@@ -27,6 +27,8 @@ $l[ 'lead' ] = 'Project Lead';
 $l[ 'label_name' ] = 'Label Name';
 $l[ 'no_issues' ] = 'There are no issues';
 $l[ 'no_projects' ] = 'There are no projects.' . ( IN_ADMIN ? 'Click the button to make one!' : '' );
+$l[ 'comments' ] = 'Comments';
+$l[ 'no_comments' ] = 'No comments';
 
 $l[ 'text_color' ] = 'Text color';
 $l[ 'background_color' ] = 'Background color';
@@ -50,6 +52,10 @@ $l[ 'register_ip' ] = 'Registration IP adress';
 $l[ 'new_password' ] = 'New password';
 $l[ 'new_password_repeat' ] = 'New password <small>(repeat)</small>';
 
+$l[ 'search' ] = 'Search';
+$l[ 'search_query' ] = 'Search query';
+$l[ 'search_results' ] = 'Search results';
+
 $l[ 'never' ] = 'Never';
 
 $l[ 'error' ] = 'Error';
@@ -68,6 +74,7 @@ $l[ 'admin' ][ 'plugins' ] = 'Plugins';
 $l[ 'admin' ][ 'edit_user' ] = 'Edit user';
 $l[ 'admin' ][ 'intro' ] = 'This is the settings panel of Bugspray. Here you can read and alter all the information of the system. All the setting categories are in the menu bar on the left hand side of the screen.'; 
 $l[ 'admin_panel' ] = 'Administration Panel';
+$l[ 'admin'][ 'back_to_site'] = 'Back to site';
 
 $l[ 'total' ] = 'Total';
 $l[ 'theme' ] = 'Theme';
@@ -86,6 +93,9 @@ $l[ 'enable'] = 'Enable';
 $l[ 'disable' ] = 'Disable';
 $l[ 'stop' ] = 'Stop';
 $l[ 'continue' ] = 'Continue &raquo;';
+$l[ 'close' ] = 'Close';
+$l[ 'open' ] = 'Open';
+$l[ 'edit' ] = 'Edit';
 
 $l[ 'site_name' ] = 'Site name';
 $l[ 'base_url' ] = 'Base URL';
@@ -145,6 +155,8 @@ $l[ 'plugin_install_desc' ] = '<ol>
 <li>Open the folder "plugins"</li>
 <li>Drag and drop the downloaded folder and .plugin.php-file into the plugin folder</li>
 </ol>';
+
+$l[ 'author' ] = 'Author';
 
 $l[ 'project_fields' ][ 'name' ] = 'Project name';
 $l[ 'project_fields' ][ 'status' ] = 'Status';

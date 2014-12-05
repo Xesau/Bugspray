@@ -6,6 +6,7 @@ require_once CDIR . '/core/global.inc.php';
 
 $path = ( isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 'home' );
 $tpl->assign( 'page', $path );
+$request = [ 'projectOpen' => false, 'search' => '' ];
 
 if( isset( $_GET[ 'id' ] ) ) $tpl->assign( 'element', $_GET[ 'id' ] ); else $tpl->assign( 'element', null );
 
@@ -13,7 +14,7 @@ switch ($path)
 {
 	case 'home':
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'home' ] )->setTemplate( 'home' )->toArray() );
-		$tpl->assign( 'latest_issues', DB::table( prefix( 'issues' ) )->select( '*', array( 'limit' => '0,5', 'order' => 'id DESC' ) )->getAssoc( 'id' ) );
+		$tpl->assign( 'latest_issues', getIssuesFor( USERID, 0, 5 ) );
 		break;
 	
 	case 'projects':
@@ -28,14 +29,7 @@ switch ($path)
 						select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->
 						getEntry( 0 )->getFields() );
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $tpl->var[ 'project' ][ 'name' ] )->setTemplate( 'project' )->toArray() );
-			$tpl->assign( 'latest_issues', DB::table( prefix( 'issues' ) )->
-						select( '*', [
-                            'limit' => '0,5', 'order' => 'id DESC',
-                            'where' => [
-                                'project = \'' . DB::escape( $tpl->var[ 'project' ][ 'id' ] ) . '\'',
-                                ( hasPermission( USERID, 'bs_private_issues' ) ? : 'security = \'public\'' )
-                            ]
-                        ] )->getAssoc( 'id' ) );
+			$tpl->assign( 'latest_issues', getIssuesFor( USERID, 0, 5, $_GET[ 'id' ] ) );
 		}
 		else
 		$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
@@ -46,23 +40,31 @@ switch ($path)
                 DB::table( prefix( 'issues' ) )->select( 'id', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->size() > 0 )
 		{
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'issue' ] )->setTemplate( 'issue' )->toArray() );
-			$tpl->assign( 'issue', DB::table( prefix( 'issues' ) )->
-					select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->
-					getEntry( 0 )->getFields() );
+			$select = DB::table( prefix( 'issues' ) )->select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->getEntry( 0 )->getFields();
+            if( $select[ 'security' ] == 'public' || !hasPermission( USERID, 'bs_private_issues' ) )
+                $tpl->assign( 'issue', $select );
+            else
+                exit();
+            
+            $tpl->assign( 'comments', DB::table( prefix( 'comments' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->getAssoc( 'id' ) );
 		}
 		else
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
 		break;
-		
+
+    case 'search':
+        $tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'search_results' ] )->setTemplate( 'search' )->toArray() );
+        $request[ 'search' ] = $_POST[ 'query' ];
+        break;
 	case 'login':
 		if( LOGGED_IN )
 			header( 'Location: ./' );
 		
 		if( isset( $_SESSION[ 'login_error' ] ) )
-        	$tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'login_error' ] ] );
+        	showMessage( 'danger', $_SESSION[ 'login_error' ] );
         
         if( isset( $_SESSION[ 'register_error' ] ) )
-            $tpl->assign( 'status', [ 'type' => 'danger', 'language_key' => $_SESSION[ 'register_error' ] ] );
+            showMessage( 'danger', $_SESSION[ 'register_error' ] );
     
         if( isset( $_SESSION[ 'login_email' ] ) )
             $tpl->assign( 'login_email', $_SESSION[ 'login_email' ] );
@@ -122,7 +124,7 @@ switch ($path)
 			$tpl->assign( 'project', DB::table( prefix( 'projects' ) )->
 						select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->
 						getEntry( 0 )->getFields() );
-			$tpl->assign( 'issue_labels', DB::table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'label' ) );
+			$tpl->assign( 'issue_labels', DB::table( prefix( 'labels' ) )->select( '*' )->getAssoc( 'id' ) );
 		}
 		else
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
@@ -133,6 +135,8 @@ switch ($path)
 		break;
 }
 
+
+$tpl->assign( 'request', $request );
 $tpl->draw( 'bugspray' );
 
 unset( $_SESSION[ 'login_error' ] );

@@ -19,6 +19,11 @@
         <section class="sidebar">
             <nav>
                 <ul class="no-spacing">
+                    <li>
+                        <form action="{$settings.base_url}/search" method="post">
+                            <input name="query" type="search" class="form-control" placeholder="{$lang.search_query}" value="{$request.search}" />
+                        </form>
+                    </li>
                     <li><a href="{$settings.base_url}"{if="$page == 'home'"} class="current"{/if}><i class="glyphicon glyphicon-home glfw"></i>{$lang.home}</a></li>
                     <li class="haschildren {if="$projectOpen"} open{/if}">
                         <a href="{$settings.base_url}/projects"{if="$page == 'projects'"} class="current"{/if}><i class="glyphicon glyphicon-tasks glfw"></i>{$lang.projects}</a>

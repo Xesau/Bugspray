@@ -29,7 +29,7 @@
         <label class="col-sm-4 control-label">{$lang.project_fields.upload_picture}</label>
         <div class="col-sm-6">
             <input type="file" name="file" accept="image/*" />
-            <img class="{if="!$hasImage"}hidden {/if}full-width auto-height form-control" id="imgpreview" src="{if="$hasImage"}../../content/avatar/{$id}.png{/if}" />
+            <img class="{if="!$hasImage"}hidden {/if}full-width auto-height form-control" id="imgpreview" src="{if="$hasImage"}{$settings.base_url}/content/avatar/{$id}.png{/if}" />
         </div>
     </div>
     <div class="form-group">
@@ -42,7 +42,7 @@
     </div>
 </form>
 {if="hasPermission( USERID, 'bs_ban' )"}
-<form class="form-horizontal half-width" id="ban_form">
+<form class="form-horizontal half-width" id="ban_form" action="{$admin}/banuser/{$id}" method="post" >
     <div class="form-group">
         <label class="control-label col-sm-4">{$lang.ban_reason}</label>
         <div class="col-sm-6">
@@ -64,7 +64,7 @@
 {/if}
 <script>
     $( '#ban_form' ).hide();
-    $( 'input[name=expire]' ).datepicker();
+    $( 'input[name=expire]' ).datetimepicker();
     
     $( 'input[name=file]' ).change( function( $event )
     {
