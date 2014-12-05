@@ -57,11 +57,8 @@
 				</div>
 			</div>
             <div class="form-group">
-				<div class="col-sm-4">
-                    <a class="btn btn-primary pull-right" href="/">View site</a>
-                </div>
-				<div class="col-sm-6">
-                    <a class="btn btn-primary" href="../admin">Edit settings</a>
+				<div class="col-sm-6 col-sm-offset-4">
+                    <a class="btn btn-primary" href="{$settings.base_url}/admin/new_project">Create your first project!</a>
                 </div>
 			</div>
         </section>

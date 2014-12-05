@@ -19,6 +19,12 @@
             <form class="form-horizontal" method="post" action="complete.php">
                 <div id="page_1">
                     <div class="form-group">
+                        <label class="col-sm-4 control-label"><input type="checkbox" name="overwrite" id="overwrite"></label>
+                        <div class="col-sm-6">
+                            <label class="form-control btn-danger" for="overwrite">Overwrite existing installation <small>if one exists</small></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-4">Site Name</label>
                         <div class="col-sm-6">
                             <input class="form-control" name="site_name" value="Bug Tracker" />

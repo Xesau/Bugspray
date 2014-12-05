@@ -22,7 +22,7 @@
     <div class="form-group">
         <label class="col-sm-4 control-label">{$lang.project_fields.leader_email}</label>
         <div class="col-sm-6">
-            <input name="lead" class="form-control" type="email" placeholder="john.doe@gmail.com" />
+            <input name="lead" class="form-control" type="email" placeholder="john.doe@gmail.com" value="{USERID|userData:'email'}" />
         </div>
     </div>
     <div class="form-group">

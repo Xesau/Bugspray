@@ -28,6 +28,9 @@ if( empty( $_POST[ 'site_name' ] ) ||
 }
 
 ### VALIDATE CHECK
+if( empty( $_POST[ 'overwrite' ] ) )
+    $_POST[ 'overwrite' ] = false;
+
 if( $_POST[ 'admin_password' ] !== $_POST[ 'admin_repeat_password' ] )
 {
     $template = 'error';
@@ -82,7 +85,7 @@ $db->createTable( prefix( 'settings' ), [
         'type' => 'text',
         'length' => null
     ]
-], [ 'ifNotExists' => true ] );
+], [ 'ifNotExists' => true, 'dropIfExists' => true ] );
 
 ### INSERT DEFAULT SETTINGS
 $db->table( prefix( 'settings' ) )->insertMany( [
@@ -149,7 +152,7 @@ $db->createTable( prefix( 'users' ), [
         'type' => 'varchar',
         'length' => 20
     ]
-], [ 'ifNotExists' => true ] );
+], [ 'ifNotExists' => true, 'dropIfExists' => true ] );
 
 ### GENERATE A RANDOM SALT FOR THE ADMIN USER
 $salt = substr( md5( rand( 0, 9999999 ) ), 0, 22 );
@@ -182,7 +185,7 @@ $db->createTable( prefix( 'user_permissions' ), [
         'type' => 'text',
         'length' => NULL,
     ]
-], [ 'ifNotExists' => 'true' ] );
+], [ 'dropIfExists' => 'true' ] );
 
 ### INSERT ADMIN PERMISSIONS
 $db->table( prefix( 'user_permissions' ) )->insert( [ 'id' => $uid, 'permissions' => '*' ] );
@@ -191,7 +194,7 @@ $db->table( prefix( 'user_permissions' ) )->insert( [ 'id' => $uid, 'permissions
 $db->createTable( prefix( 'activation_keys' ), [
     'id' => [ 'primary' => true ],
     'activation_code' => [ 'length' => 5 ]
-], [ 'ifNotExists' => 'true' ] );
+], [ 'dropIfExists' => 'true' ] );
 
 ### CREATE PROJECTS TABLE
 $db->createTable( prefix( 'projects' ), [
@@ -220,7 +223,7 @@ $db->createTable( prefix( 'projects' ), [
     ],
     'project_lead' => [],
     'date_created' => []
-], [ 'ifNotExists' => true ] );
+], [ 'ifNotExists' => true, 'dropIfExists' => true ] );
 
 ### CREATE ISSUES TABLE
 $db->createTable( prefix( 'issues' ), [
@@ -262,7 +265,7 @@ $db->createTable( prefix( 'issues' ), [
         'type' => 'enum',
         'data' => "'open','closed','invalid'"
     ]
-], [ 'ifNotExists' => true ] );
+], [ 'ifNotExists' => true, 'dropIfExists' => true ] );
 
 ### CREATE LABELS TABLE
 $db->createTable( prefix( 'labels' ), [
@@ -283,7 +286,7 @@ $db->createTable( prefix( 'labels' ), [
         'type' => 'varchar',
         'length' => 20
     ]
-], [ 'ifNotExists' => true ] );
+], [ 'ifNotExists' => true, 'dropIfExists' => true ] );
 
 ### INSERT DEFAULT ISSUES
 $db->table( prefix( 'labels' ) )->insertMany( [
@@ -312,7 +315,7 @@ $db->createTable( prefix( 'comments' ), [
         'data' => "'0','1'",
         'default' => '0'
     ],
-], [ 'ifNotExists' => true ] );
+], [ 'ifNotExists' => true, 'dropIfExists' => true ] );
 
 ### CREATE DISABLED PLUGINS TABLE
 $db->createTable( prefix( 'plugins_disabled' ), [
@@ -321,7 +324,7 @@ $db->createTable( prefix( 'plugins_disabled' ), [
         'length' => 255,
         'unique' => true
     ]
-], [ 'ifNotExists' => true ] );
+], [ 'ifNotExists' => true, 'dropIfExists' => true ] );
 
 $template = 'installed';
 
@@ -334,6 +337,11 @@ RainTPL::configure( 'tpl_dir', 'tpl/' );
 
 if( $template == 'installed' ) $tpl->assign( 'settings', $db->table( prefix( 'settings' ) )->select( '*' )->getAll( 'setting', 'value' ) );
 if( $template == 'installed' ) $tpl->assign( 'admin', $db->table( prefix( 'users' ) )->select( '*', [ 'where' => 'id = \'' . $uid . '\'' ] )->getEntry( 0 )->getFields() );
+if( $template == 'installed' )
+{
+    $_SESSION[ 'user_id' ] = $uid;
+    $_SESSION[ 'admin_user_id' ] = $uid;
+}
 
 if( isset( $error ) ) $tpl->assign( 'error', $error );
 
