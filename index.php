@@ -6,7 +6,7 @@ require_once CDIR . '/core/global.inc.php';
 
 $path = ( isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 'home' );
 $tpl->assign( 'page', $path );
-$request = [ 'projectOpen' => false, 'search' => '' ];
+$request = array( 'projectOpen' => false, 'search' => '' );
 
 if( isset( $_GET[ 'id' ] ) ) $tpl->assign( 'element', $_GET[ 'id' ] ); else $tpl->assign( 'element', null );
 
@@ -46,7 +46,7 @@ switch ($path)
             else
                 exit();
             
-            $tpl->assign( 'comments', DB::table( prefix( 'comments' ) )->select( '*', [ 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ] )->getAssoc( 'id' ) );
+            $tpl->assign( 'comments', DB::table( prefix( 'comments' ) )->select( '*', array( 'where' => 'id = \'' . DB::escape( $_GET[ 'id' ] ) . '\'' ) )->getAssoc( 'id' ) );
 		}
 		else
 			$tpl->assign( 'pagedata', ( new PageData() )->setTitle( $l[ 'error' ] )->setTemplate( 'error404' )->toArray() );
@@ -89,7 +89,7 @@ switch ($path)
     case 'activate':
         if( !empty( $_REQUEST[ 'id' ] ) )
         {
-            $select  = DB::table( prefix( 'activation_keys' ) )->select( ['id', 'activation_code' ], [ 'where' => 'activation_code = \'' . DB::escape( $_REQUEST[ 'id' ] ) . '\'' ] );
+            $select  = DB::table( prefix( 'activation_keys' ) )->select( ['id', 'activation_code' ], array( 'where' => 'activation_code = \'' . DB::escape( $_REQUEST[ 'id' ] ) . '\'' ) );
             if( $select->size() > 0 && $_REQUEST[ 'id' ] == $select->getEntry( 0 )->getField( 'activation_code' ) )
             {
                 DB::table( prefix( 'activation_keys' ) )->delete( [ 'where' => [

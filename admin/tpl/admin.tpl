@@ -40,6 +40,8 @@
                     <li><a href="{$admin}/logout"><i class="glyphicon glyphicon-lock glfw"></i>{$lang.logout}</a></li>
                     {else}
                     <li><a href="{$admin}/login" class="current"><i class="glyphicon glyphicon-wrench glfw"></i>{$lang.login}</a></li>
+                    <li><hr /></li>
+                    <li><a href="{$settings.base_url}"><i class="glyphicon glyphicon-arrow-left glfw"></i>{$lang.admin.back_to_site}</a></li>
                     {/if}
                 </ul>
             </nav>

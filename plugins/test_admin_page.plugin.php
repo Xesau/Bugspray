@@ -29,7 +29,7 @@ class TestPlugin extends Plugin
         PluginManager::registerAdminPage( 'test', ( new PageData )->setTitle( 'Test Page' )->setTemplate( 'test' )->setGlyph( 'file' ), $this );   
     }
     
-    public function getLanguageAddons()
+    public function getLanguageAddons($page = null)
     {
         if( setting( 'language' ) == 'dutch' )
             return [

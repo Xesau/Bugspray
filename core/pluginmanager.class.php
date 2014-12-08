@@ -18,7 +18,7 @@ class PluginManager
      * 
      * @param plugin Plugin The plugin to register
      */
-    public static function registerPlugin( Plugin &$plugin )
+    public static function registerPlugin( Plugin $plugin )
     {
         # Check wether the plugin isn't loaded already
         if( !in_array( $plugin, self::$plugins ) )

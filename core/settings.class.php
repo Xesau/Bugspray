@@ -11,7 +11,7 @@ class Settings
 
     private static $bufferedSettings;
 
-    public function init( $settings = [] )
+    public static function init( $settings = [] )
     {
         if( is_array( $settings ) )
             if( !empty( $settings ) )
@@ -22,7 +22,7 @@ class Settings
             throw InvalidArgumentException( 'Parameter $settings in <code>Settings::init( array $settings = [] )</code> is not an array.' ) ;
     }
     
-    public function get( $setting )
+    public static function get( $setting )
     {
         if( is_array( self::$bufferedSettings ) )
         {
@@ -39,7 +39,7 @@ class Settings
             throw new InvalidArgumentException( 'The <code>Settings</code> class has not yet been initialized. Use <code>Settings::init()</code> first.' );
     }
     
-    public function set( $setting, $value )
+    public static function set( $setting, $value )
     {
         if( is_array( self::$bufferedSettings ) )
         {
@@ -53,7 +53,7 @@ class Settings
             throw new InvalidArgumentException( 'The <code>Settings</code> class has not yet been initialized. Use <code>Settings::init()</code> first.' );
     }
     
-    public function all()
+    public static function all()
     {
         return self::$bufferedSettings;
     }
